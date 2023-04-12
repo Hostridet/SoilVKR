@@ -13,6 +13,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this._loginRepository) : super(LoginInitial()) {
     on<LoginUser>((event, emit) async {
       emit(LoginLoadingState());
+      if (event.login.isEmpty || event.password.isEmpty) {
+        emit(LoginEmptyState());
+        return;
+      }
       try {
         emit(LoginLoadedState());
         // emit(LoginWrongState());

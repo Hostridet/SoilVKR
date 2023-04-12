@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:soil/repository/LoginRepository.dart';
 
 import '../../bloc/login_bloc/login_bloc.dart';
+import '../components/InfoLayout.dart';
 import '../components/InputFieldWidget.dart';
 import '../components/LoginButtonWidget.dart';
 
@@ -60,10 +61,10 @@ class _LoginPageState extends State<LoginPage> {
           child: BlocConsumer<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state is LoginEmptyState) {
-                buildErrorLayout("Ввдетие логин или пароль");
+                InfoLayout.buildErrorLayout(context, "Ввдетие логин или пароль");
               }
               if (state is LoginWrongState) {
-                buildErrorLayout("Неверный логин или пароль");
+                InfoLayout.buildErrorLayout(context, "Неверный логин или пароль");
               }
               if (state is LoginLoadedState) {
                 clearTextData();
@@ -121,12 +122,5 @@ class _LoginPageState extends State<LoginPage> {
       ],
     ),
   );
-
-  ScaffoldFeatureController buildErrorLayout(String text) =>
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(text),
-        ),
-      );
 
 }
