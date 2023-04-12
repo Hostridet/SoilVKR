@@ -2,10 +2,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:soil/interface/forms/UserPage.dart';
 
 import '../interface/forms/ErrorPage.dart';
 import '../interface/forms/HomePage.dart';
 import '../interface/forms/LoginPage.dart';
+import '../interface/forms/SettingsPage.dart';
 import '../interface/forms/SplashPage.dart';
 
 class RouteGenerator
@@ -29,6 +31,14 @@ class RouteGenerator
       case '/':
         return CustomPageRoute(
           builder: (_) => SplashScreen(),
+        );
+      case '/home/user':
+        return CustomPageRoute(
+          builder: (_) => UserPage(),
+        );
+      case '/home/settings':
+        return CustomPageRoute(
+          builder: (_) => SettingsPage(),
         );
 
 
