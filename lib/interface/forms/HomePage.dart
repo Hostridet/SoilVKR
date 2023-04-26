@@ -25,15 +25,17 @@ class _HomePageState extends State<HomePage> {
         alignment: Alignment.topCenter,
         children: [
           FlutterLocationPicker(
+              mapLanguage: "ru",
               initPosition: LatLong(23, 89),
               selectLocationButtonStyle: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.blue),
+                backgroundColor: MaterialStateProperty.all(Colors.green),
               ),
-              selectLocationButtonText: 'Set Current Location',
+              selectLocationButtonText: 'Выбрать',
               initZoom: 11,
               minZoomLevel: 5,
               maxZoomLevel: 16,
               trackMyPosition: true,
+              searchBarBackgroundColor: Colors.white,
               onError: (e) => print(e),
               onPicked: (pickedData) {
                 print(pickedData.latLong.latitude);
