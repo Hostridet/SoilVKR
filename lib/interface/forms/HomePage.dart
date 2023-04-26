@@ -5,6 +5,8 @@ import 'package:soil/interface/components/Drawer.dart';
 import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
 import 'package:geocoding/geocoding.dart';
 
+import '../components/InfoLayout.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -34,9 +36,11 @@ class _HomePageState extends State<HomePage> {
               initZoom: 11,
               minZoomLevel: 5,
               maxZoomLevel: 16,
-              trackMyPosition: true,
+              trackMyPosition:  false,
               searchBarBackgroundColor: Colors.white,
-              onError: (e) => print(e),
+              onError: (e) {
+                InfoLayout.buildErrorLayout(context, e.toString());
+              },
               onPicked: (pickedData) {
                 print(pickedData.latLong.latitude);
                 print(pickedData.latLong.longitude);
