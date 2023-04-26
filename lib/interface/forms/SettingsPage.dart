@@ -20,7 +20,19 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text('Настройки'),
         gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
       ),
-      body: Center(child: Text("я был здесь"),),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            ListTile(
+              title: Text("Темная тема"),
+              subtitle: Text("Сменить тему приложения"),
+              onTap: () {},
+            ),
+            Divider()
+          ],
+        ),
+      ),
     );
   }
 }

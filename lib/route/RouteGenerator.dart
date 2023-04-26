@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:soil/interface/forms/InfoBook.dart';
 import 'package:soil/interface/forms/UserPage.dart';
 
 import '../interface/forms/ErrorPage.dart';
@@ -35,6 +36,10 @@ class RouteGenerator
       case '/home/user':
         return CustomPageRoute(
           builder: (_) => UserPage(),
+        );
+      case '/home/book':
+        return CustomPageRoute(
+          builder: (_) => InfoBook(),
         );
       case '/home/settings':
         return CustomPageRoute(

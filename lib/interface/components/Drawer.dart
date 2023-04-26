@@ -57,6 +57,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                           ],
                         ),
                       ),
+
                       ListTile(
                         leading: const Padding(
                           padding: EdgeInsets.only(top: 8),
@@ -73,7 +74,20 @@ class _DrawerMenuState extends State<DrawerMenu> {
                       ListTile(
                         leading: const Padding(
                           padding: EdgeInsets.only(top: 8),
-                          child: Icon(Icons.history, size: 30, color: Colors.orange),
+                          child: Icon(Icons.bookmarks, size: 30, color: Colors.green),
+                        ),
+                        title: Text("База знаний>"),
+                        subtitle: Text("Основные данные"),
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushReplacementNamed('/home/book');
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
+                        leading: const Padding(
+                          padding: EdgeInsets.only(top: 8),
+                          child: Icon(Icons.person, size: 30, color: Colors.blue),
                         ),
                         title: Text("Пользователь"),
                         subtitle: Text("Данные о пользователе"),
