@@ -22,6 +22,7 @@ dev_dependencies:
   new_gradient_app_bar: ^0.2.0
   location_picker_flutter_map: ^1.2.0
   geocoding: ^2.1.0
+  shared_preferences: ^2.1.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
