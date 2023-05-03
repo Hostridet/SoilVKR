@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
         gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
       ),
       body: FlutterLocationPicker(
+          showCurrentLocationPointer: false,
           initPosition: LatLong(43.10562, 131.87353),
           showSearchBar: false,
           searchBarBackgroundColor: Colors.white,

@@ -26,6 +26,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               if (state is UserLoadedState) {
                 return Drawer(
                   child: ListView(
+                    padding: const EdgeInsets.all(0.0),
                     children: [
                       DrawerHeader(
                         decoration: BoxDecoration(
@@ -76,7 +77,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                           padding: EdgeInsets.only(top: 8),
                           child: Icon(Icons.bookmarks, size: 30, color: Colors.green),
                         ),
-                        title: Text("База знаний>"),
+                        title: Text("База знаний"),
                         subtitle: Text("Основные данные"),
                         onTap: () {
                           Navigator.of(context)
