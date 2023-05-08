@@ -8,11 +8,9 @@ class UserInitial extends UserState {}
 class UserLoadingState extends UserState {}
 
 class UserLoadedState extends UserState {
-  final String login;
-  final String name;
-  final String patr;
+  User user;
 
-  UserLoadedState(this.login, this.name, this.patr);
+  UserLoadedState(this.user);
 }
 
 class UserErrorState extends UserState {

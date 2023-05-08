@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/InfoBook.dart';
 import 'package:soil/interface/forms/UserPage.dart';
 
@@ -44,6 +45,10 @@ class RouteGenerator
       case '/home/settings':
         return CustomPageRoute(
           builder: (_) => SettingsPage(),
+        );
+      case '/home/user/edit':
+        return CustomPageRoute(
+          builder: (_) => FioDialog(),
         );
 
 

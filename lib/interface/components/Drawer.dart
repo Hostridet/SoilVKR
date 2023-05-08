@@ -23,6 +23,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
           )..add(UserGetEvent()),
           child: BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
+              if (state is UserErrorState) {
+                return Drawer(
+                  child: Center(child: Text(state.error)),
+                );
+              }
               if (state is UserLoadedState) {
                 return Drawer(
                   child: ListView(
@@ -46,12 +51,12 @@ class _DrawerMenuState extends State<DrawerMenu> {
                               )
                             ),
                             const SizedBox(height: 10),
-                            Text(state.name,
+                            Text(state.user.name,
                                 style: TextStyle(color: Colors.white, fontSize: 16)),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(state.patr,
+                                Text(state.user.fatherName,
                                     style: TextStyle(color: Colors.white, fontSize: 16))
                               ],
                             ),

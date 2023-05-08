@@ -4,3 +4,9 @@ part of 'user_bloc.dart';
 abstract class UserEvent {}
 
 class UserGetEvent extends UserEvent {}
+
+class UserUpdateEvent extends UserEvent {
+  User user;
+
+  UserUpdateEvent(this.user);
+}

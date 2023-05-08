@@ -18,7 +18,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         return;
       }
       try {
-        emit(LoginLoadedState());
+        int statusCode = await _loginRepository.getLogIn(event.login, event.password);
+        if (statusCode == 200) {
+          emit(LoginLoadedState());
+        }
+        if (statusCode == 405) {
+          emit(LoginWrongState());
+        }
+        //emit(LoginLoadedState());
         // emit(LoginWrongState());
         // emit(LoginEmptyState());
       }
