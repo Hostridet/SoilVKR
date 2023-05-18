@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/InfoBook.dart';
 import 'package:soil/interface/forms/UserPage.dart';
+import 'package:soil/interface/forms/ZonePage.dart';
 
 import '../interface/forms/ErrorPage.dart';
 import '../interface/forms/HomePage.dart';
@@ -49,6 +50,11 @@ class RouteGenerator
       case '/home/user/edit':
         return CustomPageRoute(
           builder: (_) => FioDialog(),
+        );
+      case '/home/zone':
+        List list = args as List;
+        return CustomPageRoute(
+          builder: (_) => ZonePage(coords: args),
         );
 
 

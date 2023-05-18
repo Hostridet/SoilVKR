@@ -63,22 +63,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       title: Text("Темная тема"),
                       subtitle: Text("Включить темную тему"),
-                      onTap: () async {
-                        setState(() {
-                          light = !light;
-                        });
-                        final prefs =
-                        await SharedPreferences.getInstance();
-                        if (light) {
-                          BlocProvider.of<ThemeBloc>(context)
-                              .add(ThemeSetDarkEvent());
-                          prefs.setInt("mode", 1);
-                        } else if (!light) {
-                          BlocProvider.of<ThemeBloc>(context)
-                              .add(ThemeSetEvent());
-                          prefs.setInt("mode", 0);
-                        }
-                      }
                   ),
                   Divider(),
                 ],
