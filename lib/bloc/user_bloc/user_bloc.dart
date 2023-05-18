@@ -24,7 +24,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     on<UserUpdateEvent>((event, emit) async {
       try {
-
+        _userRepository.updateUser(event.user);
       }
       catch(e) {
         emit(UserErrorState(e.toString()));

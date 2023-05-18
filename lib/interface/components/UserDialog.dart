@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:soil/models/User.dart';
 
 import '../../bloc/user_bloc/user_bloc.dart';
 import '../../repository/UserRepository.dart';
@@ -212,9 +213,13 @@ class _FioDialogState extends State<FioDialog> {
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.green,
                               ),
-                              onPressed: () {
+                              onPressed: () async {
+                                BlocProvider.of<UserBloc>(context)
+                                    .add(UserUpdateEvent(User(id: 0, login: "login",
+                                    name: nameController.text, surname: surnameController.text, fatherName: fatherNameController.text, age: int.parse(ageController.text),
+                                    isAdmin: 0, isFemale: genderList.indexOf(curGender), email: emailController.text)));
 
-                                Navigator.of(context)
+                                await Navigator.of(context)
                                     .pushReplacementNamed('/home/user');
                               },
                               child: Text("Сохранить")
