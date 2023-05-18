@@ -1,6 +1,11 @@
+import 'dart:convert';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../bloc/soil_bloc/soil_bloc.dart';
+import '../../repository/SoilRepository.dart';
 
 class SoilComponent extends StatefulWidget {
   const SoilComponent({Key? key}) : super(key: key);
@@ -12,25 +17,65 @@ class SoilComponent extends StatefulWidget {
 class _SoilComponentState extends State<SoilComponent> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          elevation: 2,
-          child: ListTile(
-            title: Text("Почва"),
-            leading: SizedBox(
-              width: 100,
-              height: 200,
-              child: Image.network(
-                "https://sun9-23.userapi.com/impg/toeWsohS4fktyx0iEumJq0OI-RrRVG-SwvSU_A/r4MXIokb4_Q.jpg?size=820x513&quality=96&sign=92b9e88c7cf42a57f56942b6cce2a83f&type=album"
-              ),
-            ),
-            subtitle: Text("Описание почвы"),
-            onTap: () {},
+    return RepositoryProvider(
+      create: (context) => SoilRepository(),
+      child: BlocProvider<SoilBloc>(
+        create: (context) => SoilBloc(
+            RepositoryProvider.of<SoilRepository>(context)
+        )..add(SoilGetEvent()),
+        child: BlocBuilder<SoilBloc, SoilState>(
+          builder: (context, state) {
+            if (state is SoilErrorState) {
+              return Center(
+                child: Text(state.error),
+              );
+            }
+            if (state is SoilLoadedState){
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                        itemCount: state.soilList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            elevation: 2,
+                            child: ListTile(
+                              title: Text(
+                                  state.soilList[index].name,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                              ),
+                              leading: SizedBox(
+                                  width: 100,
+                                  height: 200,
+                                  child: state.soilList[index].image == null
+                                      ? DecoratedBox(
+                                    decoration: const BoxDecoration(
+                                        color: Colors.grey
+                                    ),
+                                  )
+                                      :  Image.memory(base64Decode(state.soilList[index].image!))
+                              ),
+                              subtitle: Text(
+                                  state.soilList[index].name,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                              ),
+                              onTap: () {},
 
-          ),
-        )
-      ],
+                            ),
+                          );
+                        }
+                    ),
+                  ),
+                ],
+              );
+            }
+            return Container();
+          }
+        ),
+      ),
     );
   }
 }

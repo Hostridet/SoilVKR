@@ -23,6 +23,6 @@ class UserRepository {
     final responseSurname = await http.post(Uri.parse("http://10.0.2.2:8080/users/update/surname?user_id=$id&user_surname=${user.surname}"));
     final responseFatherName = await http.post(Uri.parse("http://10.0.2.2:8080/users/update/fathername?user_id=$id&user_fathername=${user.fatherName}"));
     final responseAge = await http.post(Uri.parse("http://10.0.2.2:8080/users/update/age?user_id=$id&user_age=${user.age}"));
-    final responseEmail = await http.post(Uri.parse("http://10.0.2.2:8080/users/update/fathername?user_id=$id&user_email=${user.email}"));
+    final responseEmail = await http.post(Uri.parse("http://10.0.2.2:8080/users/update/email?user_id=$id&user_email=${user.email}"));
   }
 }

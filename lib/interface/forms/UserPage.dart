@@ -35,80 +35,72 @@ class _UserPageState extends State<UserPage> {
           child:BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
                 if (state is UserLoadedState) {
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          // SizedBox(
-                          //   width: double.infinity,
-                          //   height: 100,
-                          //   child: Card(
-                          //     elevation: 1,
-                          //     child: Row(
-                          //       children: [
-                          //         Container(
-                          //             margin: EdgeInsets.only(left: 15),
-                          //             height: 80,
-                          //             width: 80,
-                          //             child: CircleAvatar(
-                          //                 backgroundColor: Colors.white,
-                          //                 child: ClipRRect(
-                          //                   borderRadius:BorderRadius.circular(50),
-                          //                   child: Image.asset("assets/user.png"),
-                          //                 )
-                          //             )
-                          //         ),
-                          //         Padding(
-                          //           padding: const EdgeInsets.only(left: 20.0),
-                          //           child: Text("Никита", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),),
-                          //         )
-                          //       ],
-                          //     ),
-                          //   ),
-                          // ),
-                          Card(
-                            elevation: 2,
-                            child: ListTile(
-                              title: Text("${state.user.surname} ${state.user.name} ${state.user.fatherName}"),
-                              subtitle: Text("ФИО"),
-                              leading: Icon(
-                                Icons.person, size: 35, color: Colors.orange,),
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/home/user/edit');
-                              },
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      BlocProvider.of<UserBloc>(context)
+                          .add(UserGetEvent());
+                    },
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Card(
+                              elevation: 2,
+                              child: ListTile(
+                                title: Text("${state.user.surname} ${state.user.name} ${state.user.fatherName}"),
+                                subtitle: Text("ФИО"),
+                                leading: Icon(
+                                  Icons.person, size: 35, color: Colors.orange,),
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/home/user/edit');
+                                },
+                              ),
                             ),
-                          ),
-                          Card(
-                            elevation: 2,
-                            child: ListTile(
-                              title: state.user.isFemale == 0
-                              ? Text("Мужчина")
-                              : Text("Женщина")
-                              ,
-                              subtitle: Text("Пол"),
-                              leading: Icon(
-                                Icons.face, size: 35, color: Colors.green,),
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/home/user/edit');
-                              },
+                            Card(
+                              elevation: 2,
+                              child: ListTile(
+                                title: Text("${state.user.age}"),
+                                subtitle: Text("Возраст"),
+                                leading: Icon(
+                                  Icons.accessibility_new, size: 35, color: Colors.purple,),
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/home/user/edit');
+                                },
+                              ),
                             ),
-                          ),
-                          Card(
-                            elevation: 2,
-                            child: ListTile(
-                              title: Text(state.user.email),
-                              subtitle: Text("Электронная почта"),
-                              leading: Icon(Icons.mail, size: 35, color: Colors.blue,),
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/home/user/edit');
-                              },
+                            Card(
+                              elevation: 2,
+                              child: ListTile(
+                                title: state.user.isFemale == 0
+                                ? Text("Мужчина")
+                                : Text("Женщина")
+                                ,
+                                subtitle: Text("Пол"),
+                                leading: Icon(
+                                  Icons.face, size: 35, color: Colors.green,),
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/home/user/edit');
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                            Card(
+                              elevation: 2,
+                              child: ListTile(
+                                title: Text(state.user.email),
+                                subtitle: Text("Электронная почта"),
+                                leading: Icon(Icons.mail, size: 35, color: Colors.blue,),
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/home/user/edit');
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

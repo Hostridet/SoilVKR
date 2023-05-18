@@ -1,5 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../bloc/animal_bloc/animal_bloc.dart';
+import '../../repository/AnimalRepository.dart';
 
 class AnimalComponent extends StatefulWidget {
   const AnimalComponent({Key? key}) : super(key: key);
@@ -11,24 +17,65 @@ class AnimalComponent extends StatefulWidget {
 class _AnimalComponentState extends State<AnimalComponent> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          elevation: 2,
-          child: ListTile(
-            title: Text("Животное"),
-            leading: SizedBox(
-              width: 100,
-              height: 200,
-              child: Image.network(
-                "https://sun9-49.userapi.com/impg/fxRuNl6Ab9rf8keyQ16xHYKOyxz30V8_sHxkqQ/_C6tWOQnI_Y.jpg?size=1200x800&quality=96&sign=d7bdec4a3ff98a6bc57f4bcd0f69829f&type=album"
-              ),
-            ),
-            subtitle: Text("Описание животного"),
-            onTap: () {},
-          ),
-        )
-      ],
+    return RepositoryProvider(
+      create: (context) => AnimalRepository(),
+      child: BlocProvider<AnimalBloc>(
+        create: (context) => AnimalBloc(
+            RepositoryProvider.of<AnimalRepository>(context)
+        )..add(AnimalGetEvent()),
+        child: BlocBuilder<AnimalBloc, AnimalState>(
+          builder: (context, state) {
+            if (state is AnimalErrorState) {
+              return Center(
+                child: Text(state.error),
+              );
+            }
+            if (state is AnimalLoadedState) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                       padding: EdgeInsets.all(5),
+                        itemCount: state.animalList.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Card(
+                            elevation: 2,
+                            child: ListTile(
+                              title: Text(
+                                  state.animalList[index].name,
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                              ),
+                              leading: SizedBox(
+                                  width: 100,
+                                  height: 200,
+                                  child: state.animalList[index].picture == null
+                                      ? DecoratedBox(
+                                    decoration: const BoxDecoration(
+                                        color: Colors.grey
+                                    ),
+                                  )
+                                      :  Image.memory(base64Decode(state.animalList[index].picture!))
+                              ),
+                              subtitle: Text(
+                                  state.animalList[index].description,
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                              ),
+                              onTap: () {},
+                            ),
+                          );
+                        }
+                    ),
+                  ),
+                ],
+              );
+            }
+            return Container();
+          }
+        ),
+      ),
     );
   }
 }
