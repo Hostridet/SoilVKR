@@ -8,7 +8,7 @@ class UserRepository {
   Future<User> getUser() async {
     final prefs = await SharedPreferences.getInstance();
     int id = prefs.getInt("user_id")!;
-    final response = await http.get(Uri.parse("http://10.0.2.2:5000/api/users/getoneuser?user_id=$id"));
+    final response = await http.get(Uri.parse("http://10.0.2.2:8080/api/users/getoneuser?user_id=$id"));
     if (response.statusCode == 200) {
       final data = await json.decode(utf8.decode(response.bodyBytes));
       return User.fromJson(data[0]);

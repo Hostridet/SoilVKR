@@ -22,7 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (statusCode == 200) {
           emit(LoginLoadedState());
         }
-        if (statusCode == 405) {
+        if (statusCode == 401) {
           emit(LoginWrongState());
         }
         //emit(LoginLoadedState());
