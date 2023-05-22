@@ -124,6 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: 15,),
                     TextFormField(
+                      obscureText: true,
                       controller: passwordController,
                       onFieldSubmitted: (value) {
                         FocusScope.of(context).requestFocus(passwordFocus);
