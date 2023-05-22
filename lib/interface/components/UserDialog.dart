@@ -29,6 +29,7 @@ class _FioDialogState extends State<FioDialog> {
   late TextEditingController ageController;
   late FocusNode emailFocus;
   late TextEditingController emailController;
+  late String curGender;
 
   @override
   void initState() {
@@ -90,12 +91,36 @@ class _FioDialogState extends State<FioDialog> {
           child: BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
                 if (state is UserLoadedState) {
-                  String curGender = genderList[state.user.isFemale];
-                  nameController.text = state.user.name;
-                  surnameController.text = state.user.surname;
-                  fatherNameController.text = state.user.fatherName;
+                  if (state.user.isFemale != null) {
+                    curGender = genderList[state.user.isFemale!];
+                  }
+                  else {
+                    curGender = genderList.first;
+                  }
+                  if (state.user.name != null) {
+                    nameController.text = state.user.name!;
+                  } else {
+                    nameController.text = "Неизвестно";
+                  }
+                  if (state.user.surname != null) {
+                    surnameController.text = state.user.surname!;
+                  }
+                  else {
+                    surnameController.text = "Неизвестно";
+                  }
+                  if (state.user.fatherName != null) {
+                    fatherNameController.text = state.user.fatherName!;
+                  }
+                  else {
+                    fatherNameController.text = "Неизвестно";
+                  }
+                  if (state.user.age != null) {
+                    ageController.text = state.user.age.toString();
+                  }
+                  else {
+                    ageController.text = "Неизвестно";
+                  }
                   emailController.text = state.user.email;
-                  ageController.text = state.user.age.toString();
                   return Padding(
                     padding: EdgeInsets.all(10),
                     child: Column(

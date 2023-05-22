@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,17 +48,25 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                   backgroundColor: Colors.white,
                                   child: ClipRRect(
                                     borderRadius:BorderRadius.circular(50),
-                                    child: Image.asset("assets/user.png"),
+                                    child: state.user.image != null
+                                        ? Image.memory(base64Decode(state.user.image!))
+                                        : Image.asset("assets/user.png"),
                                   )
                               )
                             ),
                             const SizedBox(height: 10),
-                            Text(state.user.name,
+                            state.user.name != null
+                            ? Text(state.user.name!,
+                                style: TextStyle(color: Colors.white, fontSize: 16))
+                            : Text("Неизвестно",
                                 style: TextStyle(color: Colors.white, fontSize: 16)),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(state.user.fatherName,
+                                state.user.fatherName != null
+                                ? Text(state.user.fatherName!,
+                                    style: TextStyle(color: Colors.white, fontSize: 16))
+                                : Text("Неизвестно",
                                     style: TextStyle(color: Colors.white, fontSize: 16))
                               ],
                             ),

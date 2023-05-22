@@ -1,36 +1,39 @@
 class User {
   final int id;
   final String login;
-  final String name;
-  final String surname;
-  final String fatherName;
-  final int age;
+  String? name;
+  String? surname;
+  String? fatherName;
+  int? age;
   final int isAdmin;
-  final int isFemale;
+  int? isFemale;
   final String email;
+  String? image;
 
   User({
     required this.id,
     required this.login,
-    required this.name,
-    required this.surname,
-    required this.fatherName,
-    required this.age,
+    this.name,
+    this.surname,
+    this.fatherName,
+    this.age,
     required this.isAdmin,
-    required this.isFemale,
-    required this.email
+    this.isFemale,
+    required this.email,
+    this.image
   });
   factory User.fromJson(Map<String, dynamic> json){
     return User(
       id: json['user_id'] as int,
       login: json['user_login'] as String,
-      name: json['user_name'] as String,
-      surname: json['user_surname'] as String,
-      fatherName: json['user_fathername'] as String,
-      age: json['user_age'] as int,
+      name: json['user_name'] as String?,
+      surname: json['user_surname'] as String?,
+      fatherName: json['user_fathername'] as String?,
+      age: json['user_age'] as int?,
       isAdmin: json['user_isAdmin'] as int,
-      isFemale: json['user_isFemale'] as int,
+      isFemale: json['user_isFemale'] as int?,
       email: json['user_email'] as String,
+      image: json['user_picture'] as String?,
     );
   }
 
