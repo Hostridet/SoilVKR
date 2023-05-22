@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/InfoBook.dart';
+import 'package:soil/interface/forms/RegisterPage.dart';
 import 'package:soil/interface/forms/UserPage.dart';
 import 'package:soil/interface/forms/ZonePage.dart';
 
@@ -26,7 +27,10 @@ class RouteGenerator
         return CustomPageRoute(
           builder: (context) => const LoginPage(),
         );
-
+      case '/register':
+        return CustomPageRoute(
+          builder: (context) => const RegisterPage(),
+        );
       case '/home':
         return CustomPageRoute(
           builder: (_) => HomePage(),
