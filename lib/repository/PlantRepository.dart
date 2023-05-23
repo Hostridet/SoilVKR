@@ -15,4 +15,10 @@ class PlantRepository {
     }
     return plantList;
   }
+  Future<Plant> getCurrentPlant(int id) async {
+    final response = await http.get(Uri.parse("http://10.0.2.2:8080/plants/one?plant_id=${id}"));
+    final data = await json.decode(utf8.decode(response.bodyBytes));
+    Plant plant = Plant.fromJson(data[0]);
+    return plant;
+  }
 }

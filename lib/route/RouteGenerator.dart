@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soil/interface/components/UserDialog.dart';
+import 'package:soil/interface/forms/CurrentPlant.dart';
 import 'package:soil/interface/forms/InfoBook.dart';
 import 'package:soil/interface/forms/RegisterPage.dart';
 import 'package:soil/interface/forms/UserPage.dart';
@@ -46,6 +47,11 @@ class RouteGenerator
       case '/home/book':
         return CustomPageRoute(
           builder: (_) => InfoBook(),
+        );
+      case '/home/book/plant':
+        int id = args as int;
+        return CustomPageRoute(
+          builder: (_) => CurrentPlantPage(id: args),
         );
       case '/home/settings':
         return CustomPageRoute(

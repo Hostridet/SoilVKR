@@ -63,7 +63,10 @@ class _PlantComponentState extends State<PlantComponent> {
                                   maxLines: 4,
                                   overflow: TextOverflow.ellipsis,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/home/book/plant', arguments: state.plantList[index].id);
+                              },
 
                             ),
                           );
