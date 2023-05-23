@@ -62,7 +62,10 @@ class _SoilComponentState extends State<SoilComponent> {
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/home/book/soil', arguments: state.soilList[index].id);
+                              },
 
                             ),
                           );

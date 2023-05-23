@@ -14,4 +14,10 @@ class SoilRepository {
     }
     return soilList;
   }
+  Future<Soil> getCurrentSoil(int id) async {
+    final response = await http.get(Uri.parse("http://10.0.2.2:8080/soils/one?soil_id=$id"));
+    final data = await json.decode(utf8.decode(response.bodyBytes));
+    Soil soil = Soil.fromJson(data[0]);
+    return soil;
+  }
 }
