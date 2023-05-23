@@ -19,54 +19,40 @@ class CurrentPlantPage extends StatefulWidget {
 class _CurrentPlantPageState extends State<CurrentPlantPage> {
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => PlantRepository(),
-      child: BlocProvider<CurPlantBloc>(
-        create: (context) => CurPlantBloc(
-            RepositoryProvider.of<PlantRepository>(context)
-        )..add(CurPlantGetEvent(widget.id)),
-        child: BlocBuilder<CurPlantBloc, CurPlantState>(
-          builder: (context, state) {
-            if (state is CurPlantErrorState) {
-              return Scaffold(
-                appBar: NewGradientAppBar(
-                  title:  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/home/book');
-                        },
-                        icon: Icon(Icons.arrow_back, size: 35,),
-                      ),
-                      Text("Ошибка"),
-                    ],
-                  ),
-                  gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-                ),
-                body: Center(
+    return Scaffold(
+      appBar: NewGradientAppBar(
+        title:  Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushReplacementNamed('/home/book');
+              },
+              icon: Icon(Icons.arrow_back, size: 35,),
+            ),
+            Text("Растение"),
+          ],
+        ),
+        gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
+      ),
+      body: RepositoryProvider(
+        create: (context) => PlantRepository(),
+        child: BlocProvider<CurPlantBloc>(
+          create: (context) => CurPlantBloc(
+              RepositoryProvider.of<PlantRepository>(context)
+          )..add(CurPlantGetEvent(widget.id)),
+          child: BlocBuilder<CurPlantBloc, CurPlantState>(
+            builder: (context, state) {
+              if (state is CurPlantLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (state is CurPlantErrorState) {
+                return Center(
                   child: Text(state.error),
-                ),
-              );
-            }
-            if (state is CurPlantLoadedState) {
-              return Scaffold(
-                appBar: NewGradientAppBar(
-                  title:  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/home/book');
-                        },
-                        icon: Icon(Icons.arrow_back, size: 35,),
-                      ),
-                      Text(state.plant.name),
-                    ],
-                  ),
-                  gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-                ),
-                body: SingleChildScrollView(
+                );
+              }
+              if (state is CurPlantLoadedState) {
+                return SingleChildScrollView(
                   child: Column(
                     children: [
                       Stack(
@@ -171,8 +157,8 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                         child: ListTile(
                           title: Text(
                               state.plant.minTemp != null
-                              ? "${state.plant.minTemp} °C"
-                              : "Отсутствует"
+                                  ? "${state.plant.minTemp} °C"
+                                  : "Отсутствует"
                           ),
                           subtitle: Text("Минимальная температура"),
                         ),
@@ -193,8 +179,8 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                         child: ListTile(
                           title: Text(
                               state.plant.kingdom != null
-                              ? state.plant.kingdom!
-                              : "Отсутствует"
+                                  ? state.plant.kingdom!
+                                  : "Отсутствует"
                           ),
                           subtitle: Text("Царство"),
                         ),
@@ -269,11 +255,11 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
 
                     ],
                   ),
-                ),
-              );
-            }
-            return Container();
-          },
+                );
+              }
+              return Container();
+            },
+          ),
         ),
       ),
     );

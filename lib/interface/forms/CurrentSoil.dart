@@ -18,54 +18,37 @@ class CurrentSoilPage extends StatefulWidget {
 class _CurrentSoilPageState extends State<CurrentSoilPage> {
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => SoilRepository(),
-      child: BlocProvider<CurSoilBloc>(
-        create: (context) => CurSoilBloc(
-            RepositoryProvider.of<SoilRepository>(context)
-        )..add(CurSoilGetEvent(widget.id)),
-        child: BlocBuilder<CurSoilBloc, CurSoilState>(
-          builder: (context, state) {
-            if (state is CurSoilErrorState) {
-              return Scaffold(
-                appBar: NewGradientAppBar(
-                  title:  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/home/book');
-                        },
-                        icon: Icon(Icons.arrow_back, size: 35,),
-                      ),
-                      Text("Ошибка"),
-                    ],
-                  ),
-                  gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-                ),
-                body: Center(
+    return Scaffold(
+      appBar: NewGradientAppBar(
+        title:  Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushReplacementNamed('/home/book');
+              },
+              icon: Icon(Icons.arrow_back, size: 35,),
+            ),
+            Text("Почва"),
+          ],
+        ),
+        gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
+      ),
+      body: RepositoryProvider(
+        create: (context) => SoilRepository(),
+        child: BlocProvider<CurSoilBloc>(
+          create: (context) => CurSoilBloc(
+              RepositoryProvider.of<SoilRepository>(context)
+          )..add(CurSoilGetEvent(widget.id)),
+          child: BlocBuilder<CurSoilBloc, CurSoilState>(
+            builder: (context, state) {
+              if (state is CurSoilErrorState) {
+                return Center(
                   child: Text(state.error),
-                ),
-              );
-            }
-            if (state is CurSoilLoadedState) {
-              return Scaffold(
-                appBar: NewGradientAppBar(
-                  title:  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/home/book');
-                        },
-                        icon: Icon(Icons.arrow_back, size: 35,),
-                      ),
-                      Text("Почва"),
-                    ],
-                  ),
-                  gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-                ),
-                body: SingleChildScrollView(
+                );
+              }
+              if (state is CurSoilLoadedState) {
+                return SingleChildScrollView(
                   child: Column(
                     children: [
                       Stack(
@@ -139,11 +122,11 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                       ),
                     ],
                   ),
-                ),
-              );
-            }
-            return Container();
-          },
+                );
+              }
+              return Container();
+            },
+          ),
         ),
       ),
     );

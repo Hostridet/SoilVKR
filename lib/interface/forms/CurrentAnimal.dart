@@ -18,54 +18,37 @@ class CurrentAnimalPage extends StatefulWidget {
 class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => AnimalRepository(),
-      child: BlocProvider<CurAnimalBloc>(
-        create: (context) => CurAnimalBloc(
-            RepositoryProvider.of<AnimalRepository>(context)
-        )..add(CurAnimalGetEvent(widget.id)),
-        child: BlocBuilder<CurAnimalBloc, CurAnimalState>(
-          builder: (context, state) {
-            if (state is CurAnimalErrorState) {
-              return Scaffold(
-                appBar: NewGradientAppBar(
-                  title:  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/home/book');
-                        },
-                        icon: Icon(Icons.arrow_back, size: 35,),
-                      ),
-                      Text("Ошибка"),
-                    ],
-                  ),
-                  gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-                ),
-                body: Center(
+    return Scaffold(
+      appBar: NewGradientAppBar(
+        title:  Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .pushReplacementNamed('/home/book');
+              },
+              icon: Icon(Icons.arrow_back, size: 35,),
+            ),
+            Text("Животные"),
+          ],
+        ),
+        gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
+      ),
+      body: RepositoryProvider(
+        create: (context) => AnimalRepository(),
+        child: BlocProvider<CurAnimalBloc>(
+          create: (context) => CurAnimalBloc(
+              RepositoryProvider.of<AnimalRepository>(context)
+          )..add(CurAnimalGetEvent(widget.id)),
+          child: BlocBuilder<CurAnimalBloc, CurAnimalState>(
+            builder: (context, state) {
+              if (state is CurAnimalErrorState) {
+                return Center(
                   child: Text(state.error),
-                ),
-              );
-            }
-            if (state is CurAnimalLoadedState) {
-              return Scaffold(
-                appBar: NewGradientAppBar(
-                  title:  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/home/book');
-                        },
-                        icon: Icon(Icons.arrow_back, size: 35,),
-                      ),
-                      Text(state.animal.name),
-                    ],
-                  ),
-                  gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-                ),
-                body: SingleChildScrollView(
+                );
+              }
+              if (state is CurAnimalLoadedState) {
+                return SingleChildScrollView(
                   child: Column(
                     children: [
                       Stack(
@@ -191,11 +174,11 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
 
                     ],
                   ),
-                ),
-              );
-            }
-            return Container();
-          },
+                );
+              }
+              return Container();
+            },
+          ),
         ),
       ),
     );
