@@ -63,7 +63,10 @@ class _AnimalComponentState extends State<AnimalComponent> {
                                   maxLines: 4,
                                   overflow: TextOverflow.ellipsis,
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context)
+                                    .pushReplacementNamed('/home/book/animal', arguments: state.animalList[index].id);
+                              },
                             ),
                           );
                         }
