@@ -14,17 +14,15 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<RegisterMakeEvent>((event, emit) async {
       print("${event.login} ${event.password} ${event.email}");
       if (event.login.isNotEmpty && event.email.isNotEmpty && event.login.isNotEmpty) {
-        String statusCode = await _registerRepository.makeRegister(event.email, event.login, event.password);
+        int statusCode = await _registerRepository.makeRegister(event.email, event.login, event.password);
         if (statusCode == 200) {
           emit(RegisterSuccessState());
+          return;
         }
-        else {
-          emit(RegisterErrorState("Неправильно заполнены поля"));
-        }
+        emit(RegisterErrorState("Такой аккаунт уже существует"));
+        return;
       }
-      else {
-        emit(RegisterErrorState("Все поля должны быть заполнены"));
-      }
+      emit(RegisterErrorState("Все поля должны быть заполнены"));
     });
   }
 }

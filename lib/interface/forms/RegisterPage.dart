@@ -83,10 +83,9 @@ class _RegisterPageState extends State<RegisterPage> {
             },
             builder: (context, state) {
               return Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(40.0),
                 child: Column(
                   children: [
-                    SizedBox(height: 15,),
                     TextFormField(
                       controller: emailController,
                       onFieldSubmitted: (value) {
@@ -144,7 +143,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(height: 15,),
                     SizedBox(
                       width: 400,
-                      height: 40,
+                      height: 50,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Colors.green,
@@ -153,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             BlocProvider.of<RegisterBloc>(context)
                                 .add(RegisterMakeEvent(emailController.text, loginController.text, passwordController.text));
                           },
-                          child: Text("Сохранить")
+                          child: Text("Создать")
                       ),
                     ),
                   ],

@@ -66,7 +66,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                 state.user.fatherName != null
                                 ? Text(state.user.fatherName!,
                                     style: TextStyle(color: Colors.white, fontSize: 16))
-                                : Text("Неизвестно",
+                                : Text("",
                                     style: TextStyle(color: Colors.white, fontSize: 16))
                               ],
                             ),

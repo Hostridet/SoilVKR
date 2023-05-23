@@ -48,7 +48,11 @@ class _UserPageState extends State<UserPage> {
                             Card(
                               elevation: 2,
                               child: ListTile(
-                                title: Text("${state.user.surname} ${state.user.name} ${state.user.fatherName}"),
+                                title: Text(
+                                    state.user.name != null
+                                    ? "${state.user.surname} ${state.user.name} ${state.user.fatherName}"
+                                    : "Неизвестно"
+                                ),
                                 subtitle: Text("ФИО"),
                                 leading: Icon(
                                   Icons.person, size: 35, color: Colors.orange,),
@@ -61,7 +65,11 @@ class _UserPageState extends State<UserPage> {
                             Card(
                               elevation: 2,
                               child: ListTile(
-                                title: Text("${state.user.age}"),
+                                title: Text(
+                                    state.user.age != null
+                                    ? "${state.user.age}"
+                                    : "Неизвестно"
+                                ),
                                 subtitle: Text("Возраст"),
                                 leading: Icon(
                                   Icons.accessibility_new, size: 35, color: Colors.purple,),
@@ -74,9 +82,9 @@ class _UserPageState extends State<UserPage> {
                             Card(
                               elevation: 2,
                               child: ListTile(
-                                title: state.user.isFemale == 0
-                                ? Text("Мужчина")
-                                : Text("Женщина")
+                                title: state.user.isFemale != null
+                                ? state.user.isFemale == 0 ? Text("Мужчина") : Text("Женщина")
+                                : Text("Неизвестно")
                                 ,
                                 subtitle: Text("Пол"),
                                 leading: Icon(

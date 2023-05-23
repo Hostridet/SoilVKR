@@ -100,25 +100,25 @@ class _FioDialogState extends State<FioDialog> {
                   if (state.user.name != null) {
                     nameController.text = state.user.name!;
                   } else {
-                    nameController.text = "Неизвестно";
+                    nameController.text = "";
                   }
                   if (state.user.surname != null) {
                     surnameController.text = state.user.surname!;
                   }
                   else {
-                    surnameController.text = "Неизвестно";
+                    surnameController.text = "";
                   }
                   if (state.user.fatherName != null) {
                     fatherNameController.text = state.user.fatherName!;
                   }
                   else {
-                    fatherNameController.text = "Неизвестно";
+                    fatherNameController.text = "";
                   }
                   if (state.user.age != null) {
                     ageController.text = state.user.age.toString();
                   }
                   else {
-                    ageController.text = "Неизвестно";
+                    ageController.text = "";
                   }
                   emailController.text = state.user.email;
                   return Padding(
@@ -243,7 +243,7 @@ class _FioDialogState extends State<FioDialog> {
                                     .add(UserUpdateEvent(User(id: 0, login: "login",
                                     name: nameController.text, surname: surnameController.text, fatherName: fatherNameController.text, age: int.parse(ageController.text),
                                     isAdmin: 0, isFemale: genderList.indexOf(curGender), email: emailController.text)));
-
+                                await Future.delayed(const Duration(seconds: 1));
                                 await Navigator.of(context)
                                     .pushReplacementNamed('/home/user');
                               },
