@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/CurrentPlant.dart';
 import 'package:soil/interface/forms/InfoBook.dart';
+import 'package:soil/interface/forms/MapPage.dart';
 import 'package:soil/interface/forms/RegisterPage.dart';
 import 'package:soil/interface/forms/UserPage.dart';
 import 'package:soil/interface/forms/ZonePage.dart';
@@ -37,6 +38,10 @@ class RouteGenerator
       case '/home':
         return CustomPageRoute(
           builder: (_) => HomePage(),
+        );
+      case '/home/map':
+        return CustomPageRoute(
+          builder: (_) => MapPage(),
         );
       case '/':
         return CustomPageRoute(
