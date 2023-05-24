@@ -44,15 +44,17 @@ class _DrawerMenuState extends State<DrawerMenu> {
                             Container(
                               height: 80,
                               width: 80,
-                              child: CircleAvatar(
+                              child: state.user.image == null
+                              ?CircleAvatar(
                                   backgroundColor: Colors.white,
                                   child: ClipRRect(
                                     borderRadius:BorderRadius.circular(50),
-                                    child: state.user.image != null
-                                        ? Image.memory(base64Decode(state.user.image!))
-                                        : Image.asset("assets/user.png"),
+                                    child: Image.asset("assets/user.png"),
                                   )
                               )
+                              : CircleAvatar(
+                                backgroundImage: MemoryImage(base64Decode(state.user.image!)),
+                              ),
                             ),
                             const SizedBox(height: 10),
                             state.user.name != null
