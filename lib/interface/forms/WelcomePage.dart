@@ -18,14 +18,16 @@ class Images {
   String url;
   Images({required this.text,  required this.image, required this.url});
 }
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _WelcomePageState extends State<WelcomePage> {
+  CarouselController buttonCarouselController = CarouselController();
   late PageController _controller;
   int currentPage = 0;
   List<Images> itemList = [
@@ -46,35 +48,30 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerMenu(),
-      appBar: NewGradientAppBar(
-        title: const Text('Главный экран'),
-        gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(color: Colors.green),
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                  "Soil VKR - это прототип программной системы, основанной на знаниях, способной определить местность с указанием распределения почв на ней,"
-                  " содержащей сведения о почвах, их свойствах, характерных для них грунтах и кормовых растениях",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white
+            SizedBox(height: 100,),
+            Padding(
+              padding: EdgeInsets.only(right: 20),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).popAndPushNamed("/login");
+                    },
+                    icon: Icon(Icons.close, color: Colors.grey),
                 ),
               ),
             ),
-            Divider(),
             Padding(
-                padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
               child: Center(
-                child: Text("Основной функционал", style: TextStyle(fontSize: 23, fontWeight: FontWeight.w700),),
+                child: Text("Основной функционал", style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),),
               ),
             ),
             CarouselSlider.builder(
+                carouselController: buttonCarouselController,
                 itemCount: itemList.length,
                 itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex){
                   return carouselCard(itemList[itemIndex]);
@@ -84,27 +81,47 @@ class _HomePageState extends State<HomePage> {
                   aspectRatio: 16/9,
                   viewportFraction: 0.8,
                   initialPage: 0,
-                  enableInfiniteScroll: true,
+                  enableInfiniteScroll: false,
                   reverse: false,
-                  autoPlay: true,
+                  autoPlay: false,
                   autoPlayInterval: Duration(seconds: 3),
                   autoPlayAnimationDuration: Duration(milliseconds: 800),
                   autoPlayCurve: Curves.fastOutSlowIn,
                   enlargeCenterPage: true,
                   enlargeFactor: 0.3,
                   scrollDirection: Axis.horizontal,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      currentPage = index;
+                    });
+                  }
                 )
+            ),
+            SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: itemList.asMap().entries.map((entry) {
+                return GestureDetector(
+                  onTap: () => buttonCarouselController.animateToPage(entry.key),
+                  child: Container(
+                    width: 12.0,
+                    height: 12.0,
+                    margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: (Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.black)
+                            .withOpacity(currentPage == entry.key ? 0.9 : 0.4)),
+                  ),
+                );
+              }).toList(),
             ),
           ],
         ),
       ),
     );
   }
-  Widget carouselView(int index) {
-    return carouselCard(itemList[index]);
-  }
-
-
   Widget carouselCard(Images data) {
     return Column(
       children: <Widget>[
@@ -115,8 +132,6 @@ class _HomePageState extends State<HomePage> {
               tag: data.image,
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(data.url);
                 },
                 child: SizedBox(
                   width: 250,
@@ -130,24 +145,6 @@ class _HomePageState extends State<HomePage> {
                     child: Image.asset(data.image, fit: BoxFit.contain,),
                   ),
                 ),
-                // child: Container(
-                //   width: 250,
-                //   height: 250,
-                //   decoration: BoxDecoration(
-                //       color: Colors.white,
-                //       borderRadius: BorderRadius.circular(30),
-                //       image: DecorationImage(
-                //           image: AssetImage(
-                //             data.image,
-                //           ),
-                //           fit: BoxFit.fill),
-                //       boxShadow: const [
-                //         BoxShadow(
-                //             offset: Offset(0, 4),
-                //             blurRadius: 4,
-                //             color: Colors.black26)
-                //       ]),
-                // ),
               ),
             ),
           ),
@@ -163,16 +160,6 @@ class _HomePageState extends State<HomePage> {
                 fontWeight: FontWeight.bold),
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: Text(
-        //     "\$${data.price}",
-        //     style: const TextStyle(
-        //         color: Colors.black87,
-        //         fontSize: 16,
-        //         fontWeight: FontWeight.bold),
-        //   ),
-        // )
       ],
     );
   }

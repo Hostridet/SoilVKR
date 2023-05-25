@@ -91,19 +91,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
                       ListTile(
                         leading: const Padding(
                           padding: EdgeInsets.only(top: 8),
-                          child: Icon(Icons.map, size: 30, color: Colors.purple),
-                        ),
-                        title: Text("Карта"),
-                        subtitle: Text("Выбор местности"),
-                        onTap: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed('/home/map');
-                        },
-                      ),
-                      Divider(),
-                      ListTile(
-                        leading: const Padding(
-                          padding: EdgeInsets.only(top: 8),
                           child: Icon(Icons.bookmarks, size: 30, color: Colors.green),
                         ),
                         title: Text("База знаний"),

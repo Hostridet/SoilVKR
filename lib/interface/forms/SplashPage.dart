@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
         builder: (context, state) {
           if (state is SplashLoadedState) {
             Future.delayed(const Duration(seconds: 2), () {
-              Navigator.of(context).popAndPushNamed("/login");
+              Navigator.of(context).popAndPushNamed("/welcome");
             });
           }
           if (state is SplashDisabledState) {

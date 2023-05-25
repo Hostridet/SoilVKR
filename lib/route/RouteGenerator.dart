@@ -8,12 +8,12 @@ import 'package:soil/interface/forms/InfoBook.dart';
 import 'package:soil/interface/forms/MapPage.dart';
 import 'package:soil/interface/forms/RegisterPage.dart';
 import 'package:soil/interface/forms/UserPage.dart';
+import 'package:soil/interface/forms/WelcomePage.dart';
 import 'package:soil/interface/forms/ZonePage.dart';
 
 import '../interface/forms/CurrentAnimal.dart';
 import '../interface/forms/CurrentSoil.dart';
 import '../interface/forms/ErrorPage.dart';
-import '../interface/forms/HomePage.dart';
 import '../interface/forms/LoginPage.dart';
 import '../interface/forms/SettingsPage.dart';
 import '../interface/forms/SplashPage.dart';
@@ -37,15 +37,15 @@ class RouteGenerator
         );
       case '/home':
         return CustomPageRoute(
-          builder: (_) => HomePage(),
-        );
-      case '/home/map':
-        return CustomPageRoute(
           builder: (_) => MapPage(),
         );
       case '/':
         return CustomPageRoute(
           builder: (_) => SplashScreen(),
+        );
+      case '/welcome':
+        return CustomPageRoute(
+          builder: (_) => WelcomePage(),
         );
       case '/home/user':
         return CustomPageRoute(
