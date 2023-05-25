@@ -56,7 +56,7 @@ class _PlantComponentState extends State<PlantComponent> {
                                       color: Colors.grey
                                   ),
                                 )
-                                  :  Image.memory(base64Decode(state.plantList[index].image!))
+                                  :  Image.memory(base64Decode(state.plantList[index].image!), fit: BoxFit.fill,)
                                 ),
                               subtitle: Text(
                                   state.plantList[index].description,

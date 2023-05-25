@@ -12,6 +12,7 @@ import 'package:soil/interface/forms/WelcomePage.dart';
 import 'package:soil/interface/forms/ZonePage.dart';
 
 import '../interface/forms/CurrentAnimal.dart';
+import '../interface/forms/CurrentGround.dart';
 import '../interface/forms/CurrentSoil.dart';
 import '../interface/forms/ErrorPage.dart';
 import '../interface/forms/LoginPage.dart';
@@ -64,6 +65,11 @@ class RouteGenerator
         int id = args as int;
         return CustomPageRoute(
           builder: (_) => CurrentAnimalPage(id: args),
+        );
+      case '/home/book/ground':
+        int id = args as int;
+        return CustomPageRoute(
+          builder: (_) => CurrentGroundPage(id: args),
         );
       case '/home/book/soil':
         int id = args as int;

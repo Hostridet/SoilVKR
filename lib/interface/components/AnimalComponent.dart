@@ -56,7 +56,7 @@ class _AnimalComponentState extends State<AnimalComponent> {
                                         color: Colors.grey
                                     ),
                                   )
-                                      :  Image.memory(base64Decode(state.animalList[index].picture!))
+                                      :  Image.memory(base64Decode(state.animalList[index].picture!), fit: BoxFit.fill,)
                               ),
                               subtitle: Text(
                                   state.animalList[index].description,

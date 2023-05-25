@@ -55,7 +55,7 @@ class _SoilComponentState extends State<SoilComponent> {
                                         color: Colors.grey
                                     ),
                                   )
-                                      :  Image.memory(base64Decode(state.soilList[index].image!))
+                                      :  Image.memory(base64Decode(state.soilList[index].image!), fit: BoxFit.fill,)
                               ),
                               subtitle: Text(
                                   state.soilList[index].name,
