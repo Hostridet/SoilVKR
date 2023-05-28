@@ -20,5 +20,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         emit(MapErrorState("Нет информации по локации"));
       }
     });
+    on<MapUpdateEvent>((event, emit) async{
+      try {
+        _mapRepository.updateMapInfo(event.id, event.address, event.x, event.y);
+      }
+      catch(e) {
+        emit(MapErrorState(e.toString()));
+      }
+    });
   }
 }

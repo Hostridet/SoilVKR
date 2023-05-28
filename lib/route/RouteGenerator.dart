@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soil/interface/components/UserDialog.dart';
+import 'package:soil/interface/forms/CurrentLocationPage.dart';
 import 'package:soil/interface/forms/CurrentPlant.dart';
 import 'package:soil/interface/forms/InfoBook.dart';
 import 'package:soil/interface/forms/MapPage.dart';
@@ -16,9 +17,10 @@ import '../interface/forms/CurrentGround.dart';
 import '../interface/forms/CurrentSoil.dart';
 import '../interface/forms/ErrorPage.dart';
 import '../interface/forms/LoginPage.dart';
+import '../interface/forms/PointPage.dart';
 import '../interface/forms/SettingsPage.dart';
 import '../interface/forms/SplashPage.dart';
-
+import '../../models/Point.dart';
 class RouteGenerator
 {
 
@@ -51,6 +53,15 @@ class RouteGenerator
       case '/home/user':
         return CustomPageRoute(
           builder: (_) => UserPage(),
+        );
+      case '/home/points':
+        return CustomPageRoute(
+          builder: (_) => PointPage(),
+        );
+      case '/home/points/one':
+        Point point = args as Point;
+        return CustomPageRoute(
+          builder: (_) => CurrentLocationPage(point: point),
         );
       case '/home/book':
         return CustomPageRoute(

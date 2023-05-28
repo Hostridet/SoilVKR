@@ -9,3 +9,12 @@ class MapGetEvent extends MapEvent {
 
   MapGetEvent(this.long, this.lat);
 }
+
+class MapUpdateEvent extends MapEvent {
+  final int id;
+  final String address;
+  final double x;
+  final double y;
+
+  MapUpdateEvent(this.id, this.address, this.x, this.y);
+}

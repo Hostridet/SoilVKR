@@ -64,6 +64,10 @@ class _MapPageState extends State<MapPage> {
                       searchBarBackgroundColor: Colors.white,
                       mapLanguage: 'ru',
                       selectLocationButtonText: 'Выбрать',
+                      zoomButtonsBackgroundColor: Colors.blue,
+                      zoomButtonsColor: Colors.white,
+                      locationButtonBackgroundColor: Colors.blue,
+                      locationButtonsColor: Colors.white,
                       selectLocationButtonStyle: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.green),
                       ),
@@ -75,6 +79,7 @@ class _MapPageState extends State<MapPage> {
                         InfoLayout.buildErrorLayout(context, e.toString());
                       },
                       onPicked: (pickedData) {
+                        print(pickedData.address);
                         BlocProvider.of<MapBloc>(context)
                             .add(MapGetEvent(pickedData.latLong.latitude, pickedData.latLong.longitude));
                       });

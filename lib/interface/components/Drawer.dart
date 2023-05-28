@@ -104,6 +104,19 @@ class _DrawerMenuState extends State<DrawerMenu> {
                       ListTile(
                         leading: const Padding(
                           padding: EdgeInsets.only(top: 8),
+                          child: Icon(Icons.control_point, size: 30, color: Colors.deepOrangeAccent),
+                        ),
+                        title: Text("Территории"),
+                        subtitle: Text("Просмотр существующих точек"),
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushReplacementNamed('/home/points');
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
+                        leading: const Padding(
+                          padding: EdgeInsets.only(top: 8),
                           child: Icon(Icons.person, size: 30, color: Colors.blue),
                         ),
                         title: Text("Пользователь"),
