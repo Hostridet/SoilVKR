@@ -37,48 +37,54 @@ class _PointPageState extends State<PointPage> {
                 );
               }
               if (state is PointLoadedState) {
-                return Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: state.pointList.length,
-                            itemBuilder: (context, index) {
-                              return Card(
-                                elevation: 2,
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('/home/points/one', arguments: state.pointList[index]);
-
-                                  },
-                                  trailing: IconButton(
-                                    icon: Icon(Icons.place, color: Colors.red, size: 30,),
-                                    onPressed: () {
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    return BlocProvider.of<PointBloc>(context)
+                        .add(PointGetEvent());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                              itemCount: state.pointList.length,
+                              itemBuilder: (context, index) {
+                                return Card(
+                                  elevation: 2,
+                                  child: ListTile(
+                                    onTap: () {
                                       Navigator.of(context)
-                                          .pushReplacementNamed('/home/points/map', arguments: state.pointList[index]);
+                                          .pushReplacementNamed('/home/points/one', arguments: state.pointList[index]);
 
                                     },
+                                    trailing: IconButton(
+                                      icon: Icon(Icons.place, color: Colors.red, size: 30,),
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pushReplacementNamed('/home/points/map', arguments: state.pointList[index]);
+
+                                      },
+                                    ),
+                                    title: state.pointList[index].address != null
+                                      ? Text(
+                                        state.pointList[index].address!,
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                    )
+                                      : Text("Неизвестно"),
+                                    subtitle: Row(
+                                      children: [
+                                        Text("${state.pointList[index].x.toStringAsFixed(7)} ${state.pointList[index].y.toStringAsFixed(7)}"),
+                                      ],
+                                    ),
                                   ),
-                                  title: state.pointList[index].address != null
-                                    ? Text(
-                                      state.pointList[index].address!,
-                                      maxLines: 3,
-                                      overflow: TextOverflow.ellipsis,
-                                  )
-                                    : Text("Неизвестно"),
-                                  subtitle: Row(
-                                    children: [
-                                      Text("${state.pointList[index].x.toStringAsFixed(7)} ${state.pointList[index].y.toStringAsFixed(7)}"),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }
+                                );
+                              }
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }

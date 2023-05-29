@@ -1,10 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../config.dart';
+
 class RegisterRepository {
   Future<int> makeRegister(String email, String login, String password) async {
     int statusCode = 405;
-    final response = await http.post(Uri.parse("http://10.0.2.2:8080/users/insert"),
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/users/insert"),
         headers: {
           'Content-Type': 'application/json',
         },

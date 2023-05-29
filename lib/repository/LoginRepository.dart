@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config.dart';
+
 class LoginRepository {
   Future<int> getLogIn(String login, String password) async {
     int statusCode = 401;
     try {
-      final response = await http.post(Uri.parse("http://10.0.2.2:8080/users/authorisation/"),
+      final response = await http.post(Uri.parse("http://${Config.baseUrl}/users/authorisation/"),
           headers: {
             'Content-Type': 'application/json',
           },

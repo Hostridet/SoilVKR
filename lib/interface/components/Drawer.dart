@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soil/repository/UserRepository.dart';
 
 import '../../bloc/user_bloc/user_bloc.dart';
+import '../../repository/ImageRepository.dart';
 
 class DrawerMenu extends StatefulWidget {
   const DrawerMenu({Key? key}) : super(key: key);
@@ -41,19 +42,24 @@ class _DrawerMenuState extends State<DrawerMenu> {
                         ),
                         child: Column(
                           children: [
-                            Container(
-                              height: 80,
-                              width: 80,
-                              child: state.user.image == null
-                              ?CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  child: ClipRRect(
-                                    borderRadius:BorderRadius.circular(50),
-                                    child: Image.asset("assets/user.png"),
-                                  )
-                              )
-                              : CircleAvatar(
-                                backgroundImage: MemoryImage(base64Decode(state.user.image!)),
+                            GestureDetector(
+                              onTap: () async {
+                                await ImageRepository.getImage();
+                              },
+                              child: Container(
+                                height: 80,
+                                width: 80,
+                                child: state.user.image == null
+                                ?CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    child: ClipRRect(
+                                      borderRadius:BorderRadius.circular(50),
+                                      child: Image.asset("assets/user.png"),
+                                    )
+                                )
+                                : CircleAvatar(
+                                  backgroundImage: MemoryImage(base64Decode(state.user.image!)),
+                                ),
                               ),
                             ),
                             const SizedBox(height: 10),

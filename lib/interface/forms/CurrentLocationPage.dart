@@ -70,9 +70,12 @@ class _CurrentLocationPageState extends State<CurrentLocationPage> {
                       maxZoomLevel: 16,
                       trackMyPosition: false,
                       onError: (e) {},
-                      onPicked: (pickedData) {
+                      onPicked: (pickedData) async {
                         BlocProvider.of<MapBloc>(context)
                             .add(MapUpdateEvent(widget.point.id, pickedData.address, pickedData.latLong.latitude, pickedData.latLong.longitude));
+                        await Future.delayed(const Duration(seconds: 1));
+                        Navigator.of(context)
+                            .pushReplacementNamed('/home/points');
                       });
                 return Container();
               }

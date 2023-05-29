@@ -1,3 +1,4 @@
+import '../config.dart';
 import '../models/Animal.dart';
 import '../models/Ground.dart';
 import '../models/Plant.dart';
@@ -10,7 +11,7 @@ import '../models/Soil.dart';
 class PointRepository {
   Future<List<Point>> getAllPoints() async {
     List<Point> pointList = [];
-    final response = await http.get(Uri.parse("http://10.0.2.2:8080/territories/all"));
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/all"));
     if (response.statusCode == 200) {
       final data = await json.decode(utf8.decode(response.bodyBytes));
       for (dynamic item in data) {
@@ -20,14 +21,14 @@ class PointRepository {
     return pointList;
   }
   Future<Point> getPoint(int id) async {
-    final response = await http.get(Uri.parse("http://10.0.2.2:8080/territories/one?territorie_id=$id"));
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/one?territorie_id=$id"));
     final data = await json.decode(utf8.decode(response.bodyBytes));
     return Point.fromJson(data[0]);
   }
 
   Future<List<Animal>> getAnimalByPoint(int id) async {
     List<Animal> animalList = [];
-    final response = await http.get(Uri.parse("http://10.0.2.2:8080/territories/byterritorieanimal?user_territorie_id=$id"));
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/byterritorieanimal?user_territorie_id=$id"));
     if (response.statusCode == 200) {
       final data = await json.decode(utf8.decode(response.bodyBytes));
       for (dynamic item in data) {
@@ -39,7 +40,7 @@ class PointRepository {
 
   Future<List<Plant>> getPlantByPoint(int id) async {
     List<Plant> plantList = [];
-    final response = await http.get(Uri.parse("http://10.0.2.2:8080/territories/byterritorieplant?user_territorie_id=$id"));
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/byterritorieplant?user_territorie_id=$id"));
     if (response.statusCode == 200) {
       final data = await json.decode(utf8.decode(response.bodyBytes));
       for (dynamic item in data) {
@@ -51,7 +52,7 @@ class PointRepository {
 
   Future<List<Soil>> getSoilByPoint(int id) async {
     List<Soil> soilList = [];
-    final response = await http.get(Uri.parse("http://10.0.2.2:8080/territories/byterritoriesoils?user_territorie_id=$id"));
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/byterritoriesoils?user_territorie_id=$id"));
     if (response.statusCode == 200) {
       final data = await json.decode(utf8.decode(response.bodyBytes));
       for (dynamic item in data) {
@@ -63,7 +64,7 @@ class PointRepository {
 
   Future<List<Ground>> getGroundByPoint(int id) async {
     List<Ground> groundList = [];
-    final response = await http.get(Uri.parse("http://10.0.2.2:8080/territories/byterritorieground?user_territorie_id=$id"));
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/byterritorieground?user_territorie_id=$id"));
     if (response.statusCode == 200) {
       final data = await json.decode(utf8.decode(response.bodyBytes));
       for (dynamic item in data) {
