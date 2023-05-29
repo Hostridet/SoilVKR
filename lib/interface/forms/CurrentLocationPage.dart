@@ -33,9 +33,7 @@ class _CurrentLocationPageState extends State<CurrentLocationPage> {
             Row(
               children: [
                 SizedBox(width: 10,),
-                Text(widget.point.x.toString()),
-                SizedBox(width: 10,),
-                Text(widget.point.y.toString()),
+                Text("${widget.point.x.toStringAsFixed(7)} ${widget.point.y.toStringAsFixed(7)}"),
               ],
             ),
           ],

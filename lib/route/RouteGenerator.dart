@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/CurrentLocationPage.dart';
 import 'package:soil/interface/forms/CurrentPlant.dart';
+import 'package:soil/interface/forms/CurrentPoint.dart';
 import 'package:soil/interface/forms/InfoBook.dart';
 import 'package:soil/interface/forms/MapPage.dart';
 import 'package:soil/interface/forms/RegisterPage.dart';
@@ -12,6 +13,10 @@ import 'package:soil/interface/forms/UserPage.dart';
 import 'package:soil/interface/forms/WelcomePage.dart';
 import 'package:soil/interface/forms/ZonePage.dart';
 
+import '../interface/components/CurrentItems/AnimalItem.dart';
+import '../interface/components/CurrentItems/GroundItem.dart';
+import '../interface/components/CurrentItems/PlantItem.dart';
+import '../interface/components/CurrentItems/SoilItem.dart';
 import '../interface/forms/CurrentAnimal.dart';
 import '../interface/forms/CurrentGround.dart';
 import '../interface/forms/CurrentSoil.dart';
@@ -58,10 +63,35 @@ class RouteGenerator
         return CustomPageRoute(
           builder: (_) => PointPage(),
         );
-      case '/home/points/one':
+      case '/home/points/map':
         Point point = args as Point;
         return CustomPageRoute(
           builder: (_) => CurrentLocationPage(point: point),
+        );
+      case '/home/points/one':
+        Point point = args as Point;
+        return CustomPageRoute(
+          builder: (_) => CurrentPointPage(point: point),
+        );
+      case '/home/points/plant':
+        Point point = args as Point;
+        return CustomPageRoute(
+          builder: (_) => PlantItem(point: point),
+        );
+      case '/home/points/animal':
+        Point point = args as Point;
+        return CustomPageRoute(
+          builder: (_) => AnimalItem(point: point),
+        );
+      case '/home/points/soil':
+        Point point = args as Point;
+        return CustomPageRoute(
+          builder: (_) => SoilItem(point: point),
+        );
+      case '/home/points/ground':
+        Point point = args as Point;
+        return CustomPageRoute(
+          builder: (_) => GroundItem(point: point),
         );
       case '/home/book':
         return CustomPageRoute(

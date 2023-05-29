@@ -49,13 +49,15 @@ class _PointPageState extends State<PointPage> {
                                 elevation: 2,
                                 child: ListTile(
                                   onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/home/points/one', arguments: state.pointList[index]);
 
                                   },
                                   trailing: IconButton(
                                     icon: Icon(Icons.place, color: Colors.red, size: 30,),
                                     onPressed: () {
                                       Navigator.of(context)
-                                          .pushReplacementNamed('/home/points/one', arguments: state.pointList[index]);
+                                          .pushReplacementNamed('/home/points/map', arguments: state.pointList[index]);
 
                                     },
                                   ),
@@ -68,9 +70,7 @@ class _PointPageState extends State<PointPage> {
                                     : Text("Неизвестно"),
                                   subtitle: Row(
                                     children: [
-                                      Text(state.pointList[index].x.toString()),
-                                      SizedBox(width: 10,),
-                                      Text(state.pointList[index].y.toString()),
+                                      Text("${state.pointList[index].x.toStringAsFixed(7)} ${state.pointList[index].y.toStringAsFixed(7)}"),
                                     ],
                                   ),
                                 ),
