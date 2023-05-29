@@ -9,8 +9,9 @@ class AnimalLoadingState extends AnimalState {}
 
 class AnimalLoadedState extends AnimalState {
   final List<Animal> animalList;
+  final bool isAdmin;
 
-  AnimalLoadedState(this.animalList);
+  AnimalLoadedState(this.animalList, this.isAdmin);
 }
 
 class AnimalErrorState extends AnimalState {

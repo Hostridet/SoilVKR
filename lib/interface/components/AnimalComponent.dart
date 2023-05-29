@@ -33,6 +33,22 @@ class _AnimalComponentState extends State<AnimalComponent> {
             if (state is AnimalLoadedState) {
               return Column(
                 children: [
+                  state.isAdmin == true
+                      ? Padding(
+                    padding: EdgeInsets.only(top: 5, left: 5, right: 5),
+                    child: Card(
+                      elevation: 2,
+                      child: ListTile(
+                        title: Text("Добавить"),
+                        subtitle: Text("Добавить новое животное"),
+                        leading: Icon(Icons.add, size: 35,),
+                        onTap: () {
+
+                        },
+                      ),
+                    ),
+                  )
+                      : Container(),
                   Expanded(
                     child: ListView.builder(
                        padding: EdgeInsets.all(5),

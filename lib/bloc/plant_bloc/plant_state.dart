@@ -9,8 +9,9 @@ class PlantLoadingState extends PlantState {}
 
 class PlantLoadedState extends PlantState {
   final List<Plant> plantList;
+  final bool isAdmin;
 
-  PlantLoadedState(this.plantList);
+  PlantLoadedState(this.plantList, this.isAdmin);
 }
 
 class PlantErrorState extends PlantState {

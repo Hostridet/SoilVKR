@@ -8,9 +8,10 @@ class GroundInitial extends GroundState {}
 class GroundLoadingState extends GroundState {}
 
 class GroundLoadedState extends GroundState {
+  final bool isAdmin;
   final List<Ground> groundList;
 
-  GroundLoadedState(this.groundList);
+  GroundLoadedState(this.groundList, this.isAdmin);
 }
 
 class GroundErrorState extends GroundState {

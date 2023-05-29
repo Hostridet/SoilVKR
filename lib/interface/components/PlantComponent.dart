@@ -33,6 +33,22 @@ class _PlantComponentState extends State<PlantComponent> {
             if (state is PlantLoadedState) {
               return Column(
                 children: [
+                  state.isAdmin == true
+                  ? Padding(
+                      padding: EdgeInsets.only(top: 5, left: 5, right: 5),
+                      child: Card(
+                        elevation: 2,
+                        child: ListTile(
+                          title: Text("Добавить"),
+                          subtitle: Text("Добавить новое растение"),
+                          leading: Icon(Icons.add, size: 35,),
+                          onTap: () {
+
+                          },
+                        ),
+                      ),
+                  )
+                  : Container(),
                   Expanded(
                     child: ListView.builder(
                         shrinkWrap: true,

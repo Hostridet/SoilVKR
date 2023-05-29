@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/Animal.dart';
+import '../../repository/AdminRepository.dart';
 import '../../repository/AnimalRepository.dart';
 
 part 'animal_event.dart';
@@ -15,7 +16,8 @@ class AnimalBloc extends Bloc<AnimalEvent, AnimalState> {
     on<AnimalEvent>((event, emit) async {
       try {
         List<Animal> animalList = await _animalRepository.getAnimals();
-        emit(AnimalLoadedState(animalList));
+        bool isAdmin = await AdminRepository.isAdmin();
+        emit(AnimalLoadedState(animalList, isAdmin));
       }
       catch(e) {
         emit(AnimalErrorState(e.toString()));

@@ -9,8 +9,9 @@ class SoilLoadingState extends SoilState {}
 
 class SoilLoadedState extends SoilState {
   final List<Soil> soilList;
+  final bool isAdmin;
 
-  SoilLoadedState(this.soilList);
+  SoilLoadedState(this.soilList, this.isAdmin);
 }
 
 class SoilErrorState extends SoilState {
