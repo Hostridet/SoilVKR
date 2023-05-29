@@ -51,7 +51,7 @@ class _WelcomePageState extends State<WelcomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 100,),
+            SizedBox(height: 40,),
             Padding(
               padding: EdgeInsets.only(right: 20),
               child: Align(
@@ -60,10 +60,11 @@ class _WelcomePageState extends State<WelcomePage> {
                     onPressed: () {
                       Navigator.of(context).popAndPushNamed("/login");
                     },
-                    icon: Icon(Icons.close, color: Colors.grey),
+                    icon: Icon(Icons.close, color: Colors.grey, size: 40,),
                 ),
               ),
             ),
+            SizedBox(height: 40,),
             Padding(
               padding: EdgeInsets.all(10),
               child: Center(
