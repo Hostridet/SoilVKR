@@ -19,6 +19,14 @@ class ImageRepository {
     String _base64String = base64.encode(imageBytes);
     final prefs = await SharedPreferences.getInstance();
     int id = prefs.getInt("user_id")!;
-    final responseName = await http.post(Uri.parse("http://${Config.baseUrl}/users/update/picture?user_id=$id&user_picture=$_base64String"));
+    final responseName = await http.post(Uri.parse("http://${Config.baseUrl}/users/update/picture"),
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "user_id": id,
+          "image": _base64String,
+        })
+    );
   }
 }

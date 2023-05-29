@@ -31,6 +31,24 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   child: Center(child: Text(state.error)),
                 );
               }
+              if (state is UserLoadingState) {
+                return Drawer(
+                  child: ListView(
+                    children: [
+                      DrawerHeader(
+                          decoration: BoxDecoration(
+                            color: Color(0xff228B22),
+                          ),
+                        child: Container(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                    ],
+                  ),
+                );
+              }
               if (state is UserLoadedState) {
                 return Drawer(
                   child: ListView(

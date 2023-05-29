@@ -43,7 +43,6 @@ class _AnimalComponentState extends State<AnimalComponent> {
                         subtitle: Text("Добавить новое животное"),
                         leading: Icon(Icons.add, size: 35,),
                         onTap: () {
-
                         },
                       ),
                     ),
