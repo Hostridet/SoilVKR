@@ -51,7 +51,7 @@ class PointRepository {
 
   Future<List<Soil>> getSoilByPoint(int id) async {
     List<Soil> soilList = [];
-    final response = await http.get(Uri.parse("http://10.0.2.2:8080/territories/byterritoriesoil?user_territorie_id=$id"));
+    final response = await http.get(Uri.parse("http://10.0.2.2:8080/territories/byterritoriesoils?user_territorie_id=$id"));
     if (response.statusCode == 200) {
       final data = await json.decode(utf8.decode(response.bodyBytes));
       for (dynamic item in data) {

@@ -9,6 +9,7 @@ class MapGetEvent extends MapEvent {
 
   MapGetEvent(this.long, this.lat);
 }
+class MapIsAdmin extends MapEvent {}
 
 class MapUpdateEvent extends MapEvent {
   final int id;

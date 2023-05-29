@@ -46,32 +46,35 @@ class _CurrentLocationPageState extends State<CurrentLocationPage> {
         child: BlocProvider(
           create: (context) => MapBloc(
               RepositoryProvider.of<MapRepository>(context)
-          ),
+          )..add(MapIsAdmin()),
           child: BlocBuilder<MapBloc, MapState>(
               builder: (context, state) {
-                return FlutterLocationPicker(
-                    showCurrentLocationPointer: false,
-                    initPosition: LatLong(widget.point.x, widget.point.y),
-                    showSearchBar: false,
-                    searchBarBackgroundColor: Colors.white,
-                    mapLanguage: 'ru',
-                    zoomButtonsBackgroundColor: Colors.blue,
-                    zoomButtonsColor: Colors.white,
-                    locationButtonBackgroundColor: Colors.blue,
-                    locationButtonsColor: Colors.white,
-                    selectLocationButtonText: 'Изменить',
-                    selectLocationButtonStyle: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.green),
-                    ),
-                    initZoom: 11,
-                    minZoomLevel: 5,
-                    maxZoomLevel: 16,
-                    trackMyPosition: false,
-                    onError: (e) {},
-                    onPicked: (pickedData) {
-                      BlocProvider.of<MapBloc>(context)
-                          .add(MapUpdateEvent(widget.point.id, pickedData.address, pickedData.latLong.latitude, pickedData.latLong.longitude));
-                    });
+                if (state is MapAdminState)
+                  return FlutterLocationPicker(
+                      showCurrentLocationPointer: false,
+                      initPosition: LatLong(widget.point.x, widget.point.y),
+                      showSearchBar: false,
+                      searchBarBackgroundColor: Colors.white,
+                      mapLanguage: 'ru',
+                      zoomButtonsBackgroundColor: Colors.blue,
+                      zoomButtonsColor: Colors.white,
+                      locationButtonBackgroundColor: Colors.blue,
+                      locationButtonsColor: Colors.white,
+                      showSelectLocationButton: state.isAdmin == true ? true : false,
+                      selectLocationButtonText: 'Изменить',
+                      selectLocationButtonStyle: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.green),
+                      ),
+                      initZoom: 11,
+                      minZoomLevel: 5,
+                      maxZoomLevel: 16,
+                      trackMyPosition: false,
+                      onError: (e) {},
+                      onPicked: (pickedData) {
+                        BlocProvider.of<MapBloc>(context)
+                            .add(MapUpdateEvent(widget.point.id, pickedData.address, pickedData.latLong.latitude, pickedData.latLong.longitude));
+                      });
+                return Container();
               }
           ),
         ),

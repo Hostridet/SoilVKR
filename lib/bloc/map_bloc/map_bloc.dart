@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:soil/repository/AdminRepository.dart';
 
 import '../../repository/MapRepository.dart';
 
@@ -20,6 +21,11 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         emit(MapErrorState("Нет информации по локации"));
       }
     });
+    on<MapIsAdmin>((event, emit) async{
+      bool isAdmin = await AdminRepository.isAdmin();
+      emit(MapAdminState(isAdmin));
+    });
+
     on<MapUpdateEvent>((event, emit) async{
       try {
         _mapRepository.updateMapInfo(event.id, event.address, event.x, event.y);

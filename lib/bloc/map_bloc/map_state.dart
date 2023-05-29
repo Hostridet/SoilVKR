@@ -11,7 +11,11 @@ class MapSuccessState extends MapState {
 
   MapSuccessState(this.long, this.lat);
 }
+class MapAdminState extends MapState {
+  final bool isAdmin;
 
+  MapAdminState(this.isAdmin);
+}
 class MapErrorState extends MapState {
   final String error;
 

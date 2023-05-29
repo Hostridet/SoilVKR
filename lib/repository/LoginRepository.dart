@@ -21,6 +21,7 @@ class LoginRepository {
       if (response.statusCode == 200) {
         final prefs = await SharedPreferences.getInstance();
         prefs.setInt("user_id", await json.decode(utf8.decode(response.bodyBytes))[0]['user_id']);
+        prefs.setInt("isAdmin", await json.decode(utf8.decode(response.bodyBytes))[0]['user_isAdmin']);
       }
     }
     catch(e) {}
