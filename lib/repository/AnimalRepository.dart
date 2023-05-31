@@ -16,7 +16,7 @@ class AnimalRepository {
     return animalList;
   }
   Future<Animal> getCurrentAnimal(int id) async {
-    final response = await http.get(Uri.parse("http://{Config.baseUrl}/animals/one?animal_id=$id"));
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/animals/one?animal_id=$id"));
     final data = await json.decode(utf8.decode(response.bodyBytes));
     Animal animal = Animal.fromJson(data[0]);
     return animal;

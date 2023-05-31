@@ -15,6 +15,18 @@ class SoilComponent extends StatefulWidget {
 }
 
 class _SoilComponentState extends State<SoilComponent> {
+  bool isShow = true;
+  ScrollController _controller = ScrollController();
+  @override
+  void initState() {
+    _controller..addListener(onScroll);
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
@@ -34,20 +46,23 @@ class _SoilComponentState extends State<SoilComponent> {
               return Column(
                 children: [
                   state.isAdmin == true
-                      ? Padding(
+                      ? Visibility(
+                        visible: isShow,
+                        child: Padding(
                     padding: EdgeInsets.only(top: 5, left: 5, right: 5),
                     child: Card(
-                      elevation: 2,
-                      child: ListTile(
-                        title: Text("Добавить"),
-                        subtitle: Text("Добавить новую почву"),
-                        leading: Icon(Icons.add, size: 35,),
-                        onTap: () {
+                        elevation: 2,
+                        child: ListTile(
+                          title: Text("Добавить"),
+                          subtitle: Text("Добавить новую почву"),
+                          leading: Icon(Icons.add, size: 35,),
+                          onTap: () {
 
-                        },
-                      ),
+                          },
+                        ),
                     ),
-                  )
+                  ),
+                      )
                       : Container(),
                   Expanded(
                     child: ListView.builder(
@@ -96,5 +111,17 @@ class _SoilComponentState extends State<SoilComponent> {
         ),
       ),
     );
+  }
+  void onScroll() {
+    if (_controller.offset == 0.0) {
+      setState(() {
+        isShow = true;
+      });
+    }
+    else {
+      setState(() {
+        isShow = false;
+      });
+    }
   }
 }

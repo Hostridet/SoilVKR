@@ -25,7 +25,7 @@ class ImageRepository {
         },
         body: jsonEncode({
           "user_id": id,
-          "image": _base64String,
+          "user_picture": _base64String,
         })
     );
   }

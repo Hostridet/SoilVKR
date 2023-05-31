@@ -15,6 +15,19 @@ class PlantComponent extends StatefulWidget {
 }
 
 class _PlantComponentState extends State<PlantComponent> {
+  bool isShow = true;
+  ScrollController _controller = ScrollController();
+  @override
+  void initState() {
+    _controller..addListener(onScroll);
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
@@ -34,24 +47,28 @@ class _PlantComponentState extends State<PlantComponent> {
               return Column(
                 children: [
                   state.isAdmin == true
-                  ? Padding(
-                      padding: EdgeInsets.only(top: 5, left: 5, right: 5),
-                      child: Card(
-                        elevation: 2,
-                        child: ListTile(
-                          title: Text("Добавить"),
-                          subtitle: Text("Добавить новое растение"),
-                          leading: Icon(Icons.add, size: 35,),
-                          onTap: () {
+                  ? Visibility(
+                    visible: isShow,
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 5, left: 5, right: 5),
+                        child: Card(
+                          elevation: 2,
+                          child: ListTile(
+                            title: Text("Добавить"),
+                            subtitle: Text("Добавить новое растение"),
+                            leading: Icon(Icons.add, size: 35,),
+                            onTap: () {
 
-                          },
+                            },
+                          ),
                         ),
-                      ),
+                    ),
                   )
                   : Container(),
                   Expanded(
                     child: ListView.builder(
                         shrinkWrap: true,
+                        controller: _controller,
                         itemCount: state.plantList.length,
                         padding: EdgeInsets.all(5),
                         itemBuilder: (BuildContext context, int index) {
@@ -97,5 +114,17 @@ class _PlantComponentState extends State<PlantComponent> {
         ),
       ),
     );
+  }
+  void onScroll() {
+    if (_controller.offset == 0.0) {
+      setState(() {
+        isShow = true;
+      });
+    }
+    else {
+      setState(() {
+        isShow = false;
+      });
+    }
   }
 }
