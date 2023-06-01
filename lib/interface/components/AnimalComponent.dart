@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:soil/repository/ImageRepository.dart';
 
 import '../../bloc/animal_bloc/animal_bloc.dart';
 import '../../repository/AnimalRepository.dart';
@@ -80,13 +81,15 @@ class _AnimalComponentState extends State<AnimalComponent> {
                               leading: SizedBox(
                                   width: 100,
                                   height: 200,
-                                  child: state.animalList[index].picture == null
-                                      ? DecoratedBox(
-                                    decoration: const BoxDecoration(
-                                        color: Colors.grey
-                                    ),
-                                  )
-                                      :  Image.memory(base64Decode(state.animalList[index].picture!), fit: BoxFit.fill,)
+                                  child: FutureBuilder<String>(
+                                    future: ImageRepository.getAnimalImage(state.animalList[index].id),
+                                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Image.memory(base64Decode(snapshot.data!), fit: BoxFit.fill);
+                                        }
+                                        return Container(decoration: BoxDecoration(color: Color(0xffc7c7c7)));
+                                      }
+                                  ),
                               ),
                               subtitle: Text(
                                   state.animalList[index].description,

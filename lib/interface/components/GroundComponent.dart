@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../bloc/ground_bloc/ground_bloc.dart';
 import '../../repository/GroundRepository.dart';
+import '../../repository/ImageRepository.dart';
 
 class GroundComponent extends StatefulWidget {
   const GroundComponent({Key? key}) : super(key: key);
@@ -80,13 +81,15 @@ class _GroundComponentState extends State<GroundComponent> {
                                 leading: SizedBox(
                                     width: 100,
                                     height: 200,
-                                    child: state.groundList[index].image == null
-                                        ? DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                          color: Colors.grey
-                                      ),
-                                    )
-                                        :  Image.memory(base64Decode(state.groundList[index].image!), fit: BoxFit.fill,)
+                                    child: FutureBuilder<String>(
+                                        future: ImageRepository.getGroundImage(state.groundList[index].id),
+                                        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Image.memory(base64Decode(snapshot.data!), fit: BoxFit.fill);
+                                          }
+                                          return Container(decoration: BoxDecoration(color: Color(0xffc7c7c7)));
+                                        }
+                                    ),
                                 ),
                                 subtitle: Text(
                                   state.groundList[index].description,

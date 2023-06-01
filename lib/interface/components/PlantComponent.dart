@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/plant_bloc/plant_bloc.dart';
+import '../../repository/ImageRepository.dart';
 import '../../repository/PlantRepository.dart';
 
 class PlantComponent extends StatefulWidget {
@@ -68,7 +69,6 @@ class _PlantComponentState extends State<PlantComponent> {
                   Expanded(
                     child: ListView.builder(
                         shrinkWrap: true,
-                        controller: _controller,
                         itemCount: state.plantList.length,
                         padding: EdgeInsets.all(5),
                         itemBuilder: (BuildContext context, int index) {
@@ -83,13 +83,15 @@ class _PlantComponentState extends State<PlantComponent> {
                               leading: SizedBox(
                                 width: 100,
                                 height: 200,
-                                child: state.plantList[index].image == null
-                                  ? DecoratedBox(
-                                  decoration: const BoxDecoration(
-                                      color: Colors.grey
-                                  ),
-                                )
-                                  :  Image.memory(base64Decode(state.plantList[index].image!), fit: BoxFit.fill,)
+                                child: FutureBuilder<String>(
+                                    future: ImageRepository.getPlantImage(state.plantList[index].id),
+                                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Image.memory(base64Decode(snapshot.data!), fit: BoxFit.fill);
+                                      }
+                                      return Container(decoration: BoxDecoration(color: Color(0xffc7c7c7)));
+                                    }
+                                ),
                                 ),
                               subtitle: Text(
                                   state.plantList[index].description,

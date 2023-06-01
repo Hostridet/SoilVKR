@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../bloc/soil_bloc/soil_bloc.dart';
+import '../../repository/ImageRepository.dart';
 import '../../repository/SoilRepository.dart';
 
 class SoilComponent extends StatefulWidget {
@@ -80,13 +81,15 @@ class _SoilComponentState extends State<SoilComponent> {
                               leading: SizedBox(
                                   width: 100,
                                   height: 200,
-                                  child: state.soilList[index].image == null
-                                      ? DecoratedBox(
-                                    decoration: const BoxDecoration(
-                                        color: Colors.grey
-                                    ),
-                                  )
-                                      :  Image.memory(base64Decode(state.soilList[index].image!), fit: BoxFit.fill,)
+                                  child: FutureBuilder<String>(
+                                      future: ImageRepository.getSoilImage(state.soilList[index].id),
+                                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Image.memory(base64Decode(snapshot.data!), fit: BoxFit.fill);
+                                        }
+                                        return Container(decoration: BoxDecoration(color: Color(0xffc7c7c7)));
+                                      }
+                                  ),
                               ),
                               subtitle: Text(
                                   state.soilList[index].name,

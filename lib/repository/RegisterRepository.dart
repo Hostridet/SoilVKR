@@ -16,7 +16,7 @@ class RegisterRepository {
           "user_email": password,
         })
     );
-    print(response.statusCode);
+    print(await json.decode(utf8.decode(response.bodyBytes)));
     statusCode = response.statusCode;
     return statusCode;
   }
