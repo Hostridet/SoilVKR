@@ -34,5 +34,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
         emit(MapErrorState(e.toString()));
       }
     });
+    on<MapAddEvent>((event, emit) async{
+      try {
+        _mapRepository.addPoint(event.x, event.y, event.address);
+      }
+      catch(e) {
+        emit(MapErrorState(e.toString()));
+      }
+    });
   }
 }

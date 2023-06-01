@@ -47,7 +47,7 @@ class _PlantComponentState extends State<PlantComponent> {
             if (state is PlantLoadedState) {
               return Column(
                 children: [
-                  state.isAdmin == true
+                  state.isAdmin
                   ? Visibility(
                     visible: isShow,
                     child: Padding(

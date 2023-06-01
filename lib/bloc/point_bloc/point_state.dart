@@ -7,8 +7,9 @@ class PointInitial extends PointState {}
 
 class PointLoadedState extends PointState {
   final List<Point> pointList;
+  final bool isAdmin;
 
-  PointLoadedState(this.pointList);
+  PointLoadedState(this.pointList, this.isAdmin);
 }
 
 class PointErrorState extends PointState {

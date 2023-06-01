@@ -6,6 +6,7 @@ import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/cur_plant_bloc/cur_plant_bloc.dart';
+import '../../repository/ImageRepository.dart';
 import '../../repository/PlantRepository.dart';
 
 class CurrentPlantPage extends StatefulWidget {
@@ -58,9 +59,20 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                       Stack(
                         children: [
                           SizedBox(
-                              width: double.infinity,
-                              height: 250,
-                              child: FittedBox(child: Image.memory(base64Decode(state.plant.image!)), fit: BoxFit.fill)
+                            width: double.infinity,
+                            height: 250,
+                            child: FutureBuilder<String>(
+                              future: ImageRepository.getPlantImage(state.plant.id),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                if (snapshot.hasData) {
+                                  return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
+                                }
+                                else {
+                                  return Container();
+
+                                }
+                              },
+                            ),
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.end,

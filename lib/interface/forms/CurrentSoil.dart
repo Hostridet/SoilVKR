@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../bloc/cur_soil_bloc/cur_soil_bloc.dart';
+import '../../repository/ImageRepository.dart';
 import '../../repository/SoilRepository.dart';
 
 class CurrentSoilPage extends StatefulWidget {
@@ -54,9 +55,20 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                       Stack(
                         children: [
                           SizedBox(
-                              width: double.infinity,
-                              height: 250,
-                              child: FittedBox(child: Image.memory(base64Decode(state.soil.image!)), fit: BoxFit.fill)
+                            width: double.infinity,
+                            height: 250,
+                            child: FutureBuilder<String>(
+                              future: ImageRepository.getSoilImage(state.soil.id),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                if (snapshot.hasData) {
+                                  return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
+                                }
+                                else {
+                                  return Container();
+
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),

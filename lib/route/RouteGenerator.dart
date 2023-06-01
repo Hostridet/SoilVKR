@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soil/interface/components/UserDialog.dart';
+import 'package:soil/interface/forms/AddPointPage.dart';
 import 'package:soil/interface/forms/CurrentLocationPage.dart';
 import 'package:soil/interface/forms/CurrentPlant.dart';
 import 'package:soil/interface/forms/CurrentPoint.dart';
@@ -62,6 +63,10 @@ class RouteGenerator
       case '/home/points':
         return CustomPageRoute(
           builder: (_) => PointPage(),
+        );
+      case '/home/points/add':
+        return CustomPageRoute(
+          builder: (_) => AddPointPage(),
         );
       case '/home/points/map':
         Point point = args as Point;

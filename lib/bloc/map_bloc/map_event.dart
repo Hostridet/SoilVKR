@@ -19,3 +19,11 @@ class MapUpdateEvent extends MapEvent {
 
   MapUpdateEvent(this.id, this.address, this.x, this.y);
 }
+
+class MapAddEvent extends MapEvent {
+  final double x;
+  final double y;
+  final String address;
+
+  MapAddEvent(this.x, this.y, this.address);
+}

@@ -15,7 +15,6 @@ class PointPage extends StatefulWidget {
 }
 
 class _PointPageState extends State<PointPage> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerMenu(),
@@ -47,6 +46,20 @@ class _PointPageState extends State<PointPage> {
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       children: [
+                        state.isAdmin == true
+                        ? Card(
+                          elevation: 2,
+                          child: ListTile(
+                            leading: Icon(Icons.add, size: 35,),
+                            title: Text("Добавить"),
+                            subtitle: Text("Добавиь новую территорию"),
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/home/points/add');
+                            },
+                          ),
+                        )
+                         : Container(),
                         Expanded(
                           child: ListView.builder(
                               itemCount: state.pointList.length,

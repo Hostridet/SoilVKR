@@ -18,4 +18,7 @@ class MapRepository {
     final responseY = await http.post(Uri.parse("http://${Config.baseUrl}/territories/update/coord_y?territorie_id=$id&territorie_coord_y=$y"));
     final responseAddress = await http.post(Uri.parse("http://${Config.baseUrl}/territories/update/address?territorie_id=$id&territorie_address=$address"));
   }
+  Future<void> addPoint(double x, double y, String address) async {
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/territories/insert?territorie_coord_x=$x&territorie_coord_y=$y&territorie_address=$address"));
+  }
 }

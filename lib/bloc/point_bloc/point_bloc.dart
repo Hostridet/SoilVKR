@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:soil/repository/AdminRepository.dart';
 import '../../models/Animal.dart';
 import '../../models/Ground.dart';
 import '../../models/Plant.dart';
@@ -18,7 +19,8 @@ class PointBloc extends Bloc<PointEvent, PointState> {
     on<PointGetEvent>((event, emit) async {
       try {
         List<Point> pointList = await _pointRepository.getAllPoints();
-        emit(PointLoadedState(pointList));
+        bool isAdmin = await AdminRepository.isAdmin();
+        emit(PointLoadedState(pointList, isAdmin));
       }
       catch(e) {
         emit(PointErrorState(e.toString()));

@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/cur_ground_bloc/cur_ground_bloc.dart';
 import '../../repository/GroundRepository.dart';
+import '../../repository/ImageRepository.dart';
 
 class CurrentGroundPage extends StatefulWidget {
   final int id;
@@ -58,9 +59,20 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                       Stack(
                         children: [
                           SizedBox(
-                              width: double.infinity,
-                              height: 250,
-                              child: FittedBox(child: Image.memory(base64Decode(state.ground.image!)), fit: BoxFit.fill)
+                            width: double.infinity,
+                            height: 250,
+                            child: FutureBuilder<String>(
+                              future: ImageRepository.getGroundImage(state.ground.id),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                if (snapshot.hasData) {
+                                  return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
+                                }
+                                else {
+                                  return Container();
+
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),

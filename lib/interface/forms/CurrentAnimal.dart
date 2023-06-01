@@ -6,6 +6,7 @@ import 'dart:convert';
 
 import '../../bloc/cur_animal_bloc/cur_animal_bloc.dart';
 import '../../repository/AnimalRepository.dart';
+import '../../repository/ImageRepository.dart';
 
 class CurrentAnimalPage extends StatefulWidget {
   final int id;
@@ -54,9 +55,20 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
                       Stack(
                         children: [
                           SizedBox(
-                              width: double.infinity,
-                              height: 250,
-                              child: FittedBox(child: Image.memory(base64Decode(state.animal.picture!)), fit: BoxFit.fill)
+                            width: double.infinity,
+                            height: 250,
+                            child: FutureBuilder<String>(
+                              future: ImageRepository.getAnimalImage(state.animal.id),
+                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                if (snapshot.hasData) {
+                                  return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
+                                }
+                                else {
+                                  return Container();
+
+                                }
+                              },
+                            ),
                           ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.end,
