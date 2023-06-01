@@ -62,22 +62,22 @@ class _DrawerMenuState extends State<DrawerMenu> {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                await ImageRepository.getImage();
+                                await ImageRepository.uploadImage();
                               },
                               child: Container(
                                 height: 80,
                                 width: 80,
-                                child: state.user.image == null
-                                ?CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    child: ClipRRect(
-                                      borderRadius:BorderRadius.circular(50),
-                                      child: Image.asset("assets/user.png"),
-                                    )
+                                child: FutureBuilder<String>(
+                                  future: ImageRepository.getUserImage(state.user.id),
+                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.hasData) {
+                                      return CircleAvatar(backgroundImage: MemoryImage(base64Decode(snapshot.data!)));
+                                    }
+                                    else {
+                                      return CircleAvatar(backgroundColor: Color(0xffc7c7c7));
+
+                                    }},
                                 )
-                                : CircleAvatar(
-                                  backgroundImage: MemoryImage(base64Decode(state.user.image!)),
-                                ),
                               ),
                             ),
                             const SizedBox(height: 10),

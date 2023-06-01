@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../config.dart';
 
 class ImageRepository {
-  static Future<void> getImage() async {
+  static Future<void> uploadImage() async {
     final ImagePicker picker = ImagePicker();
     var image = await picker.getImage(source: ImageSource.gallery);
     if (image == null) {
@@ -28,5 +28,10 @@ class ImageRepository {
           "user_picture": _base64String,
         })
     );
+  }
+  static Future<String> getUserImage(int id) async {
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/users/get/picture?user_id=$id"));
+    final data = await json.decode(utf8.decode(response.bodyBytes));
+    return data[0]['user_picture'];
   }
 }
