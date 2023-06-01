@@ -89,7 +89,7 @@ class _PlantComponentState extends State<PlantComponent> {
                                       if (snapshot.hasData) {
                                         return Image.memory(base64Decode(snapshot.data!), fit: BoxFit.fill);
                                       }
-                                      return Container(decoration: BoxDecoration(color: Color(0xffc7c7c7)));
+                                      return Container(width: 100, height: 200, decoration: BoxDecoration(color: Color(0xffc7c7c7)));
                                     }
                                 ),
                                 ),

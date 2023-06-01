@@ -151,6 +151,8 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: () async {
                             BlocProvider.of<RegisterBloc>(context)
                                 .add(RegisterMakeEvent(emailController.text, loginController.text, passwordController.text));
+                            Navigator.of(context)
+                                .pushReplacementNamed('/login');
                           },
                           child: Text("Создать")
                       ),

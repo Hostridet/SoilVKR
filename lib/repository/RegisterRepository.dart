@@ -13,7 +13,7 @@ class RegisterRepository {
         body: jsonEncode({
           "user_login": login,
           "user_password": password,
-          "user_email": password,
+          "user_email": email,
         })
     );
     print(await json.decode(utf8.decode(response.bodyBytes)));
