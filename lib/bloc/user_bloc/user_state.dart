@@ -9,8 +9,15 @@ class UserLoadingState extends UserState {}
 
 class UserLoadedState extends UserState {
   User user;
+  bool isAdmin;
 
-  UserLoadedState(this.user);
+  UserLoadedState(this.user, this.isAdmin);
+}
+
+class UserLoadedAllState extends UserState {
+  final List<User> userList;
+
+  UserLoadedAllState(this.userList);
 }
 
 class UserErrorState extends UserState {

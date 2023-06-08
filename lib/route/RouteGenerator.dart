@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/AddPointPage.dart';
+import 'package:soil/interface/forms/AdminPages/AdminPage.dart';
 import 'package:soil/interface/forms/CurrentLocationPage.dart';
 import 'package:soil/interface/forms/CurrentPlant.dart';
 import 'package:soil/interface/forms/CurrentPoint.dart';
@@ -18,6 +19,7 @@ import '../interface/components/CurrentItems/AnimalItem.dart';
 import '../interface/components/CurrentItems/GroundItem.dart';
 import '../interface/components/CurrentItems/PlantItem.dart';
 import '../interface/components/CurrentItems/SoilItem.dart';
+import '../interface/forms/AdminPages/AllUserPage.dart';
 import '../interface/forms/CurrentAnimal.dart';
 import '../interface/forms/CurrentGround.dart';
 import '../interface/forms/CurrentSoil.dart';
@@ -61,6 +63,10 @@ class RouteGenerator
       case '/home/user':
         return CustomPageRoute(
           builder: (_) => UserPage(),
+        );
+      case '/home/user/all':
+        return CustomPageRoute(
+          builder: (_) => AllUserPage(),
         );
       case '/home/points':
         return CustomPageRoute(
@@ -136,6 +142,10 @@ class RouteGenerator
         List list = args as List;
         return CustomPageRoute(
           builder: (_) => ZonePage(coords: args),
+        );
+      case '/home/admin':
+        return CustomPageRoute(
+          builder: (_) => AdminPage(),
         );
 
 

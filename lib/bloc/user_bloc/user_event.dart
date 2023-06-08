@@ -10,3 +10,5 @@ class UserUpdateEvent extends UserEvent {
 
   UserUpdateEvent(this.user);
 }
+
+class UserGetAllEvent extends UserEvent {}

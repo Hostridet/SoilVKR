@@ -149,6 +149,21 @@ class _DrawerMenuState extends State<DrawerMenu> {
                               .pushReplacementNamed('/home/user');
                         },
                       ),
+                      state.isAdmin ? Divider() : Container(),
+                      state.isAdmin
+                          ? ListTile(
+                                leading: const Padding(
+                                padding: EdgeInsets.only(top: 8),
+                                child: Icon(Icons.admin_panel_settings, size: 30, color: Colors.deepOrange),
+                                  ),
+                                title: Text("Администрирование"),
+                                subtitle: Text("Возможности администратора"),
+                                onTap: () {
+                                  Navigator.of(context)
+                                  .pushReplacementNamed('/home/admin');
+                                },
+                      )
+                        : Container(),
                       Divider(),
                       ListTile(
                         leading: const Padding(

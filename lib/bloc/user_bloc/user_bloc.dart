@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/User.dart';
+import '../../repository/AdminRepository.dart';
 import '../../repository/UserRepository.dart';
 
 part 'user_event.dart';
@@ -16,7 +17,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       emit(UserLoadingState());
       try {
         User user = await _userRepository.getUser();
-        emit(UserLoadedState(user));
+        bool isAdmin = await AdminRepository.isAdmin();
+        emit(UserLoadedState(user, isAdmin));
       }
       catch(e) {
         emit(UserErrorState(e.toString()));
@@ -26,6 +28,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserUpdateEvent>((event, emit) async {
       try {
         _userRepository.updateUser(event.user);
+      }
+      catch(e) {
+        emit(UserErrorState(e.toString()));
+      }
+    });
+
+    on<UserGetAllEvent>((event, emit) async {
+      emit(UserLoadingState());
+      try {
+        List<User> userList = await _userRepository.getAllUser();
+        emit(UserLoadedAllState(userList));
       }
       catch(e) {
         emit(UserErrorState(e.toString()));

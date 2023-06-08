@@ -27,4 +27,16 @@ class UserRepository {
     final responseEmail = await http.post(Uri.parse("http://${Config.baseUrl}/users/update/email?user_id=$id&user_email=${user.email}"));
     final responseGender = await http.post(Uri.parse("http://${Config.baseUrl}/users/update/isFemale?user_id=$id&user_isFemale=${user.isFemale}"));
   }
+
+  Future<List<User>> getAllUser() async {
+    List<User> userList = [];
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/users/all"));
+    if (response.statusCode == 200) {
+      final data = await json.decode(utf8.decode(response.bodyBytes));
+      for (dynamic item in data) {
+        userList.add(User.fromJson(item));
+      }
+    }
+    return userList;
+  }
 }
