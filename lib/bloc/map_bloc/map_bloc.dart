@@ -14,6 +14,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   MapBloc(this._mapRepository) : super(MapInitial()) {
     on<MapGetEvent>((event, emit) async{
       List<dynamic> requestBody = await _mapRepository.getMapInfo(event.long, event.lat);
+      print(requestBody[1]);
       if (requestBody[1] == 200) {
         emit(MapSuccessState(requestBody[0]));
       }

@@ -10,6 +10,9 @@ class MapRepository {
     final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/bycoord?territorie_coord_x=$long&territorie_coord_y=$lat"));
     final data = await json.decode(utf8.decode(response.bodyBytes));
     statusCode = response.statusCode;
+    if (statusCode == 404) {
+      return [[] ,statusCode];
+    }
     return [Point.fromJson(data[0]) ,statusCode];
   }
   Future<void> updateMapInfo(int id, String address, double x, double y) async {
