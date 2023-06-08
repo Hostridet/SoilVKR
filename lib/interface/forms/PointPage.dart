@@ -56,7 +56,7 @@ class _PointPageState extends State<PointPage> {
                             subtitle: Text("Добавиь новую территорию"),
                             onTap: () {
                               Navigator.of(context)
-                                  .pushReplacementNamed('/home/points/add');
+                                  .pushReplacementNamed('/home/points/add', arguments: '/home/points');
                             },
                           ),
                         )

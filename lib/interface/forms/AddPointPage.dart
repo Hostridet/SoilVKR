@@ -8,7 +8,8 @@ import '../../bloc/map_bloc/map_bloc.dart';
 import '../../repository/MapRepository.dart';
 
 class AddPointPage extends StatefulWidget {
-  const AddPointPage({Key? key}) : super(key: key);
+  final String route;
+  const AddPointPage({Key? key, required this.route}) : super(key: key);
 
   @override
   State<AddPointPage> createState() => _AddPointPageState();
@@ -24,7 +25,7 @@ class _AddPointPageState extends State<AddPointPage> {
             IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushReplacementNamed('/home/points');
+                    .pushReplacementNamed(widget.route);
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),

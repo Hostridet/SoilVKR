@@ -33,7 +33,7 @@ class _AdminPageState extends State<AdminPage> {
                   subtitle: Text("Добавить точку выбранную на карте"),
                   onTap: () {
                     Navigator.of(context)
-                        .pushReplacementNamed('/home/points/add');
+                        .pushReplacementNamed('/home/points/add', arguments: '/home/admin');
                   },
                 ),
               ),

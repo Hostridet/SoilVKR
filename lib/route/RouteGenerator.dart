@@ -74,8 +74,9 @@ class RouteGenerator
           builder: (_) => PointPage(),
         );
       case '/home/points/add':
+        String route = args as String;
         return CustomPageRoute(
-          builder: (_) => AddPointPage(),
+          builder: (_) => AddPointPage(route: route),
         );
       case '/home/points/map':
         Point point = args as Point;
