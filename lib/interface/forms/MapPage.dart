@@ -5,6 +5,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/map_bloc/map_bloc.dart';
+import '../../models/PointWithRoute.dart';
 import '../../repository/MapRepository.dart';
 import '../components/Drawer.dart';
 import '../components/InfoLayout.dart';
@@ -53,7 +54,7 @@ class _MapPageState extends State<MapPage> {
                   }
                   if (state is MapSuccessState) {
                     Navigator.of(context)
-                        .pushReplacementNamed('/home/points/one', arguments: [state.point, '/home']);
+                        .pushReplacementNamed('/home/points/one', arguments: PointWithRoute(point: state.point, route: '/home'));
                   }
                 },
                 builder: (context, state) {

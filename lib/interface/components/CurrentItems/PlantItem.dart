@@ -6,11 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import '../../../models/Point.dart';
 import '../../../bloc/point_bloc/point_bloc.dart';
+import '../../../models/PointWithRoute.dart';
 import '../../../repository/PointRepository.dart';
 
 class PlantItem extends StatefulWidget {
-  final Point point;
-  const PlantItem({Key? key, required this.point}) : super(key: key);
+  final PointWithRoute args;
+  const PlantItem({Key? key, required this.args}) : super(key: key);
 
   @override
   State<PlantItem> createState() => _PlantItemState();
@@ -26,7 +27,7 @@ class _PlantItemState extends State<PlantItem> {
             IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushReplacementNamed('/home/points/one', arguments: widget.point);
+                    .pushReplacementNamed('/home/points/one', arguments: widget.args);
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
@@ -46,7 +47,7 @@ class _PlantItemState extends State<PlantItem> {
         child: BlocProvider<PointBloc>(
           create: (context) => PointBloc(
               RepositoryProvider.of<PointRepository>(context)
-          )..add(PointGetPlantEvent(widget.point.id)),
+          )..add(PointGetPlantEvent(widget.args.point.id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
               if (state is PointLoadedPlantState) {

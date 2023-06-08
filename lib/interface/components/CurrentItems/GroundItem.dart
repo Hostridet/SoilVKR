@@ -6,12 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import '../../../models/Point.dart';
 import '../../../bloc/point_bloc/point_bloc.dart';
+import '../../../models/PointWithRoute.dart';
 import '../../../repository/PointRepository.dart';
 
 
 class GroundItem extends StatefulWidget {
-  final Point point;
-  const GroundItem({Key? key, required this.point}) : super(key: key);
+  final PointWithRoute args;
+  const GroundItem({Key? key, required this.args}) : super(key: key);
 
   @override
   State<GroundItem> createState() => _GroundItemState();
@@ -27,7 +28,7 @@ class _GroundItemState extends State<GroundItem> {
             IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushReplacementNamed('/home/points/one', arguments: widget.point);
+                    .pushReplacementNamed('/home/points/one', arguments: widget.args);
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
@@ -47,7 +48,7 @@ class _GroundItemState extends State<GroundItem> {
         child: BlocProvider<PointBloc>(
           create: (context) => PointBloc(
               RepositoryProvider.of<PointRepository>(context)
-          )..add(PointGetGroundEvent(widget.point.id)),
+          )..add(PointGetGroundEvent(widget.args.point.id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
               if (state is PointLoadedGroundState) {

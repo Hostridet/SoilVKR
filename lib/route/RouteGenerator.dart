@@ -27,6 +27,7 @@ import '../interface/forms/PointPage.dart';
 import '../interface/forms/SettingsPage.dart';
 import '../interface/forms/SplashPage.dart';
 import '../../models/Point.dart';
+import '../models/PointWithRoute.dart';
 class RouteGenerator
 {
 
@@ -74,29 +75,29 @@ class RouteGenerator
           builder: (_) => CurrentLocationPage(point: point),
         );
       case '/home/points/one':
-        List<dynamic> point = args as List<dynamic>;
+        PointWithRoute point = args as PointWithRoute;
         return CustomPageRoute(
           builder: (_) => CurrentPointPage(args: point),
         );
       case '/home/points/plant':
-        Point point = args as Point;
+        PointWithRoute point = args as PointWithRoute;
         return CustomPageRoute(
-          builder: (_) => PlantItem(point: point),
+          builder: (_) => PlantItem(args: point),
         );
       case '/home/points/animal':
-        Point point = args as Point;
+        PointWithRoute point = args as PointWithRoute;
         return CustomPageRoute(
-          builder: (_) => AnimalItem(point: point),
+          builder: (_) => AnimalItem(args: point),
         );
       case '/home/points/soil':
-        Point point = args as Point;
+        PointWithRoute point = args as PointWithRoute;
         return CustomPageRoute(
-          builder: (_) => SoilItem(point: point),
+          builder: (_) => SoilItem(args: point),
         );
       case '/home/points/ground':
-        Point point = args as Point;
+        PointWithRoute point = args as PointWithRoute;
         return CustomPageRoute(
-          builder: (_) => GroundItem(point: point),
+          builder: (_) => GroundItem(args: point),
         );
       case '/home/book':
         return CustomPageRoute(

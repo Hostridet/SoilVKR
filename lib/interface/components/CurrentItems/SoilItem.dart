@@ -6,11 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import '../../../models/Point.dart';
 import '../../../bloc/point_bloc/point_bloc.dart';
+import '../../../models/PointWithRoute.dart';
 import '../../../repository/PointRepository.dart';
 
 class SoilItem extends StatefulWidget {
-  final Point point;
-  const SoilItem({Key? key, required this.point}) : super(key: key);
+  final PointWithRoute args;
+  const SoilItem({Key? key, required this.args}) : super(key: key);
 
   @override
   State<SoilItem> createState() => _SoilItemState();
@@ -26,7 +27,7 @@ class _SoilItemState extends State<SoilItem> {
             IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushReplacementNamed('/home/points/one', arguments: widget.point);
+                    .pushReplacementNamed('/home/points/one', arguments: widget.args);
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
@@ -46,7 +47,7 @@ class _SoilItemState extends State<SoilItem> {
         child: BlocProvider<PointBloc>(
           create: (context) => PointBloc(
               RepositoryProvider.of<PointRepository>(context)
-          )..add(PointGetSoilEvent(widget.point.id)),
+          )..add(PointGetSoilEvent(widget.args.point.id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
               if (state is PointLoadedSoilState) {

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:soil/repository/AdminRepository.dart';
 import '../../bloc/point_bloc/point_bloc.dart';
+import '../../models/PointWithRoute.dart';
 import '../../repository/PointRepository.dart';
 import '../components/Drawer.dart';
 
@@ -69,7 +70,7 @@ class _PointPageState extends State<PointPage> {
                                   child: ListTile(
                                     onTap: () {
                                       Navigator.of(context)
-                                          .pushReplacementNamed('/home/points/one', arguments: [state.pointList[index], '/home/points']);
+                                          .pushReplacementNamed('/home/points/one', arguments: PointWithRoute(point: state.pointList[index], route: '/home/points'));
 
                                     },
                                     trailing: IconButton(

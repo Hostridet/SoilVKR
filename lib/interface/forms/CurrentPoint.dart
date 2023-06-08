@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/point_bloc/point_bloc.dart';
 import '../../models/Point.dart';
+import '../../models/PointWithRoute.dart';
 import '../../repository/PointRepository.dart';
 
 class CurrentPointPage extends StatefulWidget {
-  final List<dynamic> args;
+  final PointWithRoute args;
   const CurrentPointPage({Key? key, required this.args}) : super(key: key);
 
   @override
@@ -25,14 +26,14 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
             IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushReplacementNamed(widget.args[1]);
+                    .pushReplacementNamed(widget.args.route);
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
             Row(
               children: [
                 SizedBox(width: 10,),
-                Text("${widget.args[0].x.toStringAsFixed(7)} ${widget.args[0].y.toStringAsFixed(7)}"),
+                Text("${widget.args.point.x.toStringAsFixed(7)} ${widget.args.point.y.toStringAsFixed(7)}"),
               ],
             ),
           ],
@@ -45,7 +46,7 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
         child: BlocProvider<PointBloc>(
           create: (context) => PointBloc(
               RepositoryProvider.of<PointRepository>(context)
-          )..add(PointGetOneEvent(widget.args[0].id)),
+          )..add(PointGetOneEvent(widget.args.point.id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
               if (state is PointLoadedOneState) {
@@ -79,7 +80,7 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
                             subtitle: Text("Список почв"),
                             onTap: () {
                               Navigator.of(context)
-                                  .pushReplacementNamed('/home/points/soil', arguments: state.point);
+                                  .pushReplacementNamed('/home/points/soil', arguments: PointWithRoute(point: state.point, route: widget.args.route));
 
                             },
                           ),
@@ -92,7 +93,7 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
                             subtitle: Text("Список животных"),
                             onTap: () {
                               Navigator.of(context)
-                                  .pushReplacementNamed('/home/points/animal', arguments: state.point);
+                                  .pushReplacementNamed('/home/points/animal', arguments: PointWithRoute(point: state.point, route: widget.args.route));
 
                             },
                           ),
@@ -105,7 +106,7 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
                             subtitle: Text("Список растений"),
                             onTap: () {
                               Navigator.of(context)
-                                  .pushReplacementNamed('/home/points/plant', arguments: state.point);
+                                  .pushReplacementNamed('/home/points/plant', arguments: PointWithRoute(point: state.point, route: widget.args.route));
 
                             },
                           ),
@@ -118,7 +119,7 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
                             subtitle: Text("Список грунтов"),
                             onTap: () {
                               Navigator.of(context)
-                                  .pushReplacementNamed('/home/points/ground', arguments: state.point);
+                                  .pushReplacementNamed('/home/points/ground', arguments: PointWithRoute(point: state.point, route: widget.args.route));
                             },
                           ),
                         ),

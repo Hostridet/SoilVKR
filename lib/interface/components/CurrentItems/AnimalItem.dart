@@ -6,13 +6,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import '../../../models/Point.dart';
 import '../../../bloc/point_bloc/point_bloc.dart';
+import '../../../models/PointWithRoute.dart';
 import '../../../repository/PointRepository.dart';
 
 import 'package:flutter/cupertino.dart';
 
 class AnimalItem extends StatefulWidget {
-  final Point point;
-  const AnimalItem({Key? key, required this.point}) : super(key: key);
+  final PointWithRoute args;
+  const AnimalItem({Key? key, required this.args}) : super(key: key);
 
   @override
   State<AnimalItem> createState() => _AnimalItemState();
@@ -28,7 +29,7 @@ class _AnimalItemState extends State<AnimalItem> {
             IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushReplacementNamed('/home/points/one', arguments: widget.point);
+                    .pushReplacementNamed('/home/points/one', arguments: widget.args);
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
@@ -48,7 +49,7 @@ class _AnimalItemState extends State<AnimalItem> {
         child: BlocProvider<PointBloc>(
           create: (context) => PointBloc(
               RepositoryProvider.of<PointRepository>(context)
-          )..add(PointGetAnimalEvent(widget.point.id)),
+          )..add(PointGetAnimalEvent(widget.args.point.id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
               if (state is PointLoadedAnimalState) {
