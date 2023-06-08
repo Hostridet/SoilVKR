@@ -5,12 +5,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../bloc/cur_soil_bloc/cur_soil_bloc.dart';
+import '../../models/ItemWithRoute.dart';
+import '../../models/PointWithRoute.dart';
 import '../../repository/ImageRepository.dart';
 import '../../repository/SoilRepository.dart';
 
 class CurrentSoilPage extends StatefulWidget {
-  final int id;
-  const CurrentSoilPage({Key? key, required this.id}) : super(key: key);
+  final ItemWithRoute args;
+  const CurrentSoilPage({Key? key, required this.args}) : super(key: key);
 
   @override
   State<CurrentSoilPage> createState() => _CurrentSoilPageState();
@@ -25,8 +27,14 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed('/home/book');
+                if (widget.args.point != null) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+                }
+                else {
+                  Navigator.of(context)
+                      .pushReplacementNamed(widget.args.route);
+                }
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
@@ -40,7 +48,7 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
         child: BlocProvider<CurSoilBloc>(
           create: (context) => CurSoilBloc(
               RepositoryProvider.of<SoilRepository>(context)
-          )..add(CurSoilGetEvent(widget.id)),
+          )..add(CurSoilGetEvent(widget.args.id)),
           child: BlocBuilder<CurSoilBloc, CurSoilState>(
             builder: (context, state) {
               if (state is CurSoilErrorState) {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/plant_bloc/plant_bloc.dart';
+import '../../models/ItemWithRoute.dart';
 import '../../repository/ImageRepository.dart';
 import '../../repository/PlantRepository.dart';
 
@@ -100,7 +101,7 @@ class _PlantComponentState extends State<PlantComponent> {
                               ),
                               onTap: () {
                                 Navigator.of(context)
-                                    .pushReplacementNamed('/home/book/plant', arguments: state.plantList[index].id);
+                                    .pushReplacementNamed('/home/book/plant', arguments: ItemWithRoute(id: state.plantList[index].id, route: '/home/book'));
                               },
 
                             ),

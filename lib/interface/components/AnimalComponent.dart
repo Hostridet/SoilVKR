@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soil/repository/ImageRepository.dart';
 
 import '../../bloc/animal_bloc/animal_bloc.dart';
+import '../../models/ItemWithRoute.dart';
 import '../../repository/AnimalRepository.dart';
 
 class AnimalComponent extends StatefulWidget {
@@ -98,7 +99,7 @@ class _AnimalComponentState extends State<AnimalComponent> {
                               ),
                               onTap: () {
                                 Navigator.of(context)
-                                    .pushReplacementNamed('/home/book/animal', arguments: state.animalList[index].id);
+                                    .pushReplacementNamed('/home/book/animal', arguments: ItemWithRoute(id: state.animalList[index].id, route: '/home/book'));
                               },
                             ),
                           );

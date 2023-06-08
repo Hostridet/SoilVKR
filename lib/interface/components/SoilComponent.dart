@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../bloc/soil_bloc/soil_bloc.dart';
+import '../../models/ItemWithRoute.dart';
 import '../../repository/ImageRepository.dart';
 import '../../repository/SoilRepository.dart';
 
@@ -98,7 +99,7 @@ class _SoilComponentState extends State<SoilComponent> {
                               ),
                               onTap: () {
                                 Navigator.of(context)
-                                    .pushReplacementNamed('/home/book/soil', arguments: state.soilList[index].id);
+                                    .pushReplacementNamed('/home/book/soil', arguments: ItemWithRoute(id: state.soilList[index].id, route: '/home/book'));
                               },
 
                             ),

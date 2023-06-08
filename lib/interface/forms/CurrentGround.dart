@@ -9,12 +9,14 @@ import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/cur_ground_bloc/cur_ground_bloc.dart';
+import '../../models/ItemWithRoute.dart';
+import '../../models/PointWithRoute.dart';
 import '../../repository/GroundRepository.dart';
 import '../../repository/ImageRepository.dart';
 
 class CurrentGroundPage extends StatefulWidget {
-  final int id;
-  CurrentGroundPage({Key? key, required this.id}) : super(key: key);
+  final ItemWithRoute args;
+  CurrentGroundPage({Key? key, required this.args}) : super(key: key);
 
   @override
   State<CurrentGroundPage> createState() => _CurrentGroundPageState();
@@ -29,8 +31,14 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed('/home/book');
+                if (widget.args.point != null) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+                }
+                else {
+                  Navigator.of(context)
+                      .pushReplacementNamed(widget.args.route);
+                }
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
@@ -44,7 +52,7 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
         child: BlocProvider<CurGroundBloc>(
           create: (context) => CurGroundBloc(
               RepositoryProvider.of<GroundRepository>(context)
-          )..add(CurGroundGetEvent(widget.id)),
+          )..add(CurGroundGetEvent(widget.args.id)),
           child: BlocBuilder<CurGroundBloc, CurGroundState>(
             builder: (context, state) {
               if (state is CurGroundErrorState) {

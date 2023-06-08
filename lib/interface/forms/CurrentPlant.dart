@@ -6,12 +6,14 @@ import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/cur_plant_bloc/cur_plant_bloc.dart';
+import '../../models/ItemWithRoute.dart';
+import '../../models/PointWithRoute.dart';
 import '../../repository/ImageRepository.dart';
 import '../../repository/PlantRepository.dart';
 
 class CurrentPlantPage extends StatefulWidget {
-  final int id;
-  CurrentPlantPage({Key? key, required this.id}) : super(key: key);
+  final ItemWithRoute args;
+  CurrentPlantPage({Key? key, required this.args}) : super(key: key);
 
   @override
   State<CurrentPlantPage> createState() => _CurrentPlantPageState();
@@ -26,8 +28,14 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed('/home/book');
+                if (widget.args.point != null) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+                }
+                else {
+                  Navigator.of(context)
+                      .pushReplacementNamed(widget.args.route);
+                }
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
@@ -41,7 +49,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
         child: BlocProvider<CurPlantBloc>(
           create: (context) => CurPlantBloc(
               RepositoryProvider.of<PlantRepository>(context)
-          )..add(CurPlantGetEvent(widget.id)),
+          )..add(CurPlantGetEvent(widget.args.id)),
           child: BlocBuilder<CurPlantBloc, CurPlantState>(
             builder: (context, state) {
               if (state is CurPlantLoadingState) {

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../bloc/ground_bloc/ground_bloc.dart';
+import '../../models/ItemWithRoute.dart';
 import '../../repository/GroundRepository.dart';
 import '../../repository/ImageRepository.dart';
 
@@ -98,7 +99,7 @@ class _GroundComponentState extends State<GroundComponent> {
                                 ),
                                 onTap: () {
                                   Navigator.of(context)
-                                      .pushReplacementNamed('/home/book/ground', arguments: state.groundList[index].id);
+                                      .pushReplacementNamed('/home/book/ground', arguments: ItemWithRoute(id: state.groundList[index].id, route: '/home/book'));
                                 },
 
                               ),

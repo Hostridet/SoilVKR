@@ -43,6 +43,7 @@ Plant({
     this.family,
     this.genus,
     this.species,
+    this.image
   });
   factory Plant.fromJson(Map<String, dynamic> json){
     return Plant(
@@ -65,6 +66,7 @@ Plant({
       family: json['plant_family'] as String?,
       genus: json['plant_genus'] as String?,
       species: json['plant_species'] as String?,
+      image: json['plant_picture'] as String?
     );
   }
 }

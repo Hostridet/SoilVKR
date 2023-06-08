@@ -27,6 +27,7 @@ import '../interface/forms/PointPage.dart';
 import '../interface/forms/SettingsPage.dart';
 import '../interface/forms/SplashPage.dart';
 import '../../models/Point.dart';
+import '../models/ItemWithRoute.dart';
 import '../models/PointWithRoute.dart';
 class RouteGenerator
 {
@@ -104,24 +105,24 @@ class RouteGenerator
           builder: (_) => InfoBook(),
         );
       case '/home/book/plant':
-        int id = args as int;
+        ItemWithRoute id = args as ItemWithRoute;
         return CustomPageRoute(
-          builder: (_) => CurrentPlantPage(id: args),
+          builder: (_) => CurrentPlantPage(args: id),
         );
       case '/home/book/animal':
-        int id = args as int;
+        ItemWithRoute id = args as ItemWithRoute;
         return CustomPageRoute(
-          builder: (_) => CurrentAnimalPage(id: args),
+          builder: (_) => CurrentAnimalPage(args: id),
         );
       case '/home/book/ground':
-        int id = args as int;
+        ItemWithRoute id = args as ItemWithRoute;
         return CustomPageRoute(
-          builder: (_) => CurrentGroundPage(id: args),
+          builder: (_) => CurrentGroundPage(args: id),
         );
       case '/home/book/soil':
-        int id = args as int;
+        ItemWithRoute id = args as ItemWithRoute;
         return CustomPageRoute(
-          builder: (_) => CurrentSoilPage(id: args),
+          builder: (_) => CurrentSoilPage(args: id),
         );
       case '/home/settings':
         return CustomPageRoute(

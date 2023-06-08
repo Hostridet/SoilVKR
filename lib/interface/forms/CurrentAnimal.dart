@@ -5,12 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
 
 import '../../bloc/cur_animal_bloc/cur_animal_bloc.dart';
+import '../../models/ItemWithRoute.dart';
+import '../../models/PointWithRoute.dart';
 import '../../repository/AnimalRepository.dart';
 import '../../repository/ImageRepository.dart';
 
 class CurrentAnimalPage extends StatefulWidget {
-  final int id;
-  const CurrentAnimalPage({Key? key, required this.id}) : super(key: key);
+  final ItemWithRoute args;
+  const CurrentAnimalPage({Key? key, required this.args}) : super(key: key);
 
   @override
   State<CurrentAnimalPage> createState() => _CurrentAnimalPageState();
@@ -25,8 +27,14 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed('/home/book');
+                if (widget.args.point != null) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+                }
+                else {
+                  Navigator.of(context)
+                      .pushReplacementNamed(widget.args.route);
+                }
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
@@ -40,7 +48,7 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
         child: BlocProvider<CurAnimalBloc>(
           create: (context) => CurAnimalBloc(
               RepositoryProvider.of<AnimalRepository>(context)
-          )..add(CurAnimalGetEvent(widget.id)),
+          )..add(CurAnimalGetEvent(widget.args.id)),
           child: BlocBuilder<CurAnimalBloc, CurAnimalState>(
             builder: (context, state) {
               if (state is CurAnimalErrorState) {

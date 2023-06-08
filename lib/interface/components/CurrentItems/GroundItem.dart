@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+import '../../../models/ItemWithRoute.dart';
 import '../../../models/Point.dart';
 import '../../../bloc/point_bloc/point_bloc.dart';
 import '../../../models/PointWithRoute.dart';
@@ -85,7 +86,7 @@ class _GroundItemState extends State<GroundItem> {
                                 ),
                                 onTap: () {
                                   Navigator.of(context)
-                                      .pushReplacementNamed('/home/book/ground', arguments: state.groundList[index].id);
+                                      .pushReplacementNamed('/home/book/ground', arguments: ItemWithRoute(id: state.groundList[index].id, route: '/home/points/ground', point: widget.args));
                                 },
 
                               ),
