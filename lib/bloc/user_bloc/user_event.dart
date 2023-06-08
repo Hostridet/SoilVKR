@@ -11,4 +11,10 @@ class UserUpdateEvent extends UserEvent {
   UserUpdateEvent(this.user);
 }
 
+class UserGetByIdEvent extends UserEvent {
+  final int id;
+
+  UserGetByIdEvent(this.id);
+}
+
 class UserGetAllEvent extends UserEvent {}

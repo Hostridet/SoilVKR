@@ -25,6 +25,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
     });
 
+    on<UserGetByIdEvent>((event, emit) async {
+      emit(UserLoadingState());
+      try {
+        User user = await _userRepository.getUserById(event.id);
+        bool isAdmin = await AdminRepository.isAdmin();
+        emit(UserLoadedState(user, isAdmin));
+      }
+      catch(e) {
+        emit(UserErrorState(e.toString()));
+      }
+    });
+
     on<UserUpdateEvent>((event, emit) async {
       try {
         _userRepository.updateUser(event.user);

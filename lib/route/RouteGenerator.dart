@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/AddPointPage.dart';
 import 'package:soil/interface/forms/AdminPages/AdminPage.dart';
+import 'package:soil/interface/forms/AdminPages/EditUserPage.dart';
 import 'package:soil/interface/forms/CurrentLocationPage.dart';
 import 'package:soil/interface/forms/CurrentPlant.dart';
 import 'package:soil/interface/forms/CurrentPoint.dart';
@@ -146,6 +147,11 @@ class RouteGenerator
       case '/home/admin':
         return CustomPageRoute(
           builder: (_) => AdminPage(),
+        );
+      case '/home/admin/users/edit':
+        int id = args as int;
+        return CustomPageRoute(
+          builder: (_) => EditUserPage(id: id),
         );
 
 

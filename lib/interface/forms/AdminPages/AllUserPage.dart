@@ -86,6 +86,8 @@ class _AllUserPageState extends State<AllUserPage> {
                                       trailing: Icon(Icons.edit),
                                       title: Text("${items[index].surname} ${items[index].name} ${items[index].fatherName}"),
                                       onTap: () {
+                                        Navigator.of(context)
+                                            .pushReplacementNamed('/home/admin/users/edit', arguments: state.userList[index].id);
 
                                       },
                                     ),

@@ -39,4 +39,10 @@ class UserRepository {
     }
     return userList;
   }
+
+  Future<User> getUserById(int id) async {
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/users/one?user_id=$id"));
+    final data = await json.decode(utf8.decode(response.bodyBytes));
+    return User.fromJson(data[0]);
+  }
 }
