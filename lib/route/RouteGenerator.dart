@@ -74,9 +74,9 @@ class RouteGenerator
           builder: (_) => CurrentLocationPage(point: point),
         );
       case '/home/points/one':
-        Point point = args as Point;
+        List<dynamic> point = args as List<dynamic>;
         return CustomPageRoute(
-          builder: (_) => CurrentPointPage(point: point),
+          builder: (_) => CurrentPointPage(args: point),
         );
       case '/home/points/plant':
         Point point = args as Point;

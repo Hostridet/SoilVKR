@@ -53,7 +53,7 @@ class _MapPageState extends State<MapPage> {
                   }
                   if (state is MapSuccessState) {
                     Navigator.of(context)
-                        .pushReplacementNamed('/home/zone', arguments: [state.long, state.lat]);
+                        .pushReplacementNamed('/home/points/one', arguments: [state.point, '/home']);
                   }
                 },
                 builder: (context, state) {

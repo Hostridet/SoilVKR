@@ -8,8 +8,8 @@ import '../../models/Point.dart';
 import '../../repository/PointRepository.dart';
 
 class CurrentPointPage extends StatefulWidget {
-  final Point point;
-  const CurrentPointPage({Key? key, required this.point}) : super(key: key);
+  final List<dynamic> args;
+  const CurrentPointPage({Key? key, required this.args}) : super(key: key);
 
   @override
   State<CurrentPointPage> createState() => _CurrentPointPageState();
@@ -25,14 +25,14 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
             IconButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushReplacementNamed('/home/points');
+                    .pushReplacementNamed(widget.args[1]);
               },
               icon: Icon(Icons.arrow_back, size: 35,),
             ),
             Row(
               children: [
                 SizedBox(width: 10,),
-                Text("${widget.point.x.toStringAsFixed(7)} ${widget.point.y.toStringAsFixed(7)}"),
+                Text("${widget.args[0].x.toStringAsFixed(7)} ${widget.args[0].y.toStringAsFixed(7)}"),
               ],
             ),
           ],
@@ -45,7 +45,7 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
         child: BlocProvider<PointBloc>(
           create: (context) => PointBloc(
               RepositoryProvider.of<PointRepository>(context)
-          )..add(PointGetOneEvent(widget.point.id)),
+          )..add(PointGetOneEvent(widget.args[0].id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
               if (state is PointLoadedOneState) {

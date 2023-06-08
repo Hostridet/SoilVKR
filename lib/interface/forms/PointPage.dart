@@ -69,7 +69,7 @@ class _PointPageState extends State<PointPage> {
                                   child: ListTile(
                                     onTap: () {
                                       Navigator.of(context)
-                                          .pushReplacementNamed('/home/points/one', arguments: state.pointList[index]);
+                                          .pushReplacementNamed('/home/points/one', arguments: [state.pointList[index], '/home/points']);
 
                                     },
                                     trailing: IconButton(

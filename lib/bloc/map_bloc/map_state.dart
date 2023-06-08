@@ -6,10 +6,9 @@ abstract class MapState {}
 class MapInitial extends MapState {}
 
 class MapSuccessState extends MapState {
-  final double long;
-  final double lat;
+  final Point point;
 
-  MapSuccessState(this.long, this.lat);
+  MapSuccessState(this.point);
 }
 class MapAdminState extends MapState {
   final bool isAdmin;
