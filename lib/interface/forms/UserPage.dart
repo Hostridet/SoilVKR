@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soil/interface/components/InputFieldWidget.dart';
 
 import '../../bloc/user_bloc/user_bloc.dart';
+import '../../repository/ImageRepository.dart';
 import '../../repository/UserRepository.dart';
+import '../components/DisplayImage.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
@@ -45,9 +49,31 @@ class _UserPageState extends State<UserPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
+                            GestureDetector(
+                              onTap: () async {
+                                await ImageRepository.uploadImage();
+                              },
+                              child: Container(
+                                  height: 150,
+                                  width: 150,
+                                  child: FutureBuilder<String>(
+                                    future: ImageRepository.getUserImage(state.user.id),
+                                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                      if (snapshot.hasData) {
+                                        return DisplayImage(image: snapshot.data!);
+                                      }
+                                      else {
+                                        return DisplayImage(loadingImage: 'assets/user.png');
+
+                                      }},
+                                  )
+                              ),
+                            ),
+                            SizedBox(height: 20),
                             Card(
                               elevation: 2,
                               child: ListTile(
+                                trailing: Icon(Icons.chevron_right),
                                 title: Text(
                                     state.user.name != null
                                     ? "${state.user.surname} ${state.user.name} ${state.user.fatherName}"
@@ -65,6 +91,7 @@ class _UserPageState extends State<UserPage> {
                             Card(
                               elevation: 2,
                               child: ListTile(
+                                trailing: Icon(Icons.chevron_right),
                                 title: Text(
                                     state.user.age != null
                                     ? "${state.user.age}"
@@ -82,6 +109,7 @@ class _UserPageState extends State<UserPage> {
                             Card(
                               elevation: 2,
                               child: ListTile(
+                                trailing: Icon(Icons.chevron_right),
                                 title: state.user.isFemale != null
                                 ? state.user.isFemale == 0 ? Text("Мужчина") : Text("Женщина")
                                 : Text("Неизвестно")
@@ -98,6 +126,7 @@ class _UserPageState extends State<UserPage> {
                             Card(
                               elevation: 2,
                               child: ListTile(
+                                trailing: Icon(Icons.chevron_right),
                                 title: Text(state.user.email),
                                 subtitle: Text("Электронная почта"),
                                 leading: Icon(Icons.mail, size: 35, color: Colors.blue,),

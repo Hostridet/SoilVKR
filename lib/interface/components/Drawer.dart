@@ -60,25 +60,24 @@ class _DrawerMenuState extends State<DrawerMenu> {
                         ),
                         child: Column(
                           children: [
-                            GestureDetector(
-                              onTap: () async {
-                                await ImageRepository.uploadImage();
-                              },
-                              child: Container(
-                                height: 80,
-                                width: 80,
-                                child: FutureBuilder<String>(
-                                  future: ImageRepository.getUserImage(state.user.id),
-                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                    if (snapshot.hasData) {
-                                      return CircleAvatar(backgroundColor: Colors.grey, backgroundImage: MemoryImage(base64Decode(snapshot.data!)));
-                                    }
-                                    else {
-                                      return CircleAvatar(backgroundColor: Colors.grey, child: Image.asset("assets/user.png"),);
+                            Stack(
+                              children: [
+                                Container(
+                                    height: 80,
+                                    width: 80,
+                                    child: FutureBuilder<String>(
+                                      future: ImageRepository.getUserImage(state.user.id),
+                                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                        if (snapshot.hasData) {
+                                          return CircleAvatar(backgroundColor: Colors.grey, backgroundImage: MemoryImage(base64Decode(snapshot.data!)));
+                                        }
+                                        else {
+                                          return CircleAvatar(backgroundColor: Colors.grey, child: Image.asset("assets/user.png"),);
 
-                                    }},
-                                )
-                              ),
+                                        }},
+                                    )
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 10),
                             state.user.name != null
