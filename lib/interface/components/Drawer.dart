@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:soil/repository/LoginRepository.dart';
 import 'package:soil/repository/UserRepository.dart';
 
 import '../../bloc/user_bloc/user_bloc.dart';
@@ -185,7 +186,8 @@ class _DrawerMenuState extends State<DrawerMenu> {
                         ),
                         title: Text("Выйти"),
                         subtitle: Text("Выйти из аккаунта"),
-                        onTap: () {
+                        onTap: () async {
+                          LoginRepository.deAuthorize();
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/login', (Route<dynamic> route) => false);
                         },

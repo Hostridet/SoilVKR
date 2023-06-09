@@ -59,7 +59,7 @@ class _AddPointPageState extends State<AddPointPage> {
                   zoomButtonsColor: Colors.white,
                   locationButtonBackgroundColor: Colors.blue,
                   locationButtonsColor: Colors.white,
-                  selectLocationButtonText: 'Изменить',
+                  selectLocationButtonText: 'Добавить',
                   selectLocationButtonStyle: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.green),
                   ),

@@ -9,3 +9,5 @@ class LoginUser extends LoginEvent {
 
   LoginUser(this.login, this.password);
 }
+
+class LoginIsAuthorizeEvent extends LoginEvent {}

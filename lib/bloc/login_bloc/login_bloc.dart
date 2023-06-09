@@ -33,5 +33,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginErrorState(e.toString()));
       }
     });
+    on<LoginIsAuthorizeEvent>((event, emit) async {
+      emit(LoginLoadingState());
+      if (await _loginRepository.isAuthorize()) {
+        emit(LoginWrongState());
+      }
+    });
   }
 }

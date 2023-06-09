@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocProvider<LoginBloc>(
           create: (context) => LoginBloc(
             RepositoryProvider.of<LoginRepository>(context)
-          ),
+          )..add(LoginIsAuthorizeEvent()),
           child: BlocConsumer<LoginBloc, LoginState>(
             listener: (context, state) {
               if (state is LoginEmptyState) {
