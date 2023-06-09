@@ -14,6 +14,7 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
   final SoilRepository _soilRepository;
   SoilBloc(this._soilRepository) : super(SoilInitial()) {
     on<SoilGetEvent>((event, emit) async {
+      emit(SoilLoadingState());
       try {
         List<Soil> soilList = await _soilRepository.getSoils();
         bool isAdmin = await AdminRepository.isAdmin();

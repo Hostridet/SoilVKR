@@ -38,6 +38,9 @@ class _UserPageState extends State<UserPage> {
           )..add(UserGetEvent()),
           child:BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
+                if (state is UserLoadingState) {
+                  return Center(child: CircularProgressIndicator());
+                }
                 if (state is UserLoadedState) {
                   return RefreshIndicator(
                     onRefresh: () async {

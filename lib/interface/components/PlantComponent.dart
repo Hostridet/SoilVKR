@@ -56,6 +56,9 @@ class _PlantComponentState extends State<PlantComponent> {
                 child: Text(state.error),
               );
             }
+            if (state is PlantLoadingState) {
+              return Center(child: CircularProgressIndicator());
+            }
             if (state is PlantViewUpdateState) {
               return Padding(
                   padding: EdgeInsets.all(20),

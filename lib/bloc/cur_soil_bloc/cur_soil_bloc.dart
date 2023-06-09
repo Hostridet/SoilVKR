@@ -13,6 +13,7 @@ class CurSoilBloc extends Bloc<CurSoilEvent, CurSoilState> {
   SoilRepository _soilRepository;
   CurSoilBloc(this._soilRepository) : super(CurSoilInitial()) {
     on<CurSoilGetEvent>((event, emit) async {
+      emit(CurSoilLoadingState());
       try {
         Soil soil = await _soilRepository.getCurrentSoil(event.id);
         emit(CurSoilLoadedState(soil));

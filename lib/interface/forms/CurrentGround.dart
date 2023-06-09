@@ -63,6 +63,9 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
           )..add(CurGroundGetEvent(widget.args.id)),
           child: BlocBuilder<CurGroundBloc, CurGroundState>(
             builder: (context, state) {
+              if (state is CurGroundLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
               if (state is CurGroundErrorState) {
                 return Center(
                   child: Text(state.error),

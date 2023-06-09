@@ -51,6 +51,9 @@ class _SoilItemState extends State<SoilItem> {
           )..add(PointGetSoilEvent(widget.args.point.id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
+              if (state is PointLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
               if (state is PointLoadedSoilState) {
                 return Column(
                   children: [

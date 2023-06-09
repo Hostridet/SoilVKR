@@ -53,6 +53,9 @@ class _AnimalComponentState extends State<AnimalComponent> {
                 child: Text(state.error),
               );
             }
+            if (state is AnimalLoadingState) {
+              return Center(child: CircularProgressIndicator());
+            }
             if (state is AnimalViewUpdateState) {
               return Padding(
                 padding: EdgeInsets.all(20),

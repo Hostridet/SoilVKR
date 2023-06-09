@@ -14,6 +14,7 @@ class AnimalBloc extends Bloc<AnimalEvent, AnimalState> {
   AnimalRepository _animalRepository;
   AnimalBloc(this._animalRepository) : super(AnimalInitial()) {
     on<AnimalGetEvent>((event, emit) async {
+      emit(AnimalLoadingState());
       try {
         List<Animal> animalList = await _animalRepository.getAnimals();
         bool isAdmin = await AdminRepository.isAdmin();

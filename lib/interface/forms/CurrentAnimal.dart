@@ -64,6 +64,9 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
                   child: Text(state.error),
                 );
               }
+              if (state is CurAnimalLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
               if (state is CurAnimalLoadedState) {
                 return SingleChildScrollView(
                   child: Column(

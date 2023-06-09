@@ -64,6 +64,9 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                   child: Text(state.error),
                 );
               }
+              if (state is CurSoilLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
               if (state is CurSoilLoadedState) {
                 return SingleChildScrollView(
                   child: Column(

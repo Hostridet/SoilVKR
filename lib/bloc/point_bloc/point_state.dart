@@ -5,6 +5,8 @@ abstract class PointState {}
 
 class PointInitial extends PointState {}
 
+class PointLoadingState extends PointState {}
+
 class PointLoadedState extends PointState {
   final List<Point> pointList;
   final bool isAdmin;

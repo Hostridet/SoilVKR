@@ -13,6 +13,7 @@ class CurPlantBloc extends Bloc<CurPlantEvent, CurPlantState> {
   PlantRepository _plantRepository;
   CurPlantBloc(this._plantRepository) : super(CurPlantInitial()) {
     on<CurPlantGetEvent>((event, emit) async {
+      emit(CurPlantLoadingState());
       try {
         Plant plant = await _plantRepository.getCurrentPlant(event.id);
         emit(CurPlantLoadedState(plant));

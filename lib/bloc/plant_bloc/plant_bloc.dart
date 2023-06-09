@@ -14,6 +14,7 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
   PlantRepository _plantRepository;
   PlantBloc(this._plantRepository) : super(PlantInitial()) {
     on<PlantGetEvent>((event, emit) async {
+      emit(PlantLoadingState());
       try {
         List<Plant> plantList = await _plantRepository.getPlants();
         bool isAdmin = await AdminRepository.isAdmin();

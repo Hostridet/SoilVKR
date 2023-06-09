@@ -57,6 +57,9 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
           )..add(PointGetOneEvent(widget.args.point.id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
+              if (state is PointLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
               if (state is PointLoadedOneState) {
                 return SingleChildScrollView(
                   child: Padding(

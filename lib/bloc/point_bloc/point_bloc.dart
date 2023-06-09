@@ -17,6 +17,7 @@ class PointBloc extends Bloc<PointEvent, PointState> {
   final PointRepository _pointRepository;
   PointBloc(this._pointRepository) : super(PointInitial()) {
     on<PointGetEvent>((event, emit) async {
+      emit(PointLoadingState());
       try {
         List<Point> pointList = await _pointRepository.getAllPoints();
         bool isAdmin = await AdminRepository.isAdmin();
@@ -28,6 +29,7 @@ class PointBloc extends Bloc<PointEvent, PointState> {
     });
 
     on<PointGetOneEvent>((event, emit) async {
+      emit(PointLoadingState());
       try {
         Point point = await _pointRepository.getPoint(event.id);
         emit(PointLoadedOneState(point));
@@ -38,6 +40,7 @@ class PointBloc extends Bloc<PointEvent, PointState> {
     });
 
     on<PointGetPlantEvent>((event, emit) async {
+      emit(PointLoadingState());
       try {
         List<Plant> plantList = await _pointRepository.getPlantByPoint(event.id);
         emit(PointLoadedPlantState(plantList));
@@ -48,6 +51,7 @@ class PointBloc extends Bloc<PointEvent, PointState> {
     });
 
     on<PointGetAnimalEvent>((event, emit) async {
+      emit(PointLoadingState());
       try {
         List<Animal> animalList = await _pointRepository.getAnimalByPoint(event.id);
         emit(PointLoadedAnimalState(animalList));
@@ -58,6 +62,7 @@ class PointBloc extends Bloc<PointEvent, PointState> {
     });
 
     on<PointGetSoilEvent>((event, emit) async {
+      emit(PointLoadingState());
       try {
         List<Soil> soilList = await _pointRepository.getSoilByPoint(event.id);
         emit(PointLoadedSoilState(soilList));
@@ -68,6 +73,7 @@ class PointBloc extends Bloc<PointEvent, PointState> {
     });
 
     on<PointGetGroundEvent>((event, emit) async {
+      emit(PointLoadingState());
       try {
         List<Ground> groundList = await _pointRepository.getGroundByPoint(event.id);
         emit(PointLoadedGroundState(groundList));

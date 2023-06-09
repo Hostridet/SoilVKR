@@ -13,6 +13,7 @@ class CurAnimalBloc extends Bloc<CurAnimalEvent, CurAnimalState> {
   AnimalRepository _animalRepository;
   CurAnimalBloc(this._animalRepository) : super(CurAnimalInitial()) {
     on<CurAnimalGetEvent>((event, emit) async {
+      emit(CurAnimalLoadingState());
       try {
         Animal animal = await _animalRepository.getCurrentAnimal(event.id);
         emit(CurAnimalLoadedState(animal));

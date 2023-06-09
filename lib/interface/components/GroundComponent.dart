@@ -53,6 +53,9 @@ class _GroundComponentState extends State<GroundComponent> {
                   child: Text(state.error),
                 );
               }
+              if (state is GroundLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
               if (state is GroundViewUpdateState) {
                 return Padding(
                   padding: EdgeInsets.all(20),

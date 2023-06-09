@@ -37,6 +37,9 @@ class _PointPageState extends State<PointPage> {
                   child: Text(state.error),
                 );
               }
+              if (state is PointLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
               if (state is PointLoadedState) {
                 return RefreshIndicator(
                   onRefresh: () async {

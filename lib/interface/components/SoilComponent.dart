@@ -53,6 +53,9 @@ class _SoilComponentState extends State<SoilComponent> {
                 child: Text(state.error),
               );
             }
+            if (state is SoilLoadingState) {
+              return Center(child: CircularProgressIndicator());
+            }
             if (state is SoilViewUpdateState) {
               return Padding(
                 padding: EdgeInsets.all(20),

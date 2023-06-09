@@ -52,6 +52,9 @@ class _GroundItemState extends State<GroundItem> {
           )..add(PointGetGroundEvent(widget.args.point.id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
+              if (state is PointLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              }
               if (state is PointLoadedGroundState) {
                 return Column(
                   children: [
