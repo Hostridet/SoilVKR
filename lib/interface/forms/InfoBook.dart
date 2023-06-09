@@ -21,6 +21,7 @@ class _InfoBookState extends State<InfoBook> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         drawer: DrawerMenu(),
         appBar: NewGradientAppBar(
           title: const Text('База знаний'),

@@ -17,16 +17,27 @@ class PlantComponent extends StatefulWidget {
 }
 
 class _PlantComponentState extends State<PlantComponent> {
-  bool isShow = true;
-  ScrollController _controller = ScrollController();
+  late TextEditingController nameController;
+  late TextEditingController descriptionController;
+  late FocusNode nameFocus;
+  late FocusNode descriptionFocus;
+  late bool checkValue;
+
   @override
   void initState() {
-    _controller..addListener(onScroll);
+    nameController = TextEditingController();
+    descriptionController = TextEditingController();
+    nameFocus = FocusNode();
+    descriptionFocus = FocusNode();
+    checkValue = false;
     super.initState();
   }
   @override
   void dispose() {
-    _controller.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
+    nameFocus.dispose();
+    descriptionFocus.dispose();
     super.dispose();
   }
 
@@ -45,12 +56,108 @@ class _PlantComponentState extends State<PlantComponent> {
                 child: Text(state.error),
               );
             }
+            if (state is PlantViewUpdateState) {
+              return Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: nameController,
+                        onFieldSubmitted: (value) {
+                          FocusScope.of(context).requestFocus(nameFocus);
+                        },
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color:  Colors.green),
+                              borderRadius: BorderRadius.circular(5.5)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color:  Colors.green),
+                              borderRadius: BorderRadius.circular(5.5)),
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          filled: true,
+                          fillColor: Colors.transparent,
+                          hintText: "Название растения",),
+                      ),
+                      SizedBox(height: 10),
+                      TextFormField(
+                        maxLines: 6,
+                        controller: descriptionController,
+                        onFieldSubmitted: (value) {
+                          FocusScope.of(context).requestFocus(descriptionFocus);
+                        },
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color:  Colors.green),
+                              borderRadius: BorderRadius.circular(5.5)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color:  Colors.green),
+                              borderRadius: BorderRadius.circular(5.5)),
+                          hintStyle: const TextStyle(color: Colors.grey),
+                          filled: true,
+                          fillColor: Colors.transparent,
+                          hintText: "Описание растения",),
+                      ),
+                      SizedBox(height: 10,),
+                      CheckboxListTile(
+                          title: Text("Кормовое растение"),
+                          value: checkValue,
+                          onChanged: (bool? newValue) {
+                            setState(() {
+                              checkValue = newValue!;
+                            });
+                          }
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            height: 50,
+                            child: OutlinedButton(
+                              child: Text("Отмена"),
+                              style: OutlinedButton.styleFrom(
+                                primary: Colors.red,
+                                side: BorderSide(
+                                  color: Colors.red,
+                                ),
+                              ),
+                              onPressed: () {
+                                BlocProvider.of<PlantBloc>(context)
+                                    .add(PlantGetEvent());
+                                nameController.clear();
+                                descriptionController.clear();
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: 150,
+                            height: 50,
+                            child: ElevatedButton(
+                              child: Text("Добавить"),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                                elevation: 0,
+                              ),
+                              onPressed: () {
+                                BlocProvider.of<PlantBloc>(context)
+                                    .add(PlantUpdateEvent(nameController.text, descriptionController.text, checkValue));
+                                nameController.clear();
+                                descriptionController.clear();
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+              );
+            }
             if (state is PlantLoadedState) {
               return Column(
                 children: [
                   state.isAdmin
                   ? Visibility(
-                    visible: isShow,
                     child: Padding(
                         padding: EdgeInsets.only(top: 5, left: 5, right: 5),
                         child: Card(
@@ -60,7 +167,8 @@ class _PlantComponentState extends State<PlantComponent> {
                             subtitle: Text("Добавить новое растение"),
                             leading: Icon(Icons.add, size: 35,),
                             onTap: () {
-
+                              BlocProvider.of<PlantBloc>(context)
+                                  .add(PlantViewUpdateEvent());
                             },
                           ),
                         ),
@@ -117,17 +225,5 @@ class _PlantComponentState extends State<PlantComponent> {
         ),
       ),
     );
-  }
-  void onScroll() {
-    if (_controller.offset == 0.0) {
-      setState(() {
-        isShow = true;
-      });
-    }
-    else {
-      setState(() {
-        isShow = false;
-      });
-    }
   }
 }

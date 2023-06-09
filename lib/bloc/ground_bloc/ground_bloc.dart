@@ -24,5 +24,13 @@ class GroundBloc extends Bloc<GroundEvent, GroundState> {
         emit(GroundErrorState(e.toString()));
       }
     });
+    on<GroundViewUpdateEvent>((event, emit) async {
+      emit(GroundViewUpdateState());
+    });
+
+    on<GroundUpdateEvent>((event, emit) async {
+      await _groundRepository.insertGround(event.name, event.description);
+      add(GroundGetEvent());
+    });
   }
 }

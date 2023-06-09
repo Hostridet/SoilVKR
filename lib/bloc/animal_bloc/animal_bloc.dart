@@ -13,7 +13,7 @@ part 'animal_state.dart';
 class AnimalBloc extends Bloc<AnimalEvent, AnimalState> {
   AnimalRepository _animalRepository;
   AnimalBloc(this._animalRepository) : super(AnimalInitial()) {
-    on<AnimalEvent>((event, emit) async {
+    on<AnimalGetEvent>((event, emit) async {
       try {
         List<Animal> animalList = await _animalRepository.getAnimals();
         bool isAdmin = await AdminRepository.isAdmin();
@@ -23,6 +23,14 @@ class AnimalBloc extends Bloc<AnimalEvent, AnimalState> {
         emit(AnimalErrorState(e.toString()));
       }
 
+    });
+    on<AnimalViewUpdateEvent>((event, emit) async {
+      emit(AnimalViewUpdateState());
+    });
+
+    on<AnimalUpdateEvent>((event, emit) async {
+      await _animalRepository.insertAnimal(event.name, event.description);
+      add(AnimalGetEvent());
     });
   }
 }

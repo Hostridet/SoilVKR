@@ -19,3 +19,5 @@ class SoilErrorState extends SoilState {
 
   SoilErrorState(this.error);
 }
+
+class SoilViewUpdateState extends SoilState {}

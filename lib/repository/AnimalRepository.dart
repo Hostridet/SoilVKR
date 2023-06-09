@@ -21,4 +21,7 @@ class AnimalRepository {
     Animal animal = Animal.fromJson(data[0]);
     return animal;
   }
+  Future<void> insertAnimal(String name, String description) async {
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/animals/insert?animal_name=$name&animal_description=$description"));
+  }
 }

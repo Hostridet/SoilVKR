@@ -19,3 +19,5 @@ class AnimalErrorState extends AnimalState {
 
   AnimalErrorState(this.error);
 }
+
+class AnimalViewUpdateState extends AnimalState {}

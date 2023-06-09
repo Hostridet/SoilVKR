@@ -23,5 +23,13 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
         emit(SoilErrorState(e.toString()));
       }
     });
+    on<SoilViewUpdateEvent>((event, emit) async {
+      emit(SoilViewUpdateState());
+    });
+
+    on<SoilUpdateEvent>((event, emit) async {
+      await _soilRepository.insertSoil(event.name, event.description);
+      add(SoilGetEvent());
+    });
   }
 }

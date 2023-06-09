@@ -17,16 +17,25 @@ class AnimalComponent extends StatefulWidget {
 }
 
 class _AnimalComponentState extends State<AnimalComponent> {
-  bool isShow = true;
-  ScrollController _controller = ScrollController();
+  late TextEditingController nameController;
+  late TextEditingController descriptionController;
+  late FocusNode nameFocus;
+  late FocusNode descriptionFocus;
+
   @override
   void initState() {
-    _controller..addListener(onScroll);
+    nameController = TextEditingController();
+    descriptionController = TextEditingController();
+    nameFocus = FocusNode();
+    descriptionFocus = FocusNode();
     super.initState();
   }
   @override
   void dispose() {
-    _controller.dispose();
+    nameController.dispose();
+    descriptionController.dispose();
+    nameFocus.dispose();
+    descriptionFocus.dispose();
     super.dispose();
   }
   @override
@@ -44,12 +53,98 @@ class _AnimalComponentState extends State<AnimalComponent> {
                 child: Text(state.error),
               );
             }
+            if (state is AnimalViewUpdateState) {
+              return Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: nameController,
+                      onFieldSubmitted: (value) {
+                        FocusScope.of(context).requestFocus(nameFocus);
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color:  Colors.green),
+                            borderRadius: BorderRadius.circular(5.5)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color:  Colors.green),
+                            borderRadius: BorderRadius.circular(5.5)),
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        filled: true,
+                        fillColor: Colors.transparent,
+                        hintText: "Название животного",),
+                    ),
+                    SizedBox(height: 10),
+                    TextFormField(
+                      maxLines: 6,
+                      controller: descriptionController,
+                      onFieldSubmitted: (value) {
+                        FocusScope.of(context).requestFocus(descriptionFocus);
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color:  Colors.green),
+                            borderRadius: BorderRadius.circular(5.5)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color:  Colors.green),
+                            borderRadius: BorderRadius.circular(5.5)),
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        filled: true,
+                        fillColor: Colors.transparent,
+                        hintText: "Описание животного",),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          height: 50,
+                          child: OutlinedButton(
+                            child: Text("Отмена"),
+                            style: OutlinedButton.styleFrom(
+                              primary: Colors.red,
+                              side: BorderSide(
+                                color: Colors.red,
+                              ),
+                            ),
+                            onPressed: () {
+                              BlocProvider.of<AnimalBloc>(context)
+                                  .add(AnimalGetEvent());
+                              nameController.clear();
+                              descriptionController.clear();
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 150,
+                          height: 50,
+                          child: ElevatedButton(
+                            child: Text("Добавить"),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.green,
+                              elevation: 0,
+                            ),
+                            onPressed: () {
+                              BlocProvider.of<AnimalBloc>(context)
+                                  .add(AnimalUpdateEvent(nameController.text, descriptionController.text));
+                              nameController.clear();
+                              descriptionController.clear();
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }
             if (state is AnimalLoadedState) {
               return Column(
                 children: [
                   state.isAdmin == true
                       ? Visibility(
-                        visible: isShow,
                         child: Padding(
                     padding: EdgeInsets.only(top: 5, left: 5, right: 5),
                     child: Card(
@@ -59,6 +154,8 @@ class _AnimalComponentState extends State<AnimalComponent> {
                           subtitle: Text("Добавить новое животное"),
                           leading: Icon(Icons.add, size: 35,),
                           onTap: () {
+                            BlocProvider.of<AnimalBloc>(context)
+                                .add(AnimalViewUpdateEvent());
                           },
                         ),
                     ),
@@ -114,17 +211,5 @@ class _AnimalComponentState extends State<AnimalComponent> {
         ),
       ),
     );
-  }
-  void onScroll() {
-    if (_controller.offset == 0.0) {
-      setState(() {
-        isShow = true;
-      });
-    }
-    else {
-      setState(() {
-        isShow = false;
-      });
-    }
   }
 }

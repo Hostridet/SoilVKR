@@ -21,4 +21,7 @@ class GroundRepository {
     Ground ground = Ground.fromJson(data[0]);
     return ground;
   }
+  Future<void> insertGround(String name, String description) async {
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/insert?ground_name=$name&ground_description=$description"));
+  }
 }

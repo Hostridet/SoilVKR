@@ -23,5 +23,15 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
         emit(PlantErrorState(e.toString()));
       }
     });
+
+    on<PlantViewUpdateEvent>((event, emit) async {
+      emit(PlantViewUpdateState());
+    });
+
+    on<PlantUpdateEvent>((event, emit) async {
+      await _plantRepository.insertPlant(event.name, event.description, event.isFodder);
+      add(PlantGetEvent());
+    });
+
   }
 }

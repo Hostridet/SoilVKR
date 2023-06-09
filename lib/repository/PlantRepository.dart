@@ -22,4 +22,10 @@ class PlantRepository {
     Plant plant = Plant.fromJson(data[0]);
     return plant;
   }
+
+  Future<void> insertPlant(String name, String description, bool isFodder) async {
+    int value = 0;
+    isFodder ? value = 1 : value = 0;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/insert?plant_name=$name&plant_description=$description&plant_isFodder=$value"));
+  }
 }

@@ -19,3 +19,5 @@ class GroundErrorState extends GroundState {
 
   GroundErrorState(this.error);
 }
+
+class GroundViewUpdateState extends GroundState {}

@@ -19,3 +19,5 @@ class PlantErrorState extends PlantState {
 
   PlantErrorState(this.error);
 }
+
+class PlantViewUpdateState extends PlantState {}
