@@ -49,6 +49,18 @@ class _AdminPageState extends State<AdminPage> {
                   },
                 ),
               ),
+              Card(
+                elevation: 2,
+                child: ListTile(
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text("Обновление базы знаний"),
+                  subtitle: Text("Добавление новых записей в базу знаний"),
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed('/home/book');
+                  },
+                ),
+              ),
             ],
           ),
         ),

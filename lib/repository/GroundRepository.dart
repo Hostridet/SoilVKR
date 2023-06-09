@@ -24,4 +24,7 @@ class GroundRepository {
   Future<void> insertGround(String name, String description) async {
     final response = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/insert?ground_name=$name&ground_description=$description"));
   }
+  static Future<void> deleteGround(int id) async {
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/delete?ground_id=$id"));
+  }
 }

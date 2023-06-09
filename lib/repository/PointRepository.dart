@@ -73,4 +73,8 @@ class PointRepository {
     }
     return groundList;
   }
+
+  static Future<void> deletePoint(int id) async {
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/territories/delete?territorie_id=$id"));
+  }
 }

@@ -24,4 +24,8 @@ class AnimalRepository {
   Future<void> insertAnimal(String name, String description) async {
     final response = await http.post(Uri.parse("http://${Config.baseUrl}/animals/insert?animal_name=$name&animal_description=$description"));
   }
+
+  static Future<void> deleteAnimal(int id) async {
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/animals/delete?animal_id=$id"));
+  }
 }

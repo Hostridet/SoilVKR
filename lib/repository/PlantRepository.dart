@@ -28,4 +28,7 @@ class PlantRepository {
     isFodder ? value = 1 : value = 0;
     final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/insert?plant_name=$name&plant_description=$description&plant_isFodder=$value"));
   }
+  static Future<void> deletePlant(int id) async {
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/delete?plant_id=$id"));
+  }
 }

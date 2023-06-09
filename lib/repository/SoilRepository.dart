@@ -24,4 +24,7 @@ class SoilRepository {
   Future<void> insertSoil(String name, String description) async {
     final response = await http.post(Uri.parse("http://${Config.baseUrl}/soils/insert?soil_name=$name&soil_description=$description"));
   }
+  static Future<void> deleteSoil(int id) async {
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/soils/delete?soil_id=$id"));
+  }
 }

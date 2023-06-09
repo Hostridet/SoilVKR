@@ -27,6 +27,14 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NewGradientAppBar(
+        actions: [
+          IconButton(
+            onPressed: () async {
+              showAlertDialog(context);
+            },
+            icon: Icon(Icons.delete_rounded, color: Colors.red, size: 30,),
+          ),
+        ],
         title:  Row(
           children: [
             IconButton(
@@ -153,6 +161,44 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
           ),
         ),
       ),
+    );
+  }
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = TextButton(
+      child: Text("Отмена"),
+      onPressed:  () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text("Удалить"),
+      onPressed:  () {
+        GroundRepository.deleteGround(widget.args.id);
+        Navigator.of(context).pop();
+        Navigator.of(context)
+            .pushReplacementNamed(widget.args.route);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Внимание"),
+      content: Text("Вы точно хотите удалить?"),
+      actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            cancelButton,
+            continueButton,
+          ],
+        ),
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
