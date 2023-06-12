@@ -68,7 +68,7 @@ class _WelcomePageState extends State<WelcomePage> {
             Padding(
               padding: EdgeInsets.all(10),
               child: Center(
-                child: Text("Основной функционал", style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),),
+                child: Text("Основной функционал", style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: Colors.black54),),
               ),
             ),
             CarouselSlider.builder(
