@@ -61,6 +61,54 @@ class _AdminPageState extends State<AdminPage> {
                   },
                 ),
               ),
+              Card(
+                elevation: 2,
+                child: ListTile(
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text("Связь почвы и грунта"),
+                  subtitle: Text("Связь между почвой и грунтом"),
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed('/home/admin/soilground');
+                  },
+                ),
+              ),
+              Card(
+                elevation: 2,
+                child: ListTile(
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text("Связь почвы и растений"),
+                  subtitle: Text("Связь между почвой и растениями"),
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed('/home/admin/soilplant');
+                  },
+                ),
+              ),
+              Card(
+                elevation: 2,
+                child: ListTile(
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text("Связь растений и животных"),
+                  subtitle: Text("Связь между растениями и животными"),
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed('/home/admin/plantanimal');
+                  },
+                ),
+              ),
+              Card(
+                elevation: 2,
+                child: ListTile(
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text("Связь территорий и почв"),
+                  subtitle: Text("Связь между территориями и почвами"),
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed('/home/admin/locationsoil');
+                  },
+                ),
+              ),
             ],
           ),
         ),

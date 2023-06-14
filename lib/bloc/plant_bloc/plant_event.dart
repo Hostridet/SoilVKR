@@ -14,3 +14,5 @@ class PlantUpdateEvent extends PlantEvent {
 
   PlantUpdateEvent(this.name, this.description, this.isFodder);
 }
+
+class PlantGetAnimalConEvent extends PlantEvent {}

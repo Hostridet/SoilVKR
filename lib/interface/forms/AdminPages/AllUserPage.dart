@@ -88,7 +88,6 @@ class _AllUserPageState extends State<AllUserPage> {
                                       onTap: () {
                                         Navigator.of(context)
                                             .pushReplacementNamed('/home/admin/users/edit', arguments: items[index].id);
-
                                       },
                                     ),
                                   );

@@ -21,3 +21,9 @@ class PlantErrorState extends PlantState {
 }
 
 class PlantViewUpdateState extends PlantState {}
+
+class PlantAnimalConState extends PlantState {
+  List<PlantAnimal> plantAnimalList;
+
+  PlantAnimalConState(this.plantAnimalList);
+}

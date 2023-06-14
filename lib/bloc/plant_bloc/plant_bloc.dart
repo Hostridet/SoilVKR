@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:soil/repository/AdminRepository.dart';
 
 import '../../models/Plant.dart';
+import '../../models/PlantAnimal.dart';
 import '../../repository/PlantRepository.dart';
 
 part 'plant_event.dart';
@@ -32,6 +33,17 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
     on<PlantUpdateEvent>((event, emit) async {
       await _plantRepository.insertPlant(event.name, event.description, event.isFodder);
       add(PlantGetEvent());
+    });
+
+    on<PlantGetAnimalConEvent>((event, emit) async {
+      emit(PlantLoadingState());
+      try {
+        List<PlantAnimal> plantAnimalList = await _plantRepository.getAnimalCon();
+        emit(PlantAnimalConState(plantAnimalList));
+      }
+      catch(e) {
+        emit(PlantErrorState(e.toString()));
+      }
     });
 
   }

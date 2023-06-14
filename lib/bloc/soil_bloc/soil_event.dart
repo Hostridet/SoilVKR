@@ -13,3 +13,9 @@ class SoilUpdateEvent extends SoilEvent {
 
   SoilUpdateEvent(this.name, this.description);
 }
+
+class SoilGetGroundConEvent extends SoilEvent {}
+
+class SoilGetPlantConEvent extends SoilEvent {}
+
+class SoilGetPointConEvent extends SoilEvent {}

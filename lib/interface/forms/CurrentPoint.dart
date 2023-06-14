@@ -74,14 +74,18 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
                           ),
                           subtitle: Text("Координаты"),
                         ),
-                        Divider(),
+                        Divider(
+                          thickness: 1.0,
+                        ),
                         ListTile(
                           title: state.point.address != null
                             ? Text(state.point.address!)
                             : Text("Неизвестно"),
                           subtitle: Text("Адрес"),
                         ),
-                        Divider(),
+                        Divider(
+                          thickness: 1.0,
+                        ),
                         SizedBox(height: 20,),
                         Card(
                           elevation: 2,

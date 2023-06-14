@@ -6,6 +6,10 @@ import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/AddPointPage.dart';
 import 'package:soil/interface/forms/AdminPages/AdminPage.dart';
 import 'package:soil/interface/forms/AdminPages/EditUserPage.dart';
+import 'package:soil/interface/forms/AdminPages/LocatinSoilCon.dart';
+import 'package:soil/interface/forms/AdminPages/PlantAnimalCon.dart';
+import 'package:soil/interface/forms/AdminPages/SoilGroundCon.dart';
+import 'package:soil/interface/forms/AdminPages/SoilPlantCon.dart';
 import 'package:soil/interface/forms/CurrentLocationPage.dart';
 import 'package:soil/interface/forms/CurrentPlant.dart';
 import 'package:soil/interface/forms/CurrentPoint.dart';
@@ -148,6 +152,22 @@ class RouteGenerator
       case '/home/admin':
         return CustomPageRoute(
           builder: (_) => AdminPage(),
+        );
+      case '/home/admin/soilground':
+        return CustomPageRoute(
+          builder: (_) => SoilGroundCon(),
+        );
+      case '/home/admin/soilplant':
+        return CustomPageRoute(
+          builder: (_) => SOilPlantCon(),
+        );
+      case '/home/admin/plantanimal':
+        return CustomPageRoute(
+          builder: (_) => PlantAnimalCon(),
+        );
+      case '/home/admin/locationsoil':
+        return CustomPageRoute(
+          builder: (_) => LocationSoilCon(),
         );
       case '/home/admin/users/edit':
         int id = args as int;

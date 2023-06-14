@@ -21,3 +21,23 @@ class SoilErrorState extends SoilState {
 }
 
 class SoilViewUpdateState extends SoilState {}
+
+class SoilGroundConState extends SoilState {
+  final List<SoilGround> soilGroundList;
+
+  SoilGroundConState(this.soilGroundList);
+}
+
+class SoilPlantConState extends SoilState {
+  final List<SoilPlant> soilPlantList;
+
+  SoilPlantConState(this.soilPlantList);
+}
+
+class SoilPointConState extends SoilState {
+  final List<SoilPoint> soilPointList;
+
+  SoilPointConState(this.soilPointList);
+
+  get soilGroundList => null;
+}

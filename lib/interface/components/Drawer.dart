@@ -111,7 +111,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                               .pushReplacementNamed('/home');
                         },
                       ),
-                      Divider(),
+                      Divider(
+                        thickness: 1.0,
+                      ),
                       ListTile(
                         leading: const Padding(
                           padding: EdgeInsets.only(top: 8),
@@ -124,7 +126,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                               .pushReplacementNamed('/home/book');
                         },
                       ),
-                      Divider(),
+                      Divider(
+                        thickness: 1.0,
+                      ),
                       ListTile(
                         leading: const Padding(
                           padding: EdgeInsets.only(top: 8),
@@ -165,7 +169,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                 },
                       )
                         : Container(),
-                      Divider(),
+                      Divider(
+                        thickness: 1.0,
+                      ),
                       ListTile(
                         leading: const Padding(
                           padding: EdgeInsets.only(top: 8),
@@ -178,7 +184,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                               .pushReplacementNamed('/home/settings');
                         },
                       ),
-                      Divider(),
+                      Divider(
+                        thickness: 1.0,
+                      ),
                       ListTile(
                         leading: const Padding(
                           padding: EdgeInsets.only(top: 8),
@@ -192,7 +200,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                               '/login', (Route<dynamic> route) => false);
                         },
                       ),
-                      Divider(),
+                      Divider(
+                        thickness: 1.0,
+                      ),
                     ],
                   ),
                 );
