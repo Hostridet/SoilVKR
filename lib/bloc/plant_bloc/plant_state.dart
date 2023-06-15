@@ -27,3 +27,10 @@ class PlantAnimalConState extends PlantState {
 
   PlantAnimalConState(this.plantAnimalList);
 }
+
+class PlantAddConAnimalState extends PlantState {
+  final List<Plant> plantList;
+  final List<Animal> animalList;
+
+  PlantAddConAnimalState(this.plantList, this.animalList);
+}

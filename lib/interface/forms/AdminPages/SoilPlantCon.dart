@@ -161,6 +161,14 @@ class _SOilPlantConState extends State<SOilPlantCon> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: () {
+          Navigator.of(context)
+              .pushReplacementNamed('/home/admin/soilplant/add');
+        },
+        child: const Icon(Icons.add, color: Colors.white, size: 35),
+      ),
     );
   }
 }

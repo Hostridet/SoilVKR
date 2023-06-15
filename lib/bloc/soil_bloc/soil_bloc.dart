@@ -1,8 +1,13 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:soil/models/Point.dart';
+import 'package:soil/repository/GroundRepository.dart';
+import 'package:soil/repository/PlantRepository.dart';
+import 'package:soil/repository/PointRepository.dart';
 
+import '../../models/Animal.dart';
+import '../../models/Ground.dart';
+import '../../models/Plant.dart';
 import '../../models/Soil.dart';
 import '../../models/SoilGround.dart';
 import '../../models/SoilPlant.dart';
@@ -63,6 +68,44 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
       try {
         List<SoilPoint> soilPointList = await _soilRepository.getPointCon();
         emit(SoilPointConState(soilPointList));
+      }
+      catch(e) {
+        emit(SoilErrorState(e.toString()));
+      }
+    });
+
+    on<SoilAddConGroundEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        List<Soil> soilList = await _soilRepository.getSoils();
+        GroundRepository repository = GroundRepository();
+        List<Ground> groundList = await repository.getGround();
+        emit(SoilAddConGroundState(soilList, groundList));
+      }
+      catch(e) {
+        emit(SoilErrorState(e.toString()));
+      }
+    });
+
+    on<SoilAddConPlantEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        List<Soil> soilList = await _soilRepository.getSoils();
+        PlantRepository repository = PlantRepository();
+        List<Plant> plantList = await repository.getPlants();
+        emit(SoilAddConPlantState(soilList, plantList));
+      }
+      catch(e) {
+        emit(SoilErrorState(e.toString()));
+      }
+    });
+    on<SoilAddConPointEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        List<Soil> soilList = await _soilRepository.getSoils();
+        PointRepository pointRepository = PointRepository();
+        List<Point> pointList = await pointRepository.getAllPoints();
+        emit(SoilAddPointState(soilList, pointList));
       }
       catch(e) {
         emit(SoilErrorState(e.toString()));

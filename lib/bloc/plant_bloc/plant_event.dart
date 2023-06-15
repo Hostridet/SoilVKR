@@ -16,3 +16,5 @@ class PlantUpdateEvent extends PlantEvent {
 }
 
 class PlantGetAnimalConEvent extends PlantEvent {}
+
+class PlantAddConAnimalEvent extends PlantEvent {}

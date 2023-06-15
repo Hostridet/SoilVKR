@@ -154,6 +154,14 @@ class _LocationSoilConState extends State<LocationSoilCon> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: () {
+          Navigator.of(context)
+              .pushReplacementNamed('/home/admin/locationsoil/add');
+        },
+        child: const Icon(Icons.add, color: Colors.white, size: 35),
+      ),
     );
   }
 }

@@ -19,3 +19,9 @@ class SoilGetGroundConEvent extends SoilEvent {}
 class SoilGetPlantConEvent extends SoilEvent {}
 
 class SoilGetPointConEvent extends SoilEvent {}
+
+class SoilAddConGroundEvent extends SoilEvent {}
+
+class SoilAddConPlantEvent extends SoilEvent {}
+
+class SoilAddConPointEvent extends SoilEvent {}

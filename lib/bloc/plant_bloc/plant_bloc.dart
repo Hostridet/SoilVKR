@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:soil/repository/AdminRepository.dart';
+import 'package:soil/repository/AnimalRepository.dart';
 
+import '../../models/Animal.dart';
 import '../../models/Plant.dart';
 import '../../models/PlantAnimal.dart';
 import '../../repository/PlantRepository.dart';
@@ -40,6 +42,18 @@ class PlantBloc extends Bloc<PlantEvent, PlantState> {
       try {
         List<PlantAnimal> plantAnimalList = await _plantRepository.getAnimalCon();
         emit(PlantAnimalConState(plantAnimalList));
+      }
+      catch(e) {
+        emit(PlantErrorState(e.toString()));
+      }
+    });
+    on<PlantAddConAnimalEvent>((event, emit) async {
+      emit(PlantLoadingState());
+      try {
+        List<Plant> plantList = await _plantRepository.getPlants();
+        AnimalRepository animalRepository = AnimalRepository();
+        List<Animal> animalList = await animalRepository.getAnimals();
+        emit(PlantAddConAnimalState(plantList, animalList));
       }
       catch(e) {
         emit(PlantErrorState(e.toString()));

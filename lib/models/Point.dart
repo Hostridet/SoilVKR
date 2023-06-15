@@ -20,4 +20,8 @@ class Point {
       address: json['territorie_address'] as String?,
     );
   }
+  @override
+  String toString() {
+    return "$x $y";
+  }
 }

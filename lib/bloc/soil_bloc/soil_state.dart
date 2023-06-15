@@ -41,3 +41,24 @@ class SoilPointConState extends SoilState {
 
   get soilGroundList => null;
 }
+
+class SoilAddConGroundState extends SoilState {
+  final List<Soil> soilList;
+  final List<Ground> groundList;
+
+  SoilAddConGroundState(this.soilList, this.groundList);
+}
+
+class SoilAddConPlantState extends SoilState {
+  final List<Soil> soilList;
+  final List<Plant> plantList;
+
+  SoilAddConPlantState(this.soilList, this.plantList);
+}
+
+class SoilAddPointState extends SoilState {
+  final List<Soil> soilList;
+  final List<Point> pointList;
+
+  SoilAddPointState(this.soilList, this.pointList);
+}

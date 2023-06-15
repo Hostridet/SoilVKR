@@ -2,6 +2,10 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:soil/interface/components/AddItems/AddConAnimal.dart';
+import 'package:soil/interface/components/AddItems/AddConGround.dart';
+import 'package:soil/interface/components/AddItems/AddConPlant.dart';
+import 'package:soil/interface/components/AddItems/AddConPoint.dart';
 import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/AddPointPage.dart';
 import 'package:soil/interface/forms/AdminPages/AdminPage.dart';
@@ -168,6 +172,22 @@ class RouteGenerator
       case '/home/admin/locationsoil':
         return CustomPageRoute(
           builder: (_) => LocationSoilCon(),
+        );
+      case '/home/admin/soilground/add':
+        return CustomPageRoute(
+          builder: (_) => AddConGround(),
+        );
+      case '/home/admin/plantanimal/add':
+        return CustomPageRoute(
+          builder: (_) => AddConAnimal(),
+        );
+      case '/home/admin/soilplant/add':
+        return CustomPageRoute(
+          builder: (_) => AddConPlant(),
+        );
+      case '/home/admin/locationsoil/add':
+        return CustomPageRoute(
+          builder: (_) => AddConPoint(),
         );
       case '/home/admin/users/edit':
         int id = args as int;

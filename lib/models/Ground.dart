@@ -28,5 +28,8 @@ class Ground {
       image: json['ground_picture'] as String?,
     );
   }
-
+  @override
+  String toString() {
+    return name;
+  }
 }

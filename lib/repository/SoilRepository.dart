@@ -33,6 +33,27 @@ class SoilRepository {
   Future<void> insertSoil(String name, String description) async {
     final response = await http.post(Uri.parse("http://${Config.baseUrl}/soils/insert?soil_name=$name&soil_description=$description"));
   }
+  static Future<int> insertConGround(int soilId, int groundId) async {
+    int  statusCode = 404;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/connectionsoilsgrounds/insert?soil_id=$soilId&ground_id=$groundId"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+
+  static Future<int> insertConPlant(int soilId, int plantId) async {
+    int  statusCode = 404;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/connectionsoilsplants/insert?soil_id=$soilId&plant_id=$plantId"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+
+  static Future<int> insertConPoint(int soilId, int pointId) async {
+    int  statusCode = 404;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/connectionterritoriessoils/insert?territorie_id=$soilId&soil_id=$pointId"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+
   static Future<void> deleteSoil(int id) async {
     final response = await http.post(Uri.parse("http://${Config.baseUrl}/soils/delete?soil_id=$id"));
   }

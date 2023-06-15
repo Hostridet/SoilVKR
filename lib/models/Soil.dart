@@ -27,4 +27,8 @@ class Soil {
       image: json['soil_picture'] as String?,
     );
   }
+  @override
+  String toString() {
+    return name;
+  }
 }

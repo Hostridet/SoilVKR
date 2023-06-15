@@ -38,6 +38,12 @@ class PlantRepository {
     final response = await http.post(Uri.parse("http://${Config.baseUrl}/connectionplantsanimals/delete?connection_plants_animals_id=$id"));
 
   }
+  static Future<int> insertConAnimal(int plantId, int animalId) async {
+    int  statusCode = 404;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/connectionplantsanimals/insert?plant_id=$plantId&animal_id=$animalId"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
   Future<List<PlantAnimal>> getAnimalCon() async {
     List<PlantAnimal> plantAnimalList = [];
     final response = await http.get(Uri.parse("http://${Config.baseUrl}/connectionplantsanimals/all"));

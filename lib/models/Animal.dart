@@ -42,4 +42,8 @@ class Animal {
       philum: json['animal_philum'] as String?,
     );
   }
+  @override
+  String toString() {
+    return name;
+  }
 }
