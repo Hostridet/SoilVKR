@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +11,7 @@ import '../../models/ItemWithRoute.dart';
 import '../../models/PointWithRoute.dart';
 import '../../repository/ImageRepository.dart';
 import '../../repository/PlantRepository.dart';
+import '../AlertEditingTextWidget.dart';
 
 class CurrentPlantPage extends StatefulWidget {
   final ItemWithRoute args;
@@ -20,6 +22,7 @@ class CurrentPlantPage extends StatefulWidget {
 }
 
 class _CurrentPlantPageState extends State<CurrentPlantPage> {
+  TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,6 +115,17 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                         child: ListTile(
                           title: Text(state.plant.description),
                           subtitle: Text("Описание"),
+                          onTap: ()  async {
+                            // _controller.text = state.plant.description;
+                            // String? value = await showDialog(
+                            //     context: context,
+                            //     builder: (context) => AlertEditingTextWidget.AlertEditingText(context, 20, _controller),
+                            // );
+                            // print(value);
+                            // _controller.clear();
+                            makeTextDialog(context, 20, state.plant.description, (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -178,6 +192,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Климат"),
+                          onTap: () async {
+                            makeTextDialog(context, 1, state.plant.climat!, (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -189,6 +207,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Минимальная температура"),
+                          onTap: () async {
+                            makeTextDialog(context, 1, state.plant.minTemp!.toString(), (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -200,6 +222,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Максимальная температура"),
+                          onTap: () async {
+                            makeTextDialog(context, 1, state.plant.maxTemp!.toString(), (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -211,6 +237,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Царство"),
+                          onTap: () async {
+                            makeTextDialog(context, 1, state.plant.kingdom!.toString(), (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -222,6 +252,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Тип"),
+                          onTap: () async {
+                            makeTextDialog(context, 1, state.plant.philum!.toString(), (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -233,6 +267,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Класс"),
+                          onTap: () async {
+                            makeTextDialog(context, 1, state.plant.classes!, (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -244,6 +282,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Отряд"),
+                          onTap: () async {
+                            makeTextDialog(context, 1, state.plant.order!, (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -255,6 +297,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Семейство"),
+                          onTap: () async {
+                            makeTextDialog(context, 1, state.plant.family!, (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -266,6 +312,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Род"),
+                          onTap: () async {
+                            makeTextDialog(context, 1, state.plant.genus!, (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -277,6 +327,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Вид"),
+                          onTap: () async {
+                            makeTextDialog(context, 2, state.plant.species!, (value) {print(value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
 
@@ -329,5 +383,14 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
         return alert;
       },
     );
+  }
+  Future<void> makeTextDialog(BuildContext context, int maxLine, String text, Function request, Function update) async {
+    _controller.text = text;
+    String? value = await showDialog(
+      context: context,
+      builder: (context) => AlertEditingTextWidget.AlertEditingText(context, maxLine, _controller),
+    );
+    request(value);
+    update();
   }
 }

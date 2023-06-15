@@ -51,6 +51,9 @@ class _PlantItemState extends State<PlantItem> {
           )..add(PointGetPlantEvent(widget.args.point.id)),
           child: BlocBuilder<PointBloc, PointState>(
             builder: (context, state) {
+              if (state is PointErrorState) {
+                return Center(child: Text(state.error));
+              }
               if (state is PointLoadingState) {
                 return Center(child: CircularProgressIndicator());
               }

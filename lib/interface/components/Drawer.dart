@@ -73,7 +73,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                           return CircleAvatar(backgroundColor: Colors.grey, backgroundImage: MemoryImage(base64Decode(snapshot.data!)));
                                         }
                                         else {
-                                          return CircleAvatar(backgroundColor: Colors.grey, child: Image.asset("assets/user.png"),);
+                                          return CircleAvatar(backgroundColor: Colors.grey, backgroundImage: AssetImage("assets/user.png"),);
 
                                         }},
                                     )
