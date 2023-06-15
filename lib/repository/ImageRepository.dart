@@ -29,16 +29,23 @@ class ImageRepository {
         })
     );
   }
+  // static Future<String> getUserImage(int id) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   if (prefs.getString("user/$id") == null) {
+  //     final response = await http.get(Uri.parse("http://${Config.baseUrl}/users/get/picture?user_id=$id"));
+  //     final data = await json.decode(utf8.decode(response.bodyBytes));
+  //     prefs.setString("user/$id", data[0]['user_picture']);
+  //     return data[0]['user_picture'];
+  //   }
+  //   return prefs.getString("user/$id")!;
+  //
+  // }
   static Future<String> getUserImage(int id) async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("user/$id") == null) {
-      print(prefs.getString("user/$id}"));
-      final response = await http.get(Uri.parse("http://${Config.baseUrl}/users/get/picture?user_id=$id"));
-      final data = await json.decode(utf8.decode(response.bodyBytes));
-      prefs.setString("user/$id", data[0]['user_picture']);
-      return data[0]['user_picture'];
-    }
-    return prefs.getString("user/$id")!;
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/users/get/picture?user_id=$id"));
+    final data = await json.decode(utf8.decode(response.bodyBytes));
+    prefs.setString("user/$id", data[0]['user_picture']);
+    return data[0]['user_picture'];
 
   }
   static Future<String> getAnimalImage(int id) async {

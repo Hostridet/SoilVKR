@@ -49,7 +49,7 @@ class SoilRepository {
 
   static Future<int> insertConPoint(int soilId, int pointId) async {
     int  statusCode = 404;
-    final response = await http.post(Uri.parse("http://${Config.baseUrl}/connectionterritoriessoils/insert?territorie_id=$soilId&soil_id=$pointId"));
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/connectionterritoriessoils/insert?territorie_id=$pointId&soil_id=$soilId"));
     statusCode = response.statusCode;
     return statusCode;
   }
