@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/Ground.dart';
+import '../../repository/AdminRepository.dart';
 import '../../repository/GroundRepository.dart';
 
 part 'cur_ground_event.dart';
@@ -16,7 +17,8 @@ class CurGroundBloc extends Bloc<CurGroundEvent, CurGroundState> {
       emit(CurGroundLoadingState());
       try {
         Ground ground = await _groundRepository.getCurrentGround(event.id);
-        emit(CurGroundLoadedState(ground));
+        bool isAdmin = await AdminRepository.isAdmin();
+        emit(CurGroundLoadedState(ground, isAdmin));
       }
       catch(e) {
         emit(CurGroundErrorState(e.toString()));

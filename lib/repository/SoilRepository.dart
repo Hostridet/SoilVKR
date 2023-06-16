@@ -112,4 +112,34 @@ class SoilRepository {
     }
     return soilPointList;
   }
+  static Future<int> updateName(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/soils/update/name?soil_id=$id&soil_name=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateDescription(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/soils/update/description?soil_id=$id&soil_description=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateAcidity(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/soils/update/acidity?soil_id=$id&soil_acidity=${int.parse(value)}"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateMinerals(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/soils/update/minerals?soil_id=$id&soil_minerals=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateProfile(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/soils/update/profile?soil_id=$id&soil_profile=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
 }

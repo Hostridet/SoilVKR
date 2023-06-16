@@ -9,6 +9,8 @@ import '../../models/ItemWithRoute.dart';
 import '../../models/PointWithRoute.dart';
 import '../../repository/ImageRepository.dart';
 import '../../repository/SoilRepository.dart';
+import '../components/AlertEditingTextWidget.dart';
+import '../components/InfoLayout.dart';
 
 class CurrentSoilPage extends StatefulWidget {
   final ItemWithRoute args;
@@ -19,6 +21,7 @@ class CurrentSoilPage extends StatefulWidget {
 }
 
 class _CurrentSoilPageState extends State<CurrentSoilPage> {
+  TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,20 +76,25 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                     children: [
                       Stack(
                         children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: 250,
-                            child: FutureBuilder<String>(
-                              future: ImageRepository.getSoilImage(state.soil.id),
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                if (snapshot.hasData) {
-                                  return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
-                                }
-                                else {
-                                  return Container();
+                          GestureDetector(
+                            onTap: () async {
+                              await ImageRepository.uploadSoilImage(state.soil.id);
+                            },
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 250,
+                              child: FutureBuilder<String>(
+                                future: ImageRepository.getSoilImage(state.soil.id),
+                                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
+                                  }
+                                  else {
+                                    return FittedBox(child: Image.asset("assets/no-image.jpg"), fit: BoxFit.fill);
 
-                                }
-                              },
+                                  }
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -97,6 +105,10 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                         child: ListTile(
                           title: Text(state.soil.name),
                           subtitle: Text("Название"),
+                          onTap: () {
+                            makeTextDialog(context, 5, state.isAdmin, state.soil.name, (value) async {return SoilRepository.updateName(widget.args.id, value);},
+                                    () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -104,6 +116,10 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                         child: ListTile(
                           title: Text(state.soil.description),
                           subtitle: Text("Описание"),
+                          onTap: () {
+                            makeTextDialog(context, 15, state.isAdmin, state.soil.description, (value) async {return SoilRepository.updateDescription(widget.args.id, value);},
+                                    () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       // Card(
@@ -123,10 +139,14 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                         child: ListTile(
                           title: Text(
                               state.soil.acidity != null
-                                  ? state.soil.acidity!
+                                  ? state.soil.acidity!.toString()
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Кислотность"),
+                          onTap: () {
+                            makeTextDialog(context, 1, state.isAdmin, state.soil.acidity == null ? "0" : state.soil.acidity!.toString(), (value) async {return SoilRepository.updateAcidity(widget.args.id, value);},
+                                    () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -138,6 +158,10 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Полезные ископаемые"),
+                          onTap: () {
+                            makeTextDialog(context, 10, state.isAdmin, state.soil.minerals == null ? "" : state.soil.minerals!, (value) async {return SoilRepository.updateMinerals(widget.args.id, value);},
+                                    () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -149,6 +173,10 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Очертание"),
+                          onTap: () {
+                            makeTextDialog(context, 5, state.isAdmin, state.soil.profile == null ? "" : state.soil.profile!, (value) async {return SoilRepository.updateProfile(widget.args.id, value);},
+                                    () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                     ],
@@ -199,5 +227,23 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
         return alert;
       },
     );
+  }
+  Future<void> makeTextDialog(BuildContext context, int maxLine, bool isAdmin, String text, Function request, Function update) async {
+    if (isAdmin && widget.args.route == "/home/book") {
+      _controller.text = text;
+      String? value = await showDialog(
+        context: context,
+        builder: (context) => AlertEditingTextWidget.AlertEditingText(context, maxLine, _controller),
+      );
+      if (value != null) {
+        int statusCode = await request(value);
+        if (statusCode != 200) {
+          InfoLayout.buildErrorLayout(context, "Не удалось обновить данные");
+        }
+        else {
+          update();
+        }
+      }
+    }
   }
 }

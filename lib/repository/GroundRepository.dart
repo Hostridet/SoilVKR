@@ -27,4 +27,34 @@ class GroundRepository {
   static Future<void> deleteGround(int id) async {
     final response = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/delete?ground_id=$id"));
   }
+  static Future<int> updateName(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/update/name?ground_id=$id&ground_name=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateDescription(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/update/description?ground_id=$id&ground_description=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateDensity(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/update/density?ground_id=$id&ground_density=${int.parse(value)}"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateHumidity(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/update/humidity?ground_id=$id&ground_humidity=${int.parse(value)}"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateMoos(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/update/hardness_Moos?ground_id=$id&ground_hardness_Moos=${int.parse(value)}"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
 }

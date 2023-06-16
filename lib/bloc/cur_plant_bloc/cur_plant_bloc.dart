@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:soil/repository/AdminRepository.dart';
 
 import '../../models/Plant.dart';
 import '../../repository/PlantRepository.dart';
@@ -16,7 +17,8 @@ class CurPlantBloc extends Bloc<CurPlantEvent, CurPlantState> {
       emit(CurPlantLoadingState());
       try {
         Plant plant = await _plantRepository.getCurrentPlant(event.id);
-        emit(CurPlantLoadedState(plant));
+        bool isAdmin = await AdminRepository.isAdmin();
+        emit(CurPlantLoadedState(plant, isAdmin));
       }
       catch(e) {
         emit(CurPlantErrorState(e.toString()));

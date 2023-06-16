@@ -31,7 +31,7 @@ class _WelcomePageState extends State<WelcomePage> {
   late PageController _controller;
   int currentPage = 0;
   List<Images> itemList = [
-    Images(text: "Выбрать локацию и посмотреть почвы, растущие растения и проживающих животных", image: "assets/1.avif", url: "/home/map"),
+    Images(text: "Выбрать локацию и посмотреть почвы, растущие растения и проживающих животных", image: "assets/1.jpg", url: "/home/map"),
     Images(text: "Посмотреть все существующие записи о почвах, растениях и животных", image: "assets/2.jpg", url: "/home/book"),
     Images(text: "Изменить цветовую тему приложения", image: "assets/3.png", url: "/home/settings")
   ];

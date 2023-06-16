@@ -9,8 +9,9 @@ class CurAnimalLoadingState extends CurAnimalState {}
 
 class CurAnimalLoadedState extends CurAnimalState {
   final Animal animal;
+  final bool isAdmin;
 
-  CurAnimalLoadedState(this.animal);
+  CurAnimalLoadedState(this.animal, this.isAdmin);
 }
 
 class CurAnimalErrorState extends CurAnimalState {

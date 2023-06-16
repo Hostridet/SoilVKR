@@ -16,43 +16,51 @@ class InfoBook extends StatefulWidget {
 }
 
 class _InfoBookState extends State<InfoBook> {
+  Future<bool> _onWillPop() async {
+    Navigator.of(context)
+        .pushReplacementNamed('/home');
+    return false;
+  }
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        drawer: DrawerMenu(),
-        appBar: NewGradientAppBar(
-          title: const Text('База знаний'),
-          gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-          bottom: TabBar(
-            isScrollable: true,
-            tabs: [
-              Tab(
-                text: "Растения",
-              ),
-              Tab(
-                text: "Животные",
-              ),
-              Tab(
-                text: "Почва",
-              ),
-              Tab(
-                text: "Грунт",
-              ),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          drawer: DrawerMenu(),
+          appBar: NewGradientAppBar(
+            title: const Text('База знаний'),
+            gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
+            bottom: TabBar(
+              isScrollable: true,
+              tabs: [
+                Tab(
+                  text: "Растения",
+                ),
+                Tab(
+                  text: "Животные",
+                ),
+                Tab(
+                  text: "Почва",
+                ),
+                Tab(
+                  text: "Грунт",
+                ),
 
-            ],
+              ],
+            ),
           ),
+          body: TabBarView(
+            children: [
+              PlantComponent(),
+              AnimalComponent(),
+              SoilComponent(),
+              GroundComponent(),
+            ],
+          )
         ),
-        body: TabBarView(
-          children: [
-            PlantComponent(),
-            AnimalComponent(),
-            SoilComponent(),
-            GroundComponent(),
-          ],
-        )
       ),
     );
   }

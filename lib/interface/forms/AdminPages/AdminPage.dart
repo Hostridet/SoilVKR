@@ -25,16 +25,19 @@ class _AdminPageState extends State<AdminPage> {
           padding: EdgeInsets.all(10),
           child: Column(
             children: [
-              Card(
-                elevation: 2,
-                child: ListTile(
-                  trailing: Icon(Icons.chevron_right),
-                  title: Text("Добавить точку"),
-                  subtitle: Text("Добавить точку выбранную на карте"),
-                  onTap: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed('/home/points/add', arguments: '/home/admin');
-                  },
+              SizedBox(
+                height: 80,
+                child: Card(
+                  elevation: 2,
+                  child: ListTile(
+                    trailing: Icon(Icons.chevron_right),
+                    title: Text("Добавить точку"),
+                    subtitle: Text("Добавить точку выбранную на карте"),
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed('/home/points/add', arguments: '/home/admin');
+                    },
+                  ),
                 ),
               ),
               Card(

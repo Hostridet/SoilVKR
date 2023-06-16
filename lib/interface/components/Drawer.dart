@@ -135,7 +135,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                           child: Icon(Icons.control_point, size: 30, color: Colors.deepOrangeAccent),
                         ),
                         title: Text("Территории"),
-                        subtitle: Text("Просмотр существующих точек"),
+                        subtitle: Text("Существующие точки"),
                         onTap: () {
                           Navigator.of(context)
                               .pushReplacementNamed('/home/points');
@@ -162,7 +162,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                                 child: Icon(Icons.admin_panel_settings, size: 30, color: Colors.deepOrange),
                                   ),
                                 title: Text("Администрирование"),
-                                subtitle: Text("Возможности администратора"),
+                                subtitle: Text("Управление приложением"),
                                 onTap: () {
                                   Navigator.of(context)
                                   .pushReplacementNamed('/home/admin');

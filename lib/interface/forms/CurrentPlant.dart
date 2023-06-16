@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:soil/interface/components/AlertEditingWidget.dart';
+import 'package:soil/interface/components/InfoLayout.dart';
 
 import '../../bloc/cur_plant_bloc/cur_plant_bloc.dart';
 import '../../models/ItemWithRoute.dart';
 import '../../models/PointWithRoute.dart';
 import '../../repository/ImageRepository.dart';
 import '../../repository/PlantRepository.dart';
-import '../AlertEditingTextWidget.dart';
+import '../components/AlertEditingTextWidget.dart';
 
 class CurrentPlantPage extends StatefulWidget {
   final ItemWithRoute args;
@@ -77,20 +79,27 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                     children: [
                       Stack(
                         children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: 250,
-                            child: FutureBuilder<String>(
-                              future: ImageRepository.getPlantImage(state.plant.id),
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                if (snapshot.hasData) {
-                                  return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
-                                }
-                                else {
-                                  return Container();
+                          GestureDetector(
+                            onTap: () async {
+                              if (state.isAdmin && widget.args.route == "/home/book") {
+                                await ImageRepository.uploadPlantImage(state.plant.id);
+                              }
+                            },
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 250,
+                              child: FutureBuilder<String>(
+                                future: ImageRepository.getPlantImage(state.plant.id),
+                                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
+                                  }
+                                  else {
+                                    return FittedBox(child: Image.asset("assets/no-image.jpg"), fit: BoxFit.fill);
 
-                                }
-                              },
+                                  }
+                                },
+                              ),
                             ),
                           ),
                           Column(
@@ -123,7 +132,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                             // );
                             // print(value);
                             // _controller.clear();
-                            makeTextDialog(context, 20, state.plant.description, (value) {print(value);},
+                            makeTextDialog(context, 20, state.isAdmin, state.plant.description, (value) async {return PlantRepository.updateDescription(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -137,6 +146,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Является кормовым"),
+                          onTap: () async{
+                            makeDialog(context, state.plant.isFodder == 0 ? "Нет" : "Да", state.isAdmin, (value) async {return PlantRepository.updateIsFodder(widget.args.id, value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -148,6 +161,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Необходим солнечный свет"),
+                          onTap: () {
+                            makeDialog(context, state.plant.isExacting == 0 ? "Нет" : "Да", state.isAdmin, (value) async {return PlantRepository.updateIsExacting(widget.args.id, value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -159,6 +176,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Однолетнее"),
+                          onTap: () {
+                            makeDialog(context, state.plant.isOneYears == 0 ? "Нет" : "Да", state.isAdmin, (value) async {return PlantRepository.updateIsOneYear(widget.args.id, value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -170,6 +191,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Двухлетнее"),
+                          onTap: () {
+                            makeDialog(context, state.plant.isTwoYears == 0 ? "Нет" : "Да", state.isAdmin, (value) async {return PlantRepository.updateIsTwoYear(widget.args.id, value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -181,6 +206,10 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Многолетнее"),
+                          onTap: () {
+                            makeDialog(context, state.plant.isManyYears == 0 ? "Нет" : "Да", state.isAdmin, (value) async {return PlantRepository.updateIsManyYear(widget.args.id, value);},
+                                    () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -193,7 +222,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Климат"),
                           onTap: () async {
-                            makeTextDialog(context, 1, state.plant.climat!, (value) {print(value);},
+                            makeTextDialog(context, 1, state.isAdmin, state.plant.climat == null ? "" : state.plant.climat!, (value) async {return PlantRepository.updateClimat(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -208,7 +237,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Минимальная температура"),
                           onTap: () async {
-                            makeTextDialog(context, 1, state.plant.minTemp!.toString(), (value) {print(value);},
+                            makeTextDialog(context, 1, state.isAdmin, state.plant.minTemp == null ? "0" : state.plant.minTemp.toString(), (value) async {return PlantRepository.updateTempMin(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -223,7 +252,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Максимальная температура"),
                           onTap: () async {
-                            makeTextDialog(context, 1, state.plant.maxTemp!.toString(), (value) {print(value);},
+                            makeTextDialog(context, 1, state.isAdmin, state.plant.maxTemp == null ? "0" : state.plant.maxTemp.toString(), (value) async {return PlantRepository.updateTempMax(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -238,7 +267,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Царство"),
                           onTap: () async {
-                            makeTextDialog(context, 1, state.plant.kingdom!.toString(), (value) {print(value);},
+                            makeTextDialog(context, 1, state.isAdmin, state.plant.kingdom == null ? "" : state.plant.kingdom!, (value) async {return PlantRepository.updateKingdom(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -253,7 +282,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Тип"),
                           onTap: () async {
-                            makeTextDialog(context, 1, state.plant.philum!.toString(), (value) {print(value);},
+                            makeTextDialog(context, 1, state.isAdmin, state.plant.philum == null ? "" : state.plant.philum!, (value) async {return PlantRepository.updatePhilum(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -268,7 +297,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Класс"),
                           onTap: () async {
-                            makeTextDialog(context, 1, state.plant.classes!, (value) {print(value);},
+                            makeTextDialog(context, 1, state.isAdmin, state.plant.classes == null ? "" : state.plant.classes!, (value) async {return PlantRepository.updateClass(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -283,7 +312,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Отряд"),
                           onTap: () async {
-                            makeTextDialog(context, 1, state.plant.order!, (value) {print(value);},
+                            makeTextDialog(context, 1, state.isAdmin, state.plant.order == null ? "" : state.plant.order!, (value) async {return PlantRepository.updateOrder(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -298,7 +327,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Семейство"),
                           onTap: () async {
-                            makeTextDialog(context, 1, state.plant.family!, (value) {print(value);},
+                            makeTextDialog(context, 1, state.isAdmin, state.plant.family == null ? "" : state.plant.family!, (value) async {return PlantRepository.updateFamily(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -313,7 +342,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Род"),
                           onTap: () async {
-                            makeTextDialog(context, 1, state.plant.genus!, (value) {print(value);},
+                            makeTextDialog(context, 1, state.isAdmin, state.plant.genus == null ? "" : state.plant.genus!, (value) async {return PlantRepository.updateGenus(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -328,7 +357,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
                           ),
                           subtitle: Text("Вид"),
                           onTap: () async {
-                            makeTextDialog(context, 2, state.plant.species!, (value) {print(value);},
+                            makeTextDialog(context, 2, state.isAdmin, state.plant.species == null ? "" : state.plant.species!, (value) async {return PlantRepository.updateSpecies(widget.args.id, value);},
                                     () { BlocProvider.of<CurPlantBloc>(context).add(CurPlantGetEvent(widget.args.id));});
                           },
                         ),
@@ -384,13 +413,34 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
       },
     );
   }
-  Future<void> makeTextDialog(BuildContext context, int maxLine, String text, Function request, Function update) async {
-    _controller.text = text;
-    String? value = await showDialog(
-      context: context,
-      builder: (context) => AlertEditingTextWidget.AlertEditingText(context, maxLine, _controller),
-    );
-    request(value);
-    update();
+  Future<void> makeTextDialog(BuildContext context, int maxLine, bool isAdmin, String text, Function request, Function update) async {
+    if (isAdmin && widget.args.route == "/home/book") {
+      _controller.text = text;
+      String? value = await showDialog(
+        context: context,
+        builder: (context) => AlertEditingTextWidget.AlertEditingText(context, maxLine, _controller),
+      );
+      if (value != null) {
+        int statusCode = await request(value);
+        if (statusCode != 200) {
+          InfoLayout.buildErrorLayout(context, "Не удалось обновить данные");
+        }
+        else {
+          update();
+        }
+      }
+    }
+  }
+  Future<void> makeDialog(BuildContext context, String? currentItem, bool isAdmin, Function request, Function update) async {
+    if (isAdmin && widget.args.route == "/home/book") {
+      String localItem;
+      currentItem == null ? localItem = 'Да': localItem = currentItem;
+      String? value = await showDialog(
+          context: context,
+          builder: (context) => AlertEditing.AlertEditingText(context, localItem)
+      );
+      request(value == "Да" ? 1 : 0);
+      update();
+    }
   }
 }

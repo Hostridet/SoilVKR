@@ -13,6 +13,8 @@ import '../../models/ItemWithRoute.dart';
 import '../../models/PointWithRoute.dart';
 import '../../repository/GroundRepository.dart';
 import '../../repository/ImageRepository.dart';
+import '../components/AlertEditingTextWidget.dart';
+import '../components/InfoLayout.dart';
 
 class CurrentGroundPage extends StatefulWidget {
   final ItemWithRoute args;
@@ -23,6 +25,8 @@ class CurrentGroundPage extends StatefulWidget {
 }
 
 class _CurrentGroundPageState extends State<CurrentGroundPage> {
+  TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,20 +81,27 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                     children: [
                       Stack(
                         children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: 250,
-                            child: FutureBuilder<String>(
-                              future: ImageRepository.getGroundImage(state.ground.id),
-                              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                if (snapshot.hasData) {
-                                  return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
-                                }
-                                else {
-                                  return Container();
+                          GestureDetector(
+                            onTap: () async {
+                              if (state.isAdmin && widget.args.route == "/home/book") {
+                                await ImageRepository.uploadGroundImage(state.ground.id);
+                              }
+                            },
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 250,
+                              child: FutureBuilder<String>(
+                                future: ImageRepository.getGroundImage(state.ground.id),
+                                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
+                                  }
+                                  else {
+                                    return FittedBox(child: Image.asset("assets/no-image.jpg"), fit: BoxFit.fill);
 
-                                }
-                              },
+                                  }
+                                },
+                              ),
                             ),
                           ),
                         ],
@@ -101,6 +112,10 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                         child: ListTile(
                           title: Text(state.ground.name),
                           subtitle: Text("Название"),
+                          onTap: () {
+                            makeTextDialog(context, 1, state.isAdmin, state.ground.name, (value) async {return GroundRepository.updateName(widget.args.id, value);},
+                                    () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -108,6 +123,10 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                         child: ListTile(
                           title: Text(state.ground.description),
                           subtitle: Text("Описание"),
+                          onTap: () {
+                            makeTextDialog(context, 15, state.isAdmin, state.ground.description, (value) async {return GroundRepository.updateDescription(widget.args.id, value);},
+                                    () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       // Card(
@@ -131,6 +150,10 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                                   : "Отсутствует"
                           ),
                           subtitle: Text("Плотность"),
+                          onTap: () {
+                            makeTextDialog(context, 1, state.isAdmin, state.ground.density == null ? "0" : state.ground.density!.toString(), (value) async {return GroundRepository.updateDensity(widget.args.id, value);},
+                                    () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -141,7 +164,11 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                                   ? state.ground.humidity!.toString()
                                   : "Отсутствует"
                           ),
-                          subtitle: Text("Полезные ископаемые"),
+                          subtitle: Text("Влажность"),
+                          onTap: () {
+                            makeTextDialog(context, 1, state.isAdmin, state.ground.humidity == null ? "0" : state.ground.humidity!.toString(), (value) async {return GroundRepository.updateHumidity(widget.args.id, value);},
+                                    () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                       Card(
@@ -149,10 +176,14 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                         child: ListTile(
                           title: Text(
                               state.ground.moos != null
-                                  ? state.ground.moos!
+                                  ? state.ground.moos!.toString()
                                   : "Отсутствует"
                           ),
-                          subtitle: Text("Очертание"),
+                          subtitle: Text("Твёрдость грунта по шкале Мооса"),
+                          onTap: () {
+                            makeTextDialog(context, 1, state.isAdmin, state.ground.moos == null ? "0" : state.ground.moos!.toString(), (value) async {return GroundRepository.updateMoos(widget.args.id, value);},
+                                    () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                          },
                         ),
                       ),
                     ],
@@ -203,5 +234,23 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
         return alert;
       },
     );
+  }
+  Future<void> makeTextDialog(BuildContext context, int maxLine, bool isAdmin, String text, Function request, Function update) async {
+    if (isAdmin && widget.args.route == "/home/book") {
+      _controller.text = text;
+      String? value = await showDialog(
+        context: context,
+        builder: (context) => AlertEditingTextWidget.AlertEditingText(context, maxLine, _controller),
+      );
+      if (value != null) {
+        int statusCode = await request(value);
+        if (statusCode != 200) {
+          InfoLayout.buildErrorLayout(context, "Не удалось обновить данные");
+        }
+        else {
+          update();
+        }
+      }
+    }
   }
 }

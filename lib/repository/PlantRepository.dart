@@ -58,4 +58,103 @@ class PlantRepository {
     }
     return plantAnimalList;
   }
+
+  static Future<int> updateDescription(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/description?plant_id=$id&plant_description=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateIsFodder(int id, int value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/isFodder?plant_id=$id&plant_isFodder=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateIsExacting(int id, int value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/isExactingToTheLight?plant_id=$id&plant_isExactingToTheLight=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateIsOneYear(int id, int value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/isOneYear?plant_id=$id&plant_isOneYear=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateIsTwoYear(int id, int value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/isTwoYear?plant_id=$id&plant_isTwoYear=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateIsManyYear(int id, int value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/isManyYear?plant_id=$id&plant_isManyYear=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateClimat(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/climat?plant_id=$id&plant_climat=$value"));
+    statusCode = response.statusCode;
+    print(statusCode);
+    return statusCode;
+  }
+  static Future<int> updateTempMin(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/temperaturemin?plant_id=$id&plant_temperature_min=${int.parse(value)}"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateTempMax(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/temperaturemax?plant_id=$id&plant_temperature_max=${int.parse(value)}"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateKingdom(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/kingdom?plant_id=$id&plant_kingdom=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updatePhilum(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/philum?plant_id=$id&plant_philum=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateClass(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/class?plant_id=$id&plant_class=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateOrder(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/order?plant_id=$id&plant_order=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateFamily(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/family?plant_id=$id&plant_family=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateGenus(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/genus?plant_id=$id&plant_genus=$value"));
+    statusCode = response.statusCode;
+    return statusCode;
+  }
+  static Future<int> updateSpecies(int id, String value) async{
+    int statusCode = 400;
+    final response = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/species?plant_id=$id&plant_species=$value"));
+    statusCode = response.statusCode;
+    print(value);
+    return statusCode;
+  }
 }

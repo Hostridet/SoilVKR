@@ -9,8 +9,9 @@ class CurGroundLoadingState extends CurGroundState {}
 
 class CurGroundLoadedState extends CurGroundState {
   final Ground ground;
+  final bool isAdmin;
 
-  CurGroundLoadedState(this.ground);
+  CurGroundLoadedState(this.ground, this.isAdmin);
 }
 
 class CurGroundErrorState extends CurGroundState {

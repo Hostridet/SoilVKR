@@ -9,8 +9,9 @@ class CurSoilLoadingState extends CurSoilState {}
 
 class CurSoilLoadedState extends CurSoilState {
   final Soil soil;
+  final bool isAdmin;
 
-  CurSoilLoadedState(this.soil);
+  CurSoilLoadedState(this.soil, this.isAdmin);
 }
 
 class CurSoilErrorState extends CurSoilState {

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../models/Soil.dart';
+import '../../repository/AdminRepository.dart';
 import '../../repository/SoilRepository.dart';
 
 part 'cur_soil_event.dart';
@@ -16,7 +17,8 @@ class CurSoilBloc extends Bloc<CurSoilEvent, CurSoilState> {
       emit(CurSoilLoadingState());
       try {
         Soil soil = await _soilRepository.getCurrentSoil(event.id);
-        emit(CurSoilLoadedState(soil));
+        bool isAdmin = await AdminRepository.isAdmin();
+        emit(CurSoilLoadedState(soil, isAdmin));
       }
       catch(e) {
         emit(CurSoilErrorState(e.toString()));

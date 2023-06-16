@@ -5,7 +5,7 @@ class Ground {
   String description;
   int? density;
   int? humidity;
-  String? moos;
+  int? moos;
   String? image;
 
   Ground({
@@ -24,7 +24,7 @@ class Ground {
       description: json['ground_description'] as String,
       density: json['ground_density'] as int?,
       humidity: json['ground_humidity'] as int?,
-      moos: json['ground_hardness_Moos'] as String?,
+      moos: json['ground_hardness_Moos'] as int?,
       image: json['ground_picture'] as String?,
     );
   }

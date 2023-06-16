@@ -29,6 +29,82 @@ class ImageRepository {
         })
     );
   }
+  static Future<void> uploadPlantImage(int id) async {
+    final ImagePicker picker = ImagePicker();
+    var image = await picker.getImage(source: ImageSource.gallery);
+    if (image == null) {
+      return;
+    }
+    File _imageFile = File(image.path);
+    Uint8List imageBytes = await _imageFile.readAsBytes();
+    String _base64String = base64.encode(imageBytes);
+    final responseName = await http.post(Uri.parse("http://${Config.baseUrl}/plants/update/picture"),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "plant_id": id,
+          "plant_picture": _base64String,
+        })
+    );
+  }
+  static Future<void> uploadGroundImage(int id) async {
+    final ImagePicker picker = ImagePicker();
+    var image = await picker.getImage(source: ImageSource.gallery);
+    if (image == null) {
+      return;
+    }
+    File _imageFile = File(image.path);
+    Uint8List imageBytes = await _imageFile.readAsBytes();
+    String _base64String = base64.encode(imageBytes);
+    final responseName = await http.post(Uri.parse("http://${Config.baseUrl}/grounds/update/picture"),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "ground_id": id,
+          "ground_picture": _base64String,
+        })
+    );
+  }
+  static Future<void> uploadSoilImage(int id) async {
+    final ImagePicker picker = ImagePicker();
+    var image = await picker.getImage(source: ImageSource.gallery);
+    if (image == null) {
+      return;
+    }
+    File _imageFile = File(image.path);
+    Uint8List imageBytes = await _imageFile.readAsBytes();
+    String _base64String = base64.encode(imageBytes);
+    final responseName = await http.post(Uri.parse("http://${Config.baseUrl}/soils/update/picture"),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "soil_id": id,
+          "soil_picture": _base64String,
+        })
+    );
+  }
+  static Future<void> uploadAnimalImage(int id) async {
+    final ImagePicker picker = ImagePicker();
+    var image = await picker.getImage(source: ImageSource.gallery);
+    if (image == null) {
+      return;
+    }
+    File _imageFile = File(image.path);
+    Uint8List imageBytes = await _imageFile.readAsBytes();
+    String _base64String = base64.encode(imageBytes);
+    final responseName = await http.post(Uri.parse("http://${Config.baseUrl}/animals/update/picture"),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "animal_id": id,
+          "animal_picture": _base64String,
+        })
+    );
+  }
   // static Future<String> getUserImage(int id) async {
   //   final prefs = await SharedPreferences.getInstance();
   //   if (prefs.getString("user/$id") == null) {
