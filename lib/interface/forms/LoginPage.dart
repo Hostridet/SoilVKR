@@ -24,6 +24,10 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController userName;
   late TextEditingController password;
 
+  Future<bool> _onWillPop() async {
+    return false;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -51,30 +55,33 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RepositoryProvider(
-        create: (context) => LoginRepository(),
-        child: BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(
-            RepositoryProvider.of<LoginRepository>(context)
-          )..add(LoginIsAuthorizeEvent()),
-          child: BlocConsumer<LoginBloc, LoginState>(
-            listener: (context, state) {
-              if (state is LoginEmptyState) {
-                InfoLayout.buildErrorLayout(context, "Ввдетие логин или пароль");
-              }
-              if (state is LoginWrongState) {
-                InfoLayout.buildErrorLayout(context, "Неверный логин или пароль");
-              }
-              if (state is LoginLoadedState) {
-                clearTextData();
-                Navigator.of(context)
-                    .pushReplacementNamed('/home');
-              }
-            },
-            builder: (context, state) {
-              return buildInitialInput();
-            },
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        body: RepositoryProvider(
+          create: (context) => LoginRepository(),
+          child: BlocProvider<LoginBloc>(
+            create: (context) => LoginBloc(
+              RepositoryProvider.of<LoginRepository>(context)
+            )..add(LoginIsAuthorizeEvent()),
+            child: BlocConsumer<LoginBloc, LoginState>(
+              listener: (context, state) {
+                if (state is LoginEmptyState) {
+                  InfoLayout.buildErrorLayout(context, "Ввдетие логин или пароль");
+                }
+                if (state is LoginWrongState) {
+                  InfoLayout.buildErrorLayout(context, "Неверный логин или пароль");
+                }
+                if (state is LoginLoadedState) {
+                  clearTextData();
+                  Navigator.of(context)
+                      .pushReplacementNamed('/home');
+                }
+              },
+              builder: (context, state) {
+                return buildInitialInput();
+              },
+            ),
           ),
         ),
       ),

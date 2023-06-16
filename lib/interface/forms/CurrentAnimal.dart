@@ -22,236 +22,250 @@ class CurrentAnimalPage extends StatefulWidget {
 }
 
 class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
+  Future<bool> _onWillPop() async {
+    if (widget.args.point != null) {
+      Navigator.of(context)
+          .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+    }
+    else {
+      Navigator.of(context)
+          .pushReplacementNamed(widget.args.route);
+    }
+    return false;
+  }
   TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: NewGradientAppBar(
-        actions: [
-          IconButton(
-            onPressed: () async {
-              showAlertDialog(context);
-            },
-            icon: Icon(Icons.delete_rounded, color: Colors.red, size: 30,),
-          ),
-        ],
-        title:  Row(
-          children: [
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: NewGradientAppBar(
+          actions: [
             IconButton(
-              onPressed: () {
-                if (widget.args.point != null) {
-                  Navigator.of(context)
-                      .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
-                }
-                else {
-                  Navigator.of(context)
-                      .pushReplacementNamed(widget.args.route);
-                }
+              onPressed: () async {
+                showAlertDialog(context);
               },
-              icon: Icon(Icons.arrow_back, size: 35,),
+              icon: Icon(Icons.delete_rounded, color: Colors.red, size: 30,),
             ),
-            Text("Животные"),
           ],
+          title:  Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  if (widget.args.point != null) {
+                    Navigator.of(context)
+                        .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+                  }
+                  else {
+                    Navigator.of(context)
+                        .pushReplacementNamed(widget.args.route);
+                  }
+                },
+                icon: Icon(Icons.arrow_back, size: 35,),
+              ),
+              Text("Животные"),
+            ],
+          ),
+          gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
-        gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-      ),
-      body: RepositoryProvider(
-        create: (context) => AnimalRepository(),
-        child: BlocProvider<CurAnimalBloc>(
-          create: (context) => CurAnimalBloc(
-              RepositoryProvider.of<AnimalRepository>(context)
-          )..add(CurAnimalGetEvent(widget.args.id)),
-          child: BlocBuilder<CurAnimalBloc, CurAnimalState>(
-            builder: (context, state) {
-              if (state is CurAnimalErrorState) {
-                return Center(
-                  child: Text(state.error),
-                );
-              }
-              if (state is CurAnimalLoadingState) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (state is CurAnimalLoadedState) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              if (state.isAdmin && widget.args.route == "/home/book") {
-                                await ImageRepository.uploadAnimalImage(state.animal.id);
-                              }
-                            },
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: 250,
-                              child: FutureBuilder<String>(
-                                future: ImageRepository.getAnimalImage(state.animal.id),
-                                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                  if (snapshot.hasData) {
-                                    return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
-                                  }
-                                  else {
-                                    return FittedBox(child: Image.asset("assets/no-image.jpg"), fit: BoxFit.fill);
+        body: RepositoryProvider(
+          create: (context) => AnimalRepository(),
+          child: BlocProvider<CurAnimalBloc>(
+            create: (context) => CurAnimalBloc(
+                RepositoryProvider.of<AnimalRepository>(context)
+            )..add(CurAnimalGetEvent(widget.args.id)),
+            child: BlocBuilder<CurAnimalBloc, CurAnimalState>(
+              builder: (context, state) {
+                if (state is CurAnimalErrorState) {
+                  return Center(
+                    child: Text(state.error),
+                  );
+                }
+                if (state is CurAnimalLoadingState) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (state is CurAnimalLoadedState) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                if (state.isAdmin && widget.args.route == "/home/book") {
+                                  await ImageRepository.uploadAnimalImage(state.animal.id);
+                                }
+                              },
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 250,
+                                child: FutureBuilder<String>(
+                                  future: ImageRepository.getAnimalImage(state.animal.id),
+                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.hasData) {
+                                      return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
+                                    }
+                                    else {
+                                      return FittedBox(child: Image.asset("assets/no-image.jpg"), fit: BoxFit.fill);
 
-                                  }
-                                },
+                                    }
+                                  },
+                                ),
                               ),
                             ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                  padding: EdgeInsets.only(top: 210, left: 10),
-                                  alignment: Alignment.bottomLeft,
-                                  child: Text(
-                                    state.animal.name,
-                                    style: TextStyle(color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22.0),
-                                  )),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Card(
-                        elevation: 1,
-                        child: ListTile(
-                          title: Text(state.animal.description),
-                          subtitle: Text("Описание"),
-                          onTap: () {
-                            makeTextDialog(context, 20, state.isAdmin, state.animal.description, (value) async {return AnimalRepository.updateDescription(widget.args.id, value);},
-                                    () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
-                          },
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.only(top: 210, left: 10),
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text(
+                                      state.animal.name,
+                                      style: TextStyle(color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22.0),
+                                    )),
+                              ],
+                            ),
+                          ],
                         ),
-                      ),
-                      // Card(
-                      //   elevation: 1,
-                      //   child: ListTile(
-                      //     title: Text(
-                      //         state.plant.isFodder != null
-                      //             ? state.plant.isFodder == 0 ? "Нет" : "Да"
-                      //             : "Отсутствует"
-                      //     ),
-                      //     subtitle: Text("Является кормовым"),
-                      //   ),
-                      // ),
+                        SizedBox(height: 10),
+                        Card(
+                          elevation: 1,
+                          child: ListTile(
+                            title: Text(state.animal.description),
+                            subtitle: Text("Описание"),
+                            onTap: () {
+                              makeTextDialog(context, 20, state.isAdmin, state.animal.description, (value) async {return AnimalRepository.updateDescription(widget.args.id, value);},
+                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                            },
+                          ),
+                        ),
+                        // Card(
+                        //   elevation: 1,
+                        //   child: ListTile(
+                        //     title: Text(
+                        //         state.plant.isFodder != null
+                        //             ? state.plant.isFodder == 0 ? "Нет" : "Да"
+                        //             : "Отсутствует"
+                        //     ),
+                        //     subtitle: Text("Является кормовым"),
+                        //   ),
+                        // ),
 
-                      Card(
-                        elevation: 1,
-                        child: ListTile(
-                          title: Text(
-                              state.animal.kingdom != null
-                                  ? state.animal.kingdom!
-                                  : "Отсутствует"
+                        Card(
+                          elevation: 1,
+                          child: ListTile(
+                            title: Text(
+                                state.animal.kingdom != null
+                                    ? state.animal.kingdom!
+                                    : "Отсутствует"
+                            ),
+                            subtitle: Text("Царство"),
+                            onTap: () {
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.kingdom == null ? "" : state.animal.kingdom!, (value) async {return AnimalRepository.updateKingdom(widget.args.id, value);},
+                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                            },
                           ),
-                          subtitle: Text("Царство"),
-                          onTap: () {
-                            makeTextDialog(context, 1, state.isAdmin, state.animal.kingdom == null ? "" : state.animal.kingdom!, (value) async {return AnimalRepository.updateKingdom(widget.args.id, value);},
-                                    () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
-                          },
                         ),
-                      ),
-                      Card(
-                        elevation: 1,
-                        child: ListTile(
-                          title: Text(
-                              state.animal.philum != null
-                                  ? state.animal.philum!
-                                  : "Отсутствует"
+                        Card(
+                          elevation: 1,
+                          child: ListTile(
+                            title: Text(
+                                state.animal.philum != null
+                                    ? state.animal.philum!
+                                    : "Отсутствует"
+                            ),
+                            subtitle: Text("Тип"),
+                            onTap: () {
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.philum == null ? "" : state.animal.philum!, (value) async {return AnimalRepository.updatePhilum(widget.args.id, value);},
+                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                            },
                           ),
-                          subtitle: Text("Тип"),
-                          onTap: () {
-                            makeTextDialog(context, 1, state.isAdmin, state.animal.philum == null ? "" : state.animal.philum!, (value) async {return AnimalRepository.updatePhilum(widget.args.id, value);},
-                                    () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
-                          },
                         ),
-                      ),
-                      Card(
-                        elevation: 1,
-                        child: ListTile(
-                          title: Text(
-                              state.animal.classes != null
-                                  ? state.animal.classes!
-                                  : "Отсутствует"
+                        Card(
+                          elevation: 1,
+                          child: ListTile(
+                            title: Text(
+                                state.animal.classes != null
+                                    ? state.animal.classes!
+                                    : "Отсутствует"
+                            ),
+                            subtitle: Text("Класс"),
+                            onTap: () {
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.classes == null ? "" : state.animal.classes!, (value) async {return AnimalRepository.updateClass(widget.args.id, value);},
+                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                            },
                           ),
-                          subtitle: Text("Класс"),
-                          onTap: () {
-                            makeTextDialog(context, 1, state.isAdmin, state.animal.classes == null ? "" : state.animal.classes!, (value) async {return AnimalRepository.updateClass(widget.args.id, value);},
-                                    () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
-                          },
                         ),
-                      ),
-                      Card(
-                        elevation: 1,
-                        child: ListTile(
-                          title: Text(
-                              state.animal.order != null
-                                  ? state.animal.order!
-                                  : "Отсутствует"
+                        Card(
+                          elevation: 1,
+                          child: ListTile(
+                            title: Text(
+                                state.animal.order != null
+                                    ? state.animal.order!
+                                    : "Отсутствует"
+                            ),
+                            subtitle: Text("Отряд"),
+                            onTap: () {
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.order == null ? "" : state.animal.order!, (value) async {return AnimalRepository.updateOrder(widget.args.id, value);},
+                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                            },
                           ),
-                          subtitle: Text("Отряд"),
-                          onTap: () {
-                            makeTextDialog(context, 1, state.isAdmin, state.animal.order == null ? "" : state.animal.order!, (value) async {return AnimalRepository.updateOrder(widget.args.id, value);},
-                                    () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
-                          },
                         ),
-                      ),
-                      Card(
-                        elevation: 1,
-                        child: ListTile(
-                          title: Text(
-                              state.animal.family != null
-                                  ? state.animal.family!
-                                  : "Отсутствует"
+                        Card(
+                          elevation: 1,
+                          child: ListTile(
+                            title: Text(
+                                state.animal.family != null
+                                    ? state.animal.family!
+                                    : "Отсутствует"
+                            ),
+                            subtitle: Text("Семейство"),
+                            onTap: () {
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.family == null ? "" : state.animal.family!, (value) async {return AnimalRepository.updateFamily(widget.args.id, value);},
+                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                            },
                           ),
-                          subtitle: Text("Семейство"),
-                          onTap: () {
-                            makeTextDialog(context, 1, state.isAdmin, state.animal.family == null ? "" : state.animal.family!, (value) async {return AnimalRepository.updateFamily(widget.args.id, value);},
-                                    () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
-                          },
                         ),
-                      ),
-                      Card(
-                        elevation: 1,
-                        child: ListTile(
-                          title: Text(
-                              state.animal.genus != null
-                                  ? state.animal.genus!
-                                  : "Отсутствует"
+                        Card(
+                          elevation: 1,
+                          child: ListTile(
+                            title: Text(
+                                state.animal.genus != null
+                                    ? state.animal.genus!
+                                    : "Отсутствует"
+                            ),
+                            subtitle: Text("Род"),
+                            onTap: () {
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.genus == null ? "" : state.animal.genus!, (value) async {return AnimalRepository.updateGenus(widget.args.id, value);},
+                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                            },
                           ),
-                          subtitle: Text("Род"),
-                          onTap: () {
-                            makeTextDialog(context, 1, state.isAdmin, state.animal.genus == null ? "" : state.animal.genus!, (value) async {return AnimalRepository.updateGenus(widget.args.id, value);},
-                                    () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
-                          },
                         ),
-                      ),
-                      Card(
-                        elevation: 1,
-                        child: ListTile(
-                          title: Text(
-                              state.animal.species != null
-                                  ? state.animal.species!
-                                  : "Отсутствует"
+                        Card(
+                          elevation: 1,
+                          child: ListTile(
+                            title: Text(
+                                state.animal.species != null
+                                    ? state.animal.species!
+                                    : "Отсутствует"
+                            ),
+                            subtitle: Text("Вид"),
+                            onTap: () {
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.species == null ? "" : state.animal.species!, (value) async {return AnimalRepository.updateSpecies(widget.args.id, value);},
+                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                            },
                           ),
-                          subtitle: Text("Вид"),
-                          onTap: () {
-                            makeTextDialog(context, 1, state.isAdmin, state.animal.species == null ? "" : state.animal.species!, (value) async {return AnimalRepository.updateSpecies(widget.args.id, value);},
-                                    () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
-                          },
                         ),
-                      ),
 
-                    ],
-                  ),
-                );
-              }
-              return Container();
-            },
+                      ],
+                    ),
+                  );
+                }
+                return Container();
+              },
+            ),
           ),
         ),
       ),

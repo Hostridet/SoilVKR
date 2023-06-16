@@ -17,89 +17,97 @@ class AllUserPage extends StatefulWidget {
 class _AllUserPageState extends State<AllUserPage> {
   List<User> items = [];
   TextEditingController editingController = TextEditingController();
+  Future<bool> _onWillPop() async {
+    Navigator.of(context)
+        .pushReplacementNamed('/home/admin');
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: NewGradientAppBar(
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed('/home/admin');
-              },
-              icon: Icon(Icons.arrow_back, size: 35,),
-            ),
-            Row(
-              children: [
-                SizedBox(width: 10,),
-                Text("Список пользователей"),
-              ],
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: NewGradientAppBar(
+          title: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed('/home/admin');
+                },
+                icon: Icon(Icons.arrow_back, size: 35,),
+              ),
+              Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Text("Список пользователей"),
+                ],
+              ),
+            ],
+          ),
+          gradient: const LinearGradient(
+              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
-        gradient: const LinearGradient(
-            colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-      ),
-      body: RepositoryProvider(
-        create: (context) => UserRepository(),
-        child: BlocProvider<UserBloc>(
-          create: (context) => UserBloc(
-              RepositoryProvider.of<UserRepository>(context)
-          )..add(UserGetAllEvent()),
-          child: BlocBuilder<UserBloc, UserState>(
-            builder: (context, state) {
-              if (state is UserLoadingState) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (state is UserLoadedAllState) {
-                if (items.isEmpty) {
-                  items.addAll(state.userList);
+        body: RepositoryProvider(
+          create: (context) => UserRepository(),
+          child: BlocProvider<UserBloc>(
+            create: (context) => UserBloc(
+                RepositoryProvider.of<UserRepository>(context)
+            )..add(UserGetAllEvent()),
+            child: BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UserLoadingState) {
+                  return Center(child: CircularProgressIndicator());
                 }
-                return Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Column(
-                      children: [
-                        TextField(
-                          onChanged: (value) {
-                            filterSearchResults(value.toLowerCase(), state.userList);
-                          },
-                          controller: editingController,
-                          decoration: const InputDecoration(
-                            labelText: "Поиск",
-                            hintText: "Поиск",
-                            prefixIcon: Icon(Icons.search),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                if (state is UserLoadedAllState) {
+                  if (items.isEmpty) {
+                    items.addAll(state.userList);
+                  }
+                  return Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          TextField(
+                            onChanged: (value) {
+                              filterSearchResults(value.toLowerCase(), state.userList);
+                            },
+                            controller: editingController,
+                            decoration: const InputDecoration(
+                              labelText: "Поиск",
+                              hintText: "Поиск",
+                              prefixIcon: Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                            child: ListView.builder(
-                                itemCount: items.length,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return Card(
-                                    elevation: 2,
-                                    child: ListTile(
-                                      trailing: Icon(Icons.edit),
-                                      title: Text("${items[index].surname} ${items[index].name} ${items[index].fatherName}"),
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed('/home/admin/users/edit', arguments: items[index].id);
-                                      },
-                                    ),
-                                  );
-                                }
-                            ),
-                        ),
-                      ],
-                    ),
-                );
+                          Expanded(
+                              child: ListView.builder(
+                                  itemCount: items.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return Card(
+                                      elevation: 2,
+                                      child: ListTile(
+                                        trailing: Icon(Icons.edit),
+                                        title: Text("${items[index].surname} ${items[index].name} ${items[index].fatherName}"),
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .pushReplacementNamed('/home/admin/users/edit', arguments: items[index].id);
+                                        },
+                                      ),
+                                    );
+                                  }
+                              ),
+                          ),
+                        ],
+                      ),
+                  );
+                }
+                return Container();
               }
-              return Container();
-            }
+            ),
           ),
         ),
       ),

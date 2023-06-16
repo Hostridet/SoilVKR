@@ -21,88 +21,96 @@ class AnimalItem extends StatefulWidget {
 }
 
 class _AnimalItemState extends State<AnimalItem> {
+  Future<bool> _onWillPop() async {
+    Navigator.of(context)
+        .pushReplacementNamed('/home/points/one', arguments: widget.args);
+    return false;
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: NewGradientAppBar(
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed('/home/points/one', arguments: widget.args);
-              },
-              icon: Icon(Icons.arrow_back, size: 35,),
-            ),
-            Row(
-              children: [
-                SizedBox(width: 10,),
-                Text("Животные"),
-              ],
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: NewGradientAppBar(
+          title: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed('/home/points/one', arguments: widget.args);
+                },
+                icon: Icon(Icons.arrow_back, size: 35,),
+              ),
+              Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Text("Животные"),
+                ],
+              ),
+            ],
+          ),
+          gradient: const LinearGradient(
+              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
-        gradient: const LinearGradient(
-            colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-      ),
-      body: RepositoryProvider(
-        create: (context) => PointRepository(),
-        child: BlocProvider<PointBloc>(
-          create: (context) => PointBloc(
-              RepositoryProvider.of<PointRepository>(context)
-          )..add(PointGetAnimalEvent(widget.args.point.id)),
-          child: BlocBuilder<PointBloc, PointState>(
-            builder: (context, state) {
-              if (state is PointLoadingState) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (state is PointLoadedAnimalState) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                          padding: EdgeInsets.all(5),
-                          itemCount: state.animalList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Card(
-                              elevation: 2,
-                              child: ListTile(
-                                title: Text(
-                                  state.animalList[index].name,
-                                  maxLines: 4,
-                                  overflow: TextOverflow.ellipsis,
+        body: RepositoryProvider(
+          create: (context) => PointRepository(),
+          child: BlocProvider<PointBloc>(
+            create: (context) => PointBloc(
+                RepositoryProvider.of<PointRepository>(context)
+            )..add(PointGetAnimalEvent(widget.args.point.id)),
+            child: BlocBuilder<PointBloc, PointState>(
+              builder: (context, state) {
+                if (state is PointLoadingState) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (state is PointLoadedAnimalState) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                            padding: EdgeInsets.all(5),
+                            itemCount: state.animalList.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Card(
+                                elevation: 2,
+                                child: ListTile(
+                                  title: Text(
+                                    state.animalList[index].name,
+                                    maxLines: 4,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  leading: SizedBox(
+                                      width: 100,
+                                      height: 200,
+                                      child: state.animalList[index].picture == null
+                                          ? DecoratedBox(
+                                        decoration: const BoxDecoration(
+                                            color: Colors.grey
+                                        ),
+                                      )
+                                          :  Image.memory(base64Decode(state.animalList[index].picture!), fit: BoxFit.fill,)
+                                  ),
+                                  subtitle: Text(
+                                    state.animalList[index].description,
+                                    maxLines: 4,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushReplacementNamed('/home/book/animal', arguments: ItemWithRoute(id: state.animalList[index].id, route: '/home/points/animal', point: widget.args));
+                                  },
                                 ),
-                                leading: SizedBox(
-                                    width: 100,
-                                    height: 200,
-                                    child: state.animalList[index].picture == null
-                                        ? DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                          color: Colors.grey
-                                      ),
-                                    )
-                                        :  Image.memory(base64Decode(state.animalList[index].picture!), fit: BoxFit.fill,)
-                                ),
-                                subtitle: Text(
-                                  state.animalList[index].description,
-                                  maxLines: 4,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/home/book/animal', arguments: ItemWithRoute(id: state.animalList[index].id, route: '/home/points/animal', point: widget.args));
-                                },
-                              ),
-                            );
-                          }
+                              );
+                            }
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              }
-              return Container();
-            },
+                    ],
+                  );
+                }
+                return Container();
+              },
+            ),
           ),
         ),
       ),

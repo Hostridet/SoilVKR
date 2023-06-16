@@ -16,66 +16,74 @@ class AddPointPage extends StatefulWidget {
 }
 
 class _AddPointPageState extends State<AddPointPage> {
+  Future<bool> _onWillPop() async {
+    Navigator.of(context)
+        .pushReplacementNamed(widget.route);
+    return false;
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: NewGradientAppBar(
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed(widget.route);
-              },
-              icon: Icon(Icons.arrow_back, size: 35,),
-            ),
-            Row(
-              children: [
-                SizedBox(width: 10,),
-                Text("Добаить территорию"),
-              ],
-            ),
-          ],
-        ),
-        gradient: const LinearGradient(
-            colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-      ),
-      body: RepositoryProvider(
-        create: (context) => MapRepository(),
-        child: BlocProvider<MapBloc>(
-          create: (context) =>
-              MapBloc(
-                  RepositoryProvider.of<MapRepository>(context)
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: NewGradientAppBar(
+          title: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(widget.route);
+                },
+                icon: Icon(Icons.arrow_back, size: 35,),
               ),
-          child: BlocBuilder<MapBloc, MapState>(
-            builder: (context, state) {
-              return FlutterLocationPicker(
-                  showCurrentLocationPointer: false,
-                  initPosition: LatLong(43.10562, 131.87353),
-                  showSearchBar: false,
-                  searchBarBackgroundColor: Colors.white,
-                  mapLanguage: 'ru',
-                  zoomButtonsBackgroundColor: Colors.blue,
-                  zoomButtonsColor: Colors.white,
-                  locationButtonBackgroundColor: Colors.blue,
-                  locationButtonsColor: Colors.white,
-                  selectLocationButtonText: 'Добавить',
-                  selectLocationButtonStyle: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.green),
-                  ),
-                  initZoom: 11,
-                  minZoomLevel: 5,
-                  maxZoomLevel: 16,
-                  trackMyPosition: false,
-                  onError: (e) {},
-                  onPicked: (pickedData) async {
-                    BlocProvider.of<MapBloc>(context)
-                        .add(MapAddEvent(pickedData.latLong.latitude, pickedData.latLong.longitude, pickedData.address));
-                    await Future.delayed(const Duration(seconds: 1));
-                    Navigator.of(context)
-                        .pushReplacementNamed('/home/points');
-                  });
-            },
+              Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Text("Добаить территорию"),
+                ],
+              ),
+            ],
+          ),
+          gradient: const LinearGradient(
+              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
+        ),
+        body: RepositoryProvider(
+          create: (context) => MapRepository(),
+          child: BlocProvider<MapBloc>(
+            create: (context) =>
+                MapBloc(
+                    RepositoryProvider.of<MapRepository>(context)
+                ),
+            child: BlocBuilder<MapBloc, MapState>(
+              builder: (context, state) {
+                return FlutterLocationPicker(
+                    showCurrentLocationPointer: false,
+                    initPosition: LatLong(43.10562, 131.87353),
+                    showSearchBar: false,
+                    searchBarBackgroundColor: Colors.white,
+                    mapLanguage: 'ru',
+                    zoomButtonsBackgroundColor: Colors.blue,
+                    zoomButtonsColor: Colors.white,
+                    locationButtonBackgroundColor: Colors.blue,
+                    locationButtonsColor: Colors.white,
+                    selectLocationButtonText: 'Добавить',
+                    selectLocationButtonStyle: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.green),
+                    ),
+                    initZoom: 11,
+                    minZoomLevel: 5,
+                    maxZoomLevel: 16,
+                    trackMyPosition: false,
+                    onError: (e) {},
+                    onPicked: (pickedData) async {
+                      BlocProvider.of<MapBloc>(context)
+                          .add(MapAddEvent(pickedData.latLong.latitude, pickedData.latLong.longitude, pickedData.address));
+                      await Future.delayed(const Duration(seconds: 1));
+                      Navigator.of(context)
+                          .pushReplacementNamed('/home/points');
+                    });
+              },
+            ),
           ),
         ),
       ),

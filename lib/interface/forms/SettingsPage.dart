@@ -16,60 +16,67 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
+  Future<bool> _onWillPop() async {
+    Navigator.of(context)
+        .pushReplacementNamed('/home');
+    return false;
+  }
   late bool light;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LightBloc>(
-      create: (context) => LightBloc()..add(LightGetEvent()),
-      child: Scaffold(
-        drawer: DrawerMenu(),
-        appBar:NewGradientAppBar(
-          title: const Text('Настройки'),
-          gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-        ),
-        body: BlocBuilder<LightBloc, LightState>(
-          builder: (context, state) {
-            if (state is LightLoadedState) {
-              light = state.light;
-              return Column(
-                children: [
-                  ListTile(
-                      trailing: Switch(
-                        value: light,
-                        activeColor: Colors.grey,
-                        onChanged: (bool value) async {
-                          final prefs =
-                          await SharedPreferences.getInstance();
-                          setState(() {
-                            light = value;
-                          });
-                          if (light) {
-                            BlocProvider.of<ThemeBloc>(context)
-                                .add(ThemeSetDarkEvent());
-                            prefs.setInt("mode", 1);
-                          } else if (!light) {
-                            BlocProvider.of<ThemeBloc>(context)
-                                .add(ThemeSetEvent());
-                            prefs.setInt("mode", 0);
-                          }
-                          BlocProvider.of<LightBloc>(context)
-                              .add(LightGetEvent());
-                        },
-                      ),
-                      leading: const Padding(
-                        padding: EdgeInsets.only(top: 5),
-                        child: Icon(Icons.light_mode, size: 30, color: Colors.grey),
-                      ),
-                      title: Text("Темная тема"),
-                      subtitle: Text("Включить темную тему"),
-                  ),
-                  Divider(),
-                ],
-              );
-            }
-            return Container();
-          },
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: BlocProvider<LightBloc>(
+        create: (context) => LightBloc()..add(LightGetEvent()),
+        child: Scaffold(
+          drawer: DrawerMenu(),
+          appBar:NewGradientAppBar(
+            title: const Text('Настройки'),
+            gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
+          ),
+          body: BlocBuilder<LightBloc, LightState>(
+            builder: (context, state) {
+              if (state is LightLoadedState) {
+                light = state.light;
+                return Column(
+                  children: [
+                    ListTile(
+                        trailing: Switch(
+                          value: light,
+                          activeColor: Colors.grey,
+                          onChanged: (bool value) async {
+                            final prefs =
+                            await SharedPreferences.getInstance();
+                            setState(() {
+                              light = value;
+                            });
+                            if (light) {
+                              BlocProvider.of<ThemeBloc>(context)
+                                  .add(ThemeSetDarkEvent());
+                              prefs.setInt("mode", 1);
+                            } else if (!light) {
+                              BlocProvider.of<ThemeBloc>(context)
+                                  .add(ThemeSetEvent());
+                              prefs.setInt("mode", 0);
+                            }
+                            BlocProvider.of<LightBloc>(context)
+                                .add(LightGetEvent());
+                          },
+                        ),
+                        leading: const Padding(
+                          padding: EdgeInsets.only(top: 5),
+                          child: Icon(Icons.light_mode, size: 30, color: Colors.grey),
+                        ),
+                        title: Text("Темная тема"),
+                        subtitle: Text("Включить темную тему"),
+                    ),
+                    Divider(),
+                  ],
+                );
+              }
+              return Container();
+            },
+          ),
         ),
       ),
     );

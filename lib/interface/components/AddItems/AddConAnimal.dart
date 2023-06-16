@@ -20,115 +20,123 @@ class AddConAnimal extends StatefulWidget {
 class _AddConAnimalState extends State<AddConAnimal> {
   Plant? currentPlant;
   Animal? currentAnimal;
+  Future<bool> _onWillPop() async {
+    Navigator.of(context)
+        .pushReplacementNamed('/home/admin/plantanimal');
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: NewGradientAppBar(
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacementNamed('/home/admin/plantanimal');
-              },
-              icon: Icon(Icons.arrow_back, size: 35,),
-            ),
-            Row(
-              children: [
-                SizedBox(width: 10,),
-                Text("Растения и животные"),
-              ],
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: NewGradientAppBar(
+          title: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed('/home/admin/plantanimal');
+                },
+                icon: Icon(Icons.arrow_back, size: 35,),
+              ),
+              Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Text("Растения и животные"),
+                ],
+              ),
+            ],
+          ),
+          gradient: const LinearGradient(
+              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
-        gradient: const LinearGradient(
-            colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: RepositoryProvider(
-          create: (context) => PlantRepository(),
-          child: BlocProvider<PlantBloc>(
-            create: (context) => PlantBloc(
-                RepositoryProvider.of<PlantRepository>(context)
-            )..add(PlantAddConAnimalEvent()),
-            child: BlocBuilder<PlantBloc, PlantState>(
-              builder: (context, state) {
-                if (state is PlantErrorState) {
-                  return Center(child: Text(state.error));
-                }
-                if (state is PlantLoadingState) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                if (state is PlantAddConAnimalState) {
-                  return Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10),
-                        DropdownSearch<Plant>(
-                          mode: Mode.BOTTOM_SHEET,
-                          searchFieldProps: const TextFieldProps(
-                            cursorColor: Colors.green,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: RepositoryProvider(
+            create: (context) => PlantRepository(),
+            child: BlocProvider<PlantBloc>(
+              create: (context) => PlantBloc(
+                  RepositoryProvider.of<PlantRepository>(context)
+              )..add(PlantAddConAnimalEvent()),
+              child: BlocBuilder<PlantBloc, PlantState>(
+                builder: (context, state) {
+                  if (state is PlantErrorState) {
+                    return Center(child: Text(state.error));
+                  }
+                  if (state is PlantLoadingState) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (state is PlantAddConAnimalState) {
+                    return Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10),
+                          DropdownSearch<Plant>(
+                            mode: Mode.BOTTOM_SHEET,
+                            searchFieldProps: const TextFieldProps(
+                              cursorColor: Colors.green,
+                            ),
+                            dropdownSearchDecoration: InputDecoration(
+                                labelText: "Растение"
+                            ),
+                            items: state.plantList,
+                            showSearchBox: true,
+                            onChanged: (Plant? plant) {
+                              setState(() {
+                                currentPlant = plant!;
+                              });
+                            },
                           ),
-                          dropdownSearchDecoration: InputDecoration(
-                              labelText: "Растение"
+                          SizedBox(height: 20),
+                          DropdownSearch<Animal>(
+                            mode: Mode.BOTTOM_SHEET,
+                            searchFieldProps: const TextFieldProps(
+                              cursorColor: Colors.green,
+                            ),
+                            dropdownSearchDecoration: InputDecoration(
+                                labelText: "Животное"
+                            ),
+                            items: state.animalList,
+                            showSearchBox: true,
+                            onChanged: (Animal? animal) {
+                              setState(() {
+                                currentAnimal = animal!;
+                              });
+                            },
                           ),
-                          items: state.plantList,
-                          showSearchBox: true,
-                          onChanged: (Plant? plant) {
-                            setState(() {
-                              currentPlant = plant!;
-                            });
-                          },
-                        ),
-                        SizedBox(height: 20),
-                        DropdownSearch<Animal>(
-                          mode: Mode.BOTTOM_SHEET,
-                          searchFieldProps: const TextFieldProps(
-                            cursorColor: Colors.green,
+                          SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.green,
+                                ),
+                                onPressed: () async {
+                                  if (currentPlant == null || currentAnimal == null) {
+                                    InfoLayout.buildErrorLayout(context, "Необходимо выбрать растение и животное");
+                                    return;
+                                  }
+                                  int statusCode = await PlantRepository.insertConAnimal(currentPlant!.id, currentAnimal!.id);
+                                  if (statusCode != 200) {
+                                    InfoLayout.buildErrorLayout(context, "Связь уже существует");
+                                    return;
+                                  }
+                                  Navigator.of(context)
+                                      .pushReplacementNamed('/home/admin/plantanimal');
+                                },
+                                child: Text("Добавить")
+                            ),
                           ),
-                          dropdownSearchDecoration: InputDecoration(
-                              labelText: "Животное"
-                          ),
-                          items: state.animalList,
-                          showSearchBox: true,
-                          onChanged: (Animal? animal) {
-                            setState(() {
-                              currentAnimal = animal!;
-                            });
-                          },
-                        ),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.green,
-                              ),
-                              onPressed: () async {
-                                if (currentPlant == null || currentAnimal == null) {
-                                  InfoLayout.buildErrorLayout(context, "Необходимо выбрать растение и животное");
-                                  return;
-                                }
-                                int statusCode = await PlantRepository.insertConAnimal(currentPlant!.id, currentAnimal!.id);
-                                if (statusCode != 200) {
-                                  InfoLayout.buildErrorLayout(context, "Связь уже существует");
-                                  return;
-                                }
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/home/admin/plantanimal');
-                              },
-                              child: Text("Добавить")
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return Container();
-              },
+                        ],
+                      ),
+                    );
+                  }
+                  return Container();
+                },
+              ),
             ),
           ),
         ),
