@@ -8,6 +8,7 @@ import 'package:soil/repository/ImageRepository.dart';
 import '../../bloc/animal_bloc/animal_bloc.dart';
 import '../../models/ItemWithRoute.dart';
 import '../../repository/AnimalRepository.dart';
+import 'InfoLayout.dart';
 
 class AnimalComponent extends StatefulWidget {
   const AnimalComponent({Key? key}) : super(key: key);
@@ -113,6 +114,14 @@ class _AnimalComponentState extends State<AnimalComponent> {
                               ),
                             ),
                             onPressed: () {
+                              if (nameController.text == "" || descriptionController.text == "") {
+                                InfoLayout.buildErrorLayout(context, "Все поля должны быть заполнены");
+                                return;
+                              }
+                              if (nameController.text.length < 3 || descriptionController.text.length < 3) {
+                                InfoLayout.buildErrorLayout(context, "Длина заполненных полей должна быть больше 2");
+                                return;
+                              }
                               BlocProvider.of<AnimalBloc>(context)
                                   .add(AnimalGetEvent());
                               nameController.clear();

@@ -8,6 +8,7 @@ import '../../bloc/soil_bloc/soil_bloc.dart';
 import '../../models/ItemWithRoute.dart';
 import '../../repository/ImageRepository.dart';
 import '../../repository/SoilRepository.dart';
+import 'InfoLayout.dart';
 
 class SoilComponent extends StatefulWidget {
   const SoilComponent({Key? key}) : super(key: key);
@@ -113,6 +114,14 @@ class _SoilComponentState extends State<SoilComponent> {
                               ),
                             ),
                             onPressed: () {
+                              if (nameController.text == "" || descriptionController.text == "") {
+                                InfoLayout.buildErrorLayout(context, "Все поля должны быть заполнены");
+                                return;
+                              }
+                              if (nameController.text.length < 3 || descriptionController.text.length < 3) {
+                                InfoLayout.buildErrorLayout(context, "Длина заполненных полей должна быть больше 2");
+                                return;
+                              }
                               BlocProvider.of<SoilBloc>(context)
                                   .add(SoilGetEvent());
                               nameController.clear();

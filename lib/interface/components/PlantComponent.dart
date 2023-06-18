@@ -8,6 +8,7 @@ import '../../bloc/plant_bloc/plant_bloc.dart';
 import '../../models/ItemWithRoute.dart';
 import '../../repository/ImageRepository.dart';
 import '../../repository/PlantRepository.dart';
+import 'InfoLayout.dart';
 
 class PlantComponent extends StatefulWidget {
   const PlantComponent({Key? key}) : super(key: key);
@@ -126,6 +127,14 @@ class _PlantComponentState extends State<PlantComponent> {
                                 ),
                               ),
                               onPressed: () {
+                                if (nameController.text == "" || descriptionController.text == "") {
+                                  InfoLayout.buildErrorLayout(context, "Все поля должны быть заполнены");
+                                  return;
+                                }
+                                if (nameController.text.length < 3 || descriptionController.text.length < 3) {
+                                  InfoLayout.buildErrorLayout(context, "Длина заполненных полей должна быть больше 2");
+                                  return;
+                                }
                                 BlocProvider.of<PlantBloc>(context)
                                     .add(PlantGetEvent());
                                 nameController.clear();

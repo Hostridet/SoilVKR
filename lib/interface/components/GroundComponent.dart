@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:soil/interface/components/InfoLayout.dart';
 
 import '../../bloc/ground_bloc/ground_bloc.dart';
 import '../../models/ItemWithRoute.dart';
@@ -130,6 +131,14 @@ class _GroundComponentState extends State<GroundComponent> {
                                 elevation: 0,
                               ),
                               onPressed: () {
+                                if (nameController.text == "" || descriptionController.text == "") {
+                                  InfoLayout.buildErrorLayout(context, "Все поля должны быть заполнены");
+                                  return;
+                                }
+                                if (nameController.text.length < 3 || descriptionController.text.length < 3) {
+                                  InfoLayout.buildErrorLayout(context, "Длина заполненных полей должна быть больше 2");
+                                  return;
+                                }
                                 BlocProvider.of<GroundBloc>(context)
                                     .add(GroundUpdateEvent(nameController.text, descriptionController.text));
                                 nameController.clear();
