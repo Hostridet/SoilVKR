@@ -84,7 +84,6 @@ class _MapPageState extends State<MapPage> {
                           InfoLayout.buildErrorLayout(context, e.toString());
                         },
                         onPicked: (pickedData) {
-                          print(pickedData.address);
                           BlocProvider.of<MapBloc>(context)
                               .add(MapGetEvent(pickedData.latLong.latitude, pickedData.latLong.longitude));
                         });

@@ -337,6 +337,7 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
       );
       if (value != null) {
         request(value == "Да" ? 1 : 0);
+        await Future.delayed(const Duration(seconds: 1));
         update();
       }
     }

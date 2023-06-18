@@ -91,7 +91,8 @@ class _AllUserPageState extends State<AllUserPage> {
                                       elevation: 2,
                                       child: ListTile(
                                         trailing: Icon(Icons.edit),
-                                        title: Text("${items[index].surname} ${items[index].name} ${items[index].fatherName}"),
+                                        title: items[index].name == null || items[index].surname == null || items[index].fatherName == null ? Text("Неизвестно") : Text("${items[index].surname} ${items[index].name} ${items[index].fatherName}"),
+                                        subtitle: Text(items[index].login),
                                         onTap: () {
                                           Navigator.of(context)
                                               .pushReplacementNamed('/home/admin/users/edit', arguments: items[index].id);

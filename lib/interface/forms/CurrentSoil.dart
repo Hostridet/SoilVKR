@@ -255,6 +255,7 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
           InfoLayout.buildErrorLayout(context, "Не удалось обновить данные");
         }
         else {
+          await Future.delayed(const Duration(seconds: 1));
           update();
         }
       }

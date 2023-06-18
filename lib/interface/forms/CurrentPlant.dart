@@ -441,6 +441,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
           InfoLayout.buildErrorLayout(context, "Не удалось обновить данные");
         }
         else {
+          await Future.delayed(const Duration(seconds: 1));
           update();
         }
       }
@@ -455,6 +456,7 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
           builder: (context) => AlertEditing.AlertEditingText(context, localItem)
       );
       request(value == "Да" ? 1 : 0);
+      await Future.delayed(const Duration(seconds: 1));
       update();
     }
   }

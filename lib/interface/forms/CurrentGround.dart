@@ -261,6 +261,7 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
           InfoLayout.buildErrorLayout(context, "Не удалось обновить данные");
         }
         else {
+          await Future.delayed(const Duration(seconds: 1));
           update();
         }
       }
