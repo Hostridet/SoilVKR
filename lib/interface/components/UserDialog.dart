@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:soil/interface/components/InfoLayout.dart';
 import 'package:soil/models/User.dart';
 
 import '../../bloc/user_bloc/user_bloc.dart';
@@ -246,6 +247,10 @@ class _FioDialogState extends State<FioDialog> {
                                   primary: Colors.green,
                                 ),
                                 onPressed: () async {
+                                  if (emailController.text == "") {
+                                    InfoLayout.buildErrorLayout(context, "Почта не должна быть пустой");
+                                    return;
+                                  }
                                   BlocProvider.of<UserBloc>(context)
                                       .add(UserUpdateEvent(User(id: 0, login: "login",
                                       name: nameController.text, surname: surnameController.text, fatherName: fatherNameController.text, age: int.parse(ageController.text),
