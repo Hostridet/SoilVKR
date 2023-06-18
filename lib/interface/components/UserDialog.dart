@@ -248,9 +248,14 @@ class _FioDialogState extends State<FioDialog> {
                                 ),
                                 onPressed: () async {
                                   if (emailController.text == "") {
-                                    InfoLayout.buildErrorLayout(context, "Почта не должна быть пустой");
+                                    InfoLayout.buildErrorLayout(context, "Электронная почта не должна быть пустой");
                                     return;
                                   }
+                                  if (emailController.text.indexOf("@") == -1 || emailController.text.indexOf(".") == -1 || emailController.text.length < 4) {
+                                    InfoLayout.buildErrorLayout(context, "Электронная почта введена неверно");
+                                    return;
+                                  }
+                                  print(emailController.text.indexOf("@"));
                                   BlocProvider.of<UserBloc>(context)
                                       .add(UserUpdateEvent(User(id: 0, login: "login",
                                       name: nameController.text, surname: surnameController.text, fatherName: fatherNameController.text, age: int.parse(ageController.text),
