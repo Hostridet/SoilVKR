@@ -259,6 +259,9 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
           update();
         }
       }
+      else {
+        InfoLayout.buildErrorLayout(context, "Поле не должно быть пустым");
+      }
     }
   }
 }

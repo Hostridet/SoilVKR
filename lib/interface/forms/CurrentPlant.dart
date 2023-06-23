@@ -445,6 +445,9 @@ class _CurrentPlantPageState extends State<CurrentPlantPage> {
           update();
         }
       }
+      else {
+        InfoLayout.buildErrorLayout(context, "Поле не должно быть пустым");
+      }
     }
   }
   Future<void> makeDialog(BuildContext context, String? currentItem, bool isAdmin, Function request, Function update) async {

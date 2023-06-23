@@ -325,6 +325,9 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
           update();
         }
       }
+      else {
+        InfoLayout.buildErrorLayout(context, "Поле не должно быть пустым");
+      }
     }
   }
   Future<void> makeDialog(BuildContext context, String? currentItem, bool isAdmin, Function request, Function update) async {
@@ -336,7 +339,7 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
           builder: (context) => AlertEditing.AlertEditingText(context, localItem)
       );
       if (value != null) {
-        request(value == "Да" ? 1 : 0);
+        int statusCode = request(value == "Да" ? 1 : 0);
         await Future.delayed(const Duration(seconds: 1));
         update();
       }

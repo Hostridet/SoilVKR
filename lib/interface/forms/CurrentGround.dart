@@ -265,6 +265,9 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
           update();
         }
       }
+      else {
+        InfoLayout.buildErrorLayout(context, "Поле не должно быть пустым");
+      }
     }
   }
 }
