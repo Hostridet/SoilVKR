@@ -114,14 +114,6 @@ class _AnimalComponentState extends State<AnimalComponent> {
                               ),
                             ),
                             onPressed: () {
-                              if (nameController.text == "" || descriptionController.text == "") {
-                                InfoLayout.buildErrorLayout(context, "Все поля должны быть заполнены");
-                                return;
-                              }
-                              if (nameController.text.length < 3 || descriptionController.text.length < 3) {
-                                InfoLayout.buildErrorLayout(context, "Длина заполненных полей должна быть больше 2");
-                                return;
-                              }
                               BlocProvider.of<AnimalBloc>(context)
                                   .add(AnimalGetEvent());
                               nameController.clear();
@@ -139,6 +131,14 @@ class _AnimalComponentState extends State<AnimalComponent> {
                               elevation: 0,
                             ),
                             onPressed: () {
+                              if (nameController.text == "" || descriptionController.text == "") {
+                                InfoLayout.buildErrorLayout(context, "Все поля должны быть заполнены");
+                                return;
+                              }
+                              if (nameController.text.length < 3 || descriptionController.text.length < 3) {
+                                InfoLayout.buildErrorLayout(context, "Длина заполненных полей должна быть больше 2");
+                                return;
+                              }
                               BlocProvider.of<AnimalBloc>(context)
                                   .add(AnimalUpdateEvent(nameController.text, descriptionController.text));
                               nameController.clear();

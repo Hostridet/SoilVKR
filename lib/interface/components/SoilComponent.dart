@@ -114,14 +114,6 @@ class _SoilComponentState extends State<SoilComponent> {
                               ),
                             ),
                             onPressed: () {
-                              if (nameController.text == "" || descriptionController.text == "") {
-                                InfoLayout.buildErrorLayout(context, "Все поля должны быть заполнены");
-                                return;
-                              }
-                              if (nameController.text.length < 3 || descriptionController.text.length < 3) {
-                                InfoLayout.buildErrorLayout(context, "Длина заполненных полей должна быть больше 2");
-                                return;
-                              }
                               BlocProvider.of<SoilBloc>(context)
                                   .add(SoilGetEvent());
                               nameController.clear();
@@ -139,6 +131,14 @@ class _SoilComponentState extends State<SoilComponent> {
                               elevation: 0,
                             ),
                             onPressed: () {
+                              if (nameController.text == "" || descriptionController.text == "") {
+                                InfoLayout.buildErrorLayout(context, "Все поля должны быть заполнены");
+                                return;
+                              }
+                              if (nameController.text.length < 3 || descriptionController.text.length < 3) {
+                                InfoLayout.buildErrorLayout(context, "Длина заполненных полей должна быть больше 2");
+                                return;
+                              }
                               BlocProvider.of<SoilBloc>(context)
                                   .add(SoilUpdateEvent(nameController.text, descriptionController.text));
                               nameController.clear();
