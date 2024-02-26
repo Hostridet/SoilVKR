@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:soil/interface/components/InfoLayout.dart';
@@ -21,44 +21,44 @@ class _AddConPointState extends State<AddConPoint> {
   Soil? currentSoil;
   Point? currentPoint;
   Future<bool> _onWillPop() async {
-    Navigator.of(context)
-        .pushReplacementNamed('/home/admin/locationsoil');
+    Navigator.of(context).pushReplacementNamed('/home/admin/locationsoil');
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           title: Row(
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed('/home/admin/locationsoil');
+                  Navigator.of(context).pushReplacementNamed('/home/admin/locationsoil');
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text("Территория и почвы"),
                 ],
               ),
             ],
           ),
-          gradient: const LinearGradient(
-              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: RepositoryProvider(
             create: (context) => SoilRepository(),
             child: BlocProvider<SoilBloc>(
-              create: (context) => SoilBloc(
-                  RepositoryProvider.of<SoilRepository>(context)
-              )..add(SoilAddConPointEvent()),
+              create: (context) => SoilBloc(RepositoryProvider.of<SoilRepository>(context))..add(SoilAddConPointEvent()),
               child: BlocBuilder<SoilBloc, SoilState>(
                 builder: (context, state) {
                   if (state is SoilErrorState) {
@@ -74,15 +74,15 @@ class _AddConPointState extends State<AddConPoint> {
                         children: [
                           SizedBox(height: 10),
                           DropdownSearch<Soil>(
-                            mode: Mode.BOTTOM_SHEET,
-                            searchFieldProps: const TextFieldProps(
-                              cursorColor: Colors.green,
+                            popupProps: const PopupProps.bottomSheet(
+                              showSearchBox: true,
                             ),
-                            dropdownSearchDecoration: InputDecoration(
-                                labelText: "Почва"
+                            dropdownDecoratorProps: const DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Почва",
+                              ),
                             ),
                             items: state.soilList,
-                            showSearchBox: true,
                             onChanged: (Soil? soil) {
                               setState(() {
                                 currentSoil = soil!;
@@ -91,15 +91,15 @@ class _AddConPointState extends State<AddConPoint> {
                           ),
                           SizedBox(height: 20),
                           DropdownSearch<Point>(
-                            mode: Mode.BOTTOM_SHEET,
-                            searchFieldProps: const TextFieldProps(
-                              cursorColor: Colors.green,
+                            popupProps: const PopupProps.bottomSheet(
+                              showSearchBox: true,
                             ),
-                            dropdownSearchDecoration: InputDecoration(
-                                labelText: "Территория"
+                            dropdownDecoratorProps: const DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Территория",
+                              ),
                             ),
                             items: state.pointList,
-                            showSearchBox: true,
                             onChanged: (Point? point) {
                               setState(() {
                                 currentPoint = point!;
@@ -123,11 +123,9 @@ class _AddConPointState extends State<AddConPoint> {
                                     InfoLayout.buildErrorLayout(context, "Связь уже существует");
                                     return;
                                   }
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/home/admin/locationsoil');
+                                  Navigator.of(context).pushReplacementNamed('/home/admin/locationsoil');
                                 },
-                                child: Text("Добавить")
-                            ),
+                                child: Text("Добавить")),
                           ),
                         ],
                       ),

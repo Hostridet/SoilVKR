@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -24,55 +24,56 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
   TextEditingController _controller = TextEditingController();
   Future<bool> _onWillPop() async {
     if (widget.args.point != null) {
-      Navigator.of(context)
-          .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
-    }
-    else {
-      Navigator.of(context)
-          .pushReplacementNamed(widget.args.route);
+      Navigator.of(context).pushReplacementNamed(widget.args.route,
+          arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+    } else {
+      Navigator.of(context).pushReplacementNamed(widget.args.route);
     }
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           actions: [
             IconButton(
               onPressed: () async {
                 showAlertDialog(context);
               },
-              icon: Icon(Icons.delete_rounded, color: Colors.red, size: 30,),
+              icon: Icon(
+                Icons.delete_rounded,
+                color: Colors.red,
+                size: 30,
+              ),
             ),
           ],
-          title:  Row(
+          title: Row(
             children: [
               IconButton(
                 onPressed: () {
                   if (widget.args.point != null) {
-                    Navigator.of(context)
-                        .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
-                  }
-                  else {
-                    Navigator.of(context)
-                        .pushReplacementNamed(widget.args.route);
+                    Navigator.of(context).pushReplacementNamed(widget.args.route,
+                        arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+                  } else {
+                    Navigator.of(context).pushReplacementNamed(widget.args.route);
                   }
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Text("Почва"),
             ],
           ),
-          gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: RepositoryProvider(
           create: (context) => SoilRepository(),
           child: BlocProvider<CurSoilBloc>(
-            create: (context) => CurSoilBloc(
-                RepositoryProvider.of<SoilRepository>(context)
-            )..add(CurSoilGetEvent(widget.args.id)),
+            create: (context) => CurSoilBloc(RepositoryProvider.of<SoilRepository>(context))..add(CurSoilGetEvent(widget.args.id)),
             child: BlocBuilder<CurSoilBloc, CurSoilState>(
               builder: (context, state) {
                 if (state is CurSoilErrorState) {
@@ -101,10 +102,8 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                                     if (snapshot.hasData) {
                                       return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
-                                    }
-                                    else {
+                                    } else {
                                       return FittedBox(child: Image.asset("assets/no-image.jpg"), fit: BoxFit.fill);
-
                                     }
                                   },
                                 ),
@@ -119,8 +118,11 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                             title: Text(state.soil.name),
                             subtitle: Text("Название"),
                             onTap: () {
-                              makeTextDialog(context, 5, state.isAdmin, state.soil.name, (value) async {return SoilRepository.updateName(widget.args.id, value);},
-                                      () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                              makeTextDialog(context, 5, state.isAdmin, state.soil.name, (value) async {
+                                return SoilRepository.updateName(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
@@ -130,8 +132,11 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                             title: Text(state.soil.description),
                             subtitle: Text("Описание"),
                             onTap: () {
-                              makeTextDialog(context, 15, state.isAdmin, state.soil.description, (value) async {return SoilRepository.updateDescription(widget.args.id, value);},
-                                      () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                              makeTextDialog(context, 15, state.isAdmin, state.soil.description, (value) async {
+                                return SoilRepository.updateDescription(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
@@ -150,45 +155,45 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.soil.acidity != null
-                                    ? state.soil.acidity!.toString()
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.soil.acidity != null ? state.soil.acidity!.toString() : "Отсутствует"),
                             subtitle: Text("Кислотность"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.soil.acidity == null ? "0" : state.soil.acidity!.toString(), (value) async {return SoilRepository.updateAcidity(widget.args.id, value);},
-                                      () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.soil.acidity == null ? "0" : state.soil.acidity!.toString(),
+                                  (value) async {
+                                return SoilRepository.updateAcidity(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.soil.minerals != null
-                                    ? state.soil.minerals!
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.soil.minerals != null ? state.soil.minerals! : "Отсутствует"),
                             subtitle: Text("Полезные ископаемые"),
                             onTap: () {
-                              makeTextDialog(context, 10, state.isAdmin, state.soil.minerals == null ? "" : state.soil.minerals!, (value) async {return SoilRepository.updateMinerals(widget.args.id, value);},
-                                      () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                              makeTextDialog(context, 10, state.isAdmin, state.soil.minerals == null ? "" : state.soil.minerals!,
+                                  (value) async {
+                                return SoilRepository.updateMinerals(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.soil.profile != null
-                                    ? state.soil.profile!
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.soil.profile != null ? state.soil.profile! : "Отсутствует"),
                             subtitle: Text("Очертание"),
                             onTap: () {
-                              makeTextDialog(context, 5, state.isAdmin, state.soil.profile == null ? "" : state.soil.profile!, (value) async {return SoilRepository.updateProfile(widget.args.id, value);},
-                                      () { BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));});
+                              makeTextDialog(context, 5, state.isAdmin, state.soil.profile == null ? "" : state.soil.profile!,
+                                  (value) async {
+                                return SoilRepository.updateProfile(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurSoilBloc>(context).add(CurSoilGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
@@ -204,20 +209,20 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
       ),
     );
   }
+
   showAlertDialog(BuildContext context) {
     Widget cancelButton = TextButton(
       child: Text("Отмена"),
-      onPressed:  () {
+      onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
       child: Text("Удалить"),
-      onPressed:  () {
+      onPressed: () {
         SoilRepository.deleteSoil(widget.args.id);
         Navigator.of(context).pop();
-        Navigator.of(context)
-            .pushReplacementNamed(widget.args.route);
+        Navigator.of(context).pushReplacementNamed(widget.args.route);
       },
     );
 
@@ -242,6 +247,7 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
       },
     );
   }
+
   Future<void> makeTextDialog(BuildContext context, int maxLine, bool isAdmin, String text, Function request, Function update) async {
     if (isAdmin && widget.args.route == "/home/book") {
       _controller.text = text;
@@ -253,13 +259,11 @@ class _CurrentSoilPageState extends State<CurrentSoilPage> {
         int statusCode = await request(value);
         if (statusCode != 200) {
           InfoLayout.buildErrorLayout(context, "Не удалось обновить данные");
-        }
-        else {
+        } else {
           await Future.delayed(const Duration(seconds: 1));
           update();
         }
-      }
-      else {
+      } else {
         InfoLayout.buildErrorLayout(context, "Поле не должно быть пустым");
       }
     }

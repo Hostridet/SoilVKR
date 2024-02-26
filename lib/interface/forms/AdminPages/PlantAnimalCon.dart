@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,42 +18,42 @@ class PlantAnimalCon extends StatefulWidget {
 
 class _PlantAnimalConState extends State<PlantAnimalCon> {
   Future<bool> _onWillPop() async {
-    Navigator.of(context)
-        .pushReplacementNamed('/home/admin');
+    Navigator.of(context).pushReplacementNamed('/home/admin');
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           title: Row(
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed('/home/admin');
+                  Navigator.of(context).pushReplacementNamed('/home/admin');
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text("Растения и животные"),
                 ],
               ),
             ],
           ),
-          gradient: const LinearGradient(
-              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: RepositoryProvider(
           create: (context) => PlantRepository(),
           child: BlocProvider<PlantBloc>(
-            create: (context) => PlantBloc(
-                RepositoryProvider.of<PlantRepository>(context)
-            )..add(PlantGetAnimalConEvent()),
+            create: (context) => PlantBloc(RepositoryProvider.of<PlantRepository>(context))..add(PlantGetAnimalConEvent()),
             child: BlocBuilder<PlantBloc, PlantState>(
               builder: (context, state) {
                 if (state is PlantErrorState) {
@@ -77,10 +77,9 @@ class _PlantAnimalConState extends State<PlantAnimalCon> {
                                     motion: DrawerMotion(),
                                     children: [
                                       SlidableAction(
-                                        onPressed:  (_) async {
+                                        onPressed: (_) async {
                                           await PlantRepository.deleteConAnimal(state.plantAnimalList[index].id);
-                                          BlocProvider.of<PlantBloc>(context)
-                                              .add(PlantGetAnimalConEvent());
+                                          BlocProvider.of<PlantBloc>(context).add(PlantGetAnimalConEvent());
                                         },
                                         backgroundColor: Color(0xFFFE4A49),
                                         foregroundColor: Colors.white,
@@ -109,28 +108,22 @@ class _PlantAnimalConState extends State<PlantAnimalCon> {
                                                   if (snapshot.hasData) {
                                                     return Image.memory(base64Decode(snapshot.data!), fit: BoxFit.fill);
                                                   }
-                                                  return Container(width: 100, height: 200, decoration: BoxDecoration(color: Color(0xffc7c7c7)));
-                                                }
-                                            ),
+                                                  return Container(
+                                                      width: 100, height: 200, decoration: BoxDecoration(color: Color(0xffc7c7c7)));
+                                                }),
                                           ),
                                         ),
-                                        Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                  child: Divider(
-                                                    thickness: 1.0,
-                                                  )
-                                              ),
-
-                                              Icon(Icons.import_export, color: Colors.green),
-
-                                              Expanded(
-                                                  child: Divider(
-                                                    thickness: 1.0,
-                                                  )
-                                              ),
-                                            ]
-                                        ),
+                                        Row(children: <Widget>[
+                                          Expanded(
+                                              child: Divider(
+                                            thickness: 1.0,
+                                          )),
+                                          Icon(Icons.import_export, color: Colors.green),
+                                          Expanded(
+                                              child: Divider(
+                                            thickness: 1.0,
+                                          )),
+                                        ]),
                                         ListTile(
                                           title: Text(
                                             state.plantAnimalList[index].animal.name,
@@ -146,9 +139,9 @@ class _PlantAnimalConState extends State<PlantAnimalCon> {
                                                   if (snapshot.hasData) {
                                                     return Image.memory(base64Decode(snapshot.data!), fit: BoxFit.fill);
                                                   }
-                                                  return Container(width: 100, height: 200, decoration: BoxDecoration(color: Color(0xffc7c7c7)));
-                                                }
-                                            ),
+                                                  return Container(
+                                                      width: 100, height: 200, decoration: BoxDecoration(color: Color(0xffc7c7c7)));
+                                                }),
                                           ),
                                         ),
                                         SizedBox(height: 10),
@@ -156,8 +149,7 @@ class _PlantAnimalConState extends State<PlantAnimalCon> {
                                     ),
                                   ),
                                 );
-                              }
-                          ),
+                              }),
                         )
                       ],
                     ),
@@ -171,8 +163,7 @@ class _PlantAnimalConState extends State<PlantAnimalCon> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.green,
           onPressed: () {
-            Navigator.of(context)
-                .pushReplacementNamed('/home/admin/plantanimal/add');
+            Navigator.of(context).pushReplacementNamed('/home/admin/plantanimal/add');
           },
           child: const Icon(Icons.add, color: Colors.white, size: 35),
         ),

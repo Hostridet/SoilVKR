@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:soil/interface/components/AnimalComponent.dart';
 import 'package:soil/interface/components/GroundComponent.dart';
 import 'package:soil/interface/components/PlantComponent.dart';
@@ -17,10 +17,10 @@ class InfoBook extends StatefulWidget {
 
 class _InfoBookState extends State<InfoBook> {
   Future<bool> _onWillPop() async {
-    Navigator.of(context)
-        .pushReplacementNamed('/home');
+    Navigator.of(context).pushReplacementNamed('/home');
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -28,39 +28,48 @@ class _InfoBookState extends State<InfoBook> {
       child: DefaultTabController(
         length: 4,
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          drawer: DrawerMenu(),
-          appBar: NewGradientAppBar(
-            title: const Text('База знаний'),
-            gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
-            bottom: TabBar(
-              isScrollable: true,
-              tabs: [
-                Tab(
-                  text: "Растения",
-                ),
-                Tab(
-                  text: "Животные",
-                ),
-                Tab(
-                  text: "Почва",
-                ),
-                Tab(
-                  text: "Грунт",
-                ),
-
-              ],
+            resizeToAvoidBottomInset: false,
+            drawer: DrawerMenu(),
+            appBar: AppBar(
+              title: const Text('База знаний'),
+              bottom: TabBar(
+                isScrollable: true,
+                tabs: [
+                  Tab(
+                    text: "Растения",
+                  ),
+                  Tab(
+                    text: "Животные",
+                  ),
+                  Tab(
+                    text: "Почва",
+                  ),
+                  Tab(
+                    text: "Грунт",
+                  ),
+                  Tab(
+                    text: "Рельеф",
+                  ),
+                  Tab(
+                    text: "Климат",
+                  ),
+                  Tab(
+                    text: "Воды",
+                  ),
+                  Tab(
+                    text: "Фундаменты",
+                  ),
+                ],
+              ),
             ),
-          ),
-          body: TabBarView(
-            children: [
-              PlantComponent(),
-              AnimalComponent(),
-              SoilComponent(),
-              GroundComponent(),
-            ],
-          )
-        ),
+            body: TabBarView(
+              children: [
+                PlantComponent(),
+                AnimalComponent(),
+                SoilComponent(),
+                GroundComponent(),
+              ],
+            )),
       ),
     );
   }

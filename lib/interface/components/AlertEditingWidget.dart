@@ -10,12 +10,14 @@ class AlertEditing {
     return AlertDialog(
       title: Text("Изменение"),
       content: DropdownSearch<String>(
-        mode: Mode.MENU,
-        dropdownSearchDecoration: InputDecoration(
-            labelText: ""
+        popupProps: const PopupProps.menu(
+          showSearchBox: false,
         ),
-        maxHeight: 110,
-        showSearchBox: false,
+        dropdownDecoratorProps: const DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+            labelText: "",
+          ),
+        ),
         items: items,
         selectedItem: localItem,
         onChanged: (String? value) {
@@ -28,13 +30,13 @@ class AlertEditing {
           children: [
             TextButton(
               child: Text("Отмена"),
-              onPressed:  () {
+              onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
               child: Text("Обновить"),
-              onPressed:  () {
+              onPressed: () {
                 Navigator.pop(context, localItem);
               },
             ),

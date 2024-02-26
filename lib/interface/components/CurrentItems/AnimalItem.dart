@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import '../../../models/ItemWithRoute.dart';
 import '../../../models/Point.dart';
 import '../../../bloc/point_bloc/point_bloc.dart';
@@ -22,42 +22,42 @@ class AnimalItem extends StatefulWidget {
 
 class _AnimalItemState extends State<AnimalItem> {
   Future<bool> _onWillPop() async {
-    Navigator.of(context)
-        .pushReplacementNamed('/home/points/one', arguments: widget.args);
+    Navigator.of(context).pushReplacementNamed('/home/points/one', arguments: widget.args);
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           title: Row(
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed('/home/points/one', arguments: widget.args);
+                  Navigator.of(context).pushReplacementNamed('/home/points/one', arguments: widget.args);
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text("Животные"),
                 ],
               ),
             ],
           ),
-          gradient: const LinearGradient(
-              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: RepositoryProvider(
           create: (context) => PointRepository(),
           child: BlocProvider<PointBloc>(
-            create: (context) => PointBloc(
-                RepositoryProvider.of<PointRepository>(context)
-            )..add(PointGetAnimalEvent(widget.args.point.id)),
+            create: (context) => PointBloc(RepositoryProvider.of<PointRepository>(context))..add(PointGetAnimalEvent(widget.args.point.id)),
             child: BlocBuilder<PointBloc, PointState>(
               builder: (context, state) {
                 if (state is PointLoadingState) {
@@ -85,25 +85,25 @@ class _AnimalItemState extends State<AnimalItem> {
                                       height: 200,
                                       child: state.animalList[index].picture == null
                                           ? DecoratedBox(
-                                        decoration: const BoxDecoration(
-                                            color: Colors.grey
-                                        ),
-                                      )
-                                          :  Image.memory(base64Decode(state.animalList[index].picture!), fit: BoxFit.fill,)
-                                  ),
+                                              decoration: const BoxDecoration(color: Colors.grey),
+                                            )
+                                          : Image.memory(
+                                              base64Decode(state.animalList[index].picture!),
+                                              fit: BoxFit.fill,
+                                            )),
                                   subtitle: Text(
                                     state.animalList[index].description,
                                     maxLines: 4,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   onTap: () {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('/home/book/animal', arguments: ItemWithRoute(id: state.animalList[index].id, route: '/home/points/animal', point: widget.args));
+                                    Navigator.of(context).pushReplacementNamed('/home/book/animal',
+                                        arguments: ItemWithRoute(
+                                            id: state.animalList[index].id, route: '/home/points/animal', point: widget.args));
                                   },
                                 ),
                               );
-                            }
-                        ),
+                            }),
                       ),
                     ],
                   );

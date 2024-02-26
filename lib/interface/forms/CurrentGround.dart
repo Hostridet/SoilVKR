@@ -1,11 +1,9 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/cur_ground_bloc/cur_ground_bloc.dart';
@@ -28,55 +26,56 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
   TextEditingController _controller = TextEditingController();
   Future<bool> _onWillPop() async {
     if (widget.args.point != null) {
-      Navigator.of(context)
-          .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
-    }
-    else {
-      Navigator.of(context)
-          .pushReplacementNamed(widget.args.route);
+      Navigator.of(context).pushReplacementNamed(widget.args.route,
+          arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+    } else {
+      Navigator.of(context).pushReplacementNamed(widget.args.route);
     }
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           actions: [
             IconButton(
               onPressed: () async {
                 showAlertDialog(context);
               },
-              icon: Icon(Icons.delete_rounded, color: Colors.red, size: 30,),
+              icon: Icon(
+                Icons.delete_rounded,
+                color: Colors.red,
+                size: 30,
+              ),
             ),
           ],
-          title:  Row(
+          title: Row(
             children: [
               IconButton(
                 onPressed: () {
                   if (widget.args.point != null) {
-                    Navigator.of(context)
-                        .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
-                  }
-                  else {
-                    Navigator.of(context)
-                        .pushReplacementNamed(widget.args.route);
+                    Navigator.of(context).pushReplacementNamed(widget.args.route,
+                        arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+                  } else {
+                    Navigator.of(context).pushReplacementNamed(widget.args.route);
                   }
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Text("Почва"),
             ],
           ),
-          gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: RepositoryProvider(
           create: (context) => GroundRepository(),
           child: BlocProvider<CurGroundBloc>(
-            create: (context) => CurGroundBloc(
-                RepositoryProvider.of<GroundRepository>(context)
-            )..add(CurGroundGetEvent(widget.args.id)),
+            create: (context) => CurGroundBloc(RepositoryProvider.of<GroundRepository>(context))..add(CurGroundGetEvent(widget.args.id)),
             child: BlocBuilder<CurGroundBloc, CurGroundState>(
               builder: (context, state) {
                 if (state is CurGroundLoadingState) {
@@ -107,10 +106,8 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                                     if (snapshot.hasData) {
                                       return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
-                                    }
-                                    else {
+                                    } else {
                                       return FittedBox(child: Image.asset("assets/no-image.jpg"), fit: BoxFit.fill);
-
                                     }
                                   },
                                 ),
@@ -125,8 +122,11 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                             title: Text(state.ground.name),
                             subtitle: Text("Название"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.ground.name, (value) async {return GroundRepository.updateName(widget.args.id, value);},
-                                      () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.ground.name, (value) async {
+                                return GroundRepository.updateName(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
@@ -136,8 +136,11 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                             title: Text(state.ground.description),
                             subtitle: Text("Описание"),
                             onTap: () {
-                              makeTextDialog(context, 15, state.isAdmin, state.ground.description, (value) async {return GroundRepository.updateDescription(widget.args.id, value);},
-                                      () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                              makeTextDialog(context, 15, state.isAdmin, state.ground.description, (value) async {
+                                return GroundRepository.updateDescription(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
@@ -156,45 +159,47 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.ground.density != null
-                                    ? state.ground.density!.toString()
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.ground.density != null ? state.ground.density!.toString() : "Отсутствует"),
                             subtitle: Text("Плотность"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.ground.density == null ? "0" : state.ground.density!.toString(), (value) async {return GroundRepository.updateDensity(widget.args.id, value);},
-                                      () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                              makeTextDialog(
+                                  context, 1, state.isAdmin, state.ground.density == null ? "0" : state.ground.density!.toString(),
+                                  (value) async {
+                                return GroundRepository.updateDensity(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.ground.humidity != null
-                                    ? state.ground.humidity!.toString()
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.ground.humidity != null ? state.ground.humidity!.toString() : "Отсутствует"),
                             subtitle: Text("Влажность"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.ground.humidity == null ? "0" : state.ground.humidity!.toString(), (value) async {return GroundRepository.updateHumidity(widget.args.id, value);},
-                                      () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                              makeTextDialog(
+                                  context, 1, state.isAdmin, state.ground.humidity == null ? "0" : state.ground.humidity!.toString(),
+                                  (value) async {
+                                return GroundRepository.updateHumidity(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.ground.moos != null
-                                    ? state.ground.moos!.toString()
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.ground.moos != null ? state.ground.moos!.toString() : "Отсутствует"),
                             subtitle: Text("Твёрдость грунта по шкале Мооса"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.ground.moos == null ? "0" : state.ground.moos!.toString(), (value) async {return GroundRepository.updateMoos(widget.args.id, value);},
-                                      () { BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.ground.moos == null ? "0" : state.ground.moos!.toString(),
+                                  (value) async {
+                                return GroundRepository.updateMoos(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurGroundBloc>(context).add(CurGroundGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
@@ -210,20 +215,20 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
       ),
     );
   }
+
   showAlertDialog(BuildContext context) {
     Widget cancelButton = TextButton(
       child: Text("Отмена"),
-      onPressed:  () {
+      onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
       child: Text("Удалить"),
-      onPressed:  () {
+      onPressed: () {
         GroundRepository.deleteGround(widget.args.id);
         Navigator.of(context).pop();
-        Navigator.of(context)
-            .pushReplacementNamed(widget.args.route);
+        Navigator.of(context).pushReplacementNamed(widget.args.route);
       },
     );
 
@@ -248,6 +253,7 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
       },
     );
   }
+
   Future<void> makeTextDialog(BuildContext context, int maxLine, bool isAdmin, String text, Function request, Function update) async {
     if (isAdmin && widget.args.route == "/home/book") {
       _controller.text = text;
@@ -259,13 +265,11 @@ class _CurrentGroundPageState extends State<CurrentGroundPage> {
         int statusCode = await request(value);
         if (statusCode != 200) {
           InfoLayout.buildErrorLayout(context, "Не удалось обновить данные");
-        }
-        else {
+        } else {
           await Future.delayed(const Duration(seconds: 1));
           update();
         }
-      }
-      else {
+      } else {
         InfoLayout.buildErrorLayout(context, "Поле не должно быть пустым");
       }
     }

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:soil/interface/components/InfoLayout.dart';
 
@@ -21,8 +21,7 @@ class _AddConAnimalState extends State<AddConAnimal> {
   Plant? currentPlant;
   Animal? currentAnimal;
   Future<bool> _onWillPop() async {
-    Navigator.of(context)
-        .pushReplacementNamed('/home/admin/plantanimal');
+    Navigator.of(context).pushReplacementNamed('/home/admin/plantanimal');
     return false;
   }
 
@@ -31,35 +30,35 @@ class _AddConAnimalState extends State<AddConAnimal> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           title: Row(
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed('/home/admin/plantanimal');
+                  Navigator.of(context).pushReplacementNamed('/home/admin/plantanimal');
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text("Растения и животные"),
                 ],
               ),
             ],
           ),
-          gradient: const LinearGradient(
-              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: RepositoryProvider(
             create: (context) => PlantRepository(),
             child: BlocProvider<PlantBloc>(
-              create: (context) => PlantBloc(
-                  RepositoryProvider.of<PlantRepository>(context)
-              )..add(PlantAddConAnimalEvent()),
+              create: (context) => PlantBloc(RepositoryProvider.of<PlantRepository>(context))..add(PlantAddConAnimalEvent()),
               child: BlocBuilder<PlantBloc, PlantState>(
                 builder: (context, state) {
                   if (state is PlantErrorState) {
@@ -75,15 +74,15 @@ class _AddConAnimalState extends State<AddConAnimal> {
                         children: [
                           SizedBox(height: 10),
                           DropdownSearch<Plant>(
-                            mode: Mode.BOTTOM_SHEET,
-                            searchFieldProps: const TextFieldProps(
-                              cursorColor: Colors.green,
+                            popupProps: const PopupProps.bottomSheet(
+                              showSearchBox: true,
                             ),
-                            dropdownSearchDecoration: InputDecoration(
-                                labelText: "Растение"
+                            dropdownDecoratorProps: const DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Растение",
+                              ),
                             ),
                             items: state.plantList,
-                            showSearchBox: true,
                             onChanged: (Plant? plant) {
                               setState(() {
                                 currentPlant = plant!;
@@ -92,15 +91,15 @@ class _AddConAnimalState extends State<AddConAnimal> {
                           ),
                           SizedBox(height: 20),
                           DropdownSearch<Animal>(
-                            mode: Mode.BOTTOM_SHEET,
-                            searchFieldProps: const TextFieldProps(
-                              cursorColor: Colors.green,
+                            popupProps: const PopupProps.bottomSheet(
+                              showSearchBox: true,
                             ),
-                            dropdownSearchDecoration: InputDecoration(
-                                labelText: "Животное"
+                            dropdownDecoratorProps: const DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Животное",
+                              ),
                             ),
                             items: state.animalList,
-                            showSearchBox: true,
                             onChanged: (Animal? animal) {
                               setState(() {
                                 currentAnimal = animal!;
@@ -124,11 +123,9 @@ class _AddConAnimalState extends State<AddConAnimal> {
                                     InfoLayout.buildErrorLayout(context, "Связь уже существует");
                                     return;
                                   }
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/home/admin/plantanimal');
+                                  Navigator.of(context).pushReplacementNamed('/home/admin/plantanimal');
                                 },
-                                child: Text("Добавить")
-                            ),
+                                child: Text("Добавить")),
                           ),
                         ],
                       ),

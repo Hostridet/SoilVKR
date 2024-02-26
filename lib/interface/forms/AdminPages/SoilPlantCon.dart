@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -18,42 +18,42 @@ class SOilPlantCon extends StatefulWidget {
 
 class _SOilPlantConState extends State<SOilPlantCon> {
   Future<bool> _onWillPop() async {
-    Navigator.of(context)
-        .pushReplacementNamed('/home/admin');
+    Navigator.of(context).pushReplacementNamed('/home/admin');
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           title: Row(
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed('/home/admin');
+                  Navigator.of(context).pushReplacementNamed('/home/admin');
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text("Почвы и растения"),
                 ],
               ),
             ],
           ),
-          gradient: const LinearGradient(
-              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: RepositoryProvider(
           create: (context) => SoilRepository(),
           child: BlocProvider<SoilBloc>(
-            create: (context) => SoilBloc(
-                RepositoryProvider.of<SoilRepository>(context)
-            )..add(SoilGetPlantConEvent()),
+            create: (context) => SoilBloc(RepositoryProvider.of<SoilRepository>(context))..add(SoilGetPlantConEvent()),
             child: BlocBuilder<SoilBloc, SoilState>(
               builder: (context, state) {
                 if (state is SoilErrorState) {
@@ -77,10 +77,9 @@ class _SOilPlantConState extends State<SOilPlantCon> {
                                     motion: DrawerMotion(),
                                     children: [
                                       SlidableAction(
-                                        onPressed:  (_) async {
+                                        onPressed: (_) async {
                                           await SoilRepository.deleteConPlant(state.soilPlantList[index].id);
-                                          BlocProvider.of<SoilBloc>(context)
-                                              .add(SoilGetPlantConEvent());
+                                          BlocProvider.of<SoilBloc>(context).add(SoilGetPlantConEvent());
                                         },
                                         backgroundColor: Color(0xFFFE4A49),
                                         foregroundColor: Colors.white,
@@ -109,28 +108,22 @@ class _SOilPlantConState extends State<SOilPlantCon> {
                                                   if (snapshot.hasData) {
                                                     return Image.memory(base64Decode(snapshot.data!), fit: BoxFit.fill);
                                                   }
-                                                  return Container(width: 100, height: 200, decoration: BoxDecoration(color: Color(0xffc7c7c7)));
-                                                }
-                                            ),
+                                                  return Container(
+                                                      width: 100, height: 200, decoration: BoxDecoration(color: Color(0xffc7c7c7)));
+                                                }),
                                           ),
                                         ),
-                                        Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                  child: Divider(
-                                                    thickness: 1.0,
-                                                  )
-                                              ),
-
-                                              Icon(Icons.import_export, color: Colors.green),
-
-                                              Expanded(
-                                                  child: Divider(
-                                                    thickness: 1.0,
-                                                  )
-                                              ),
-                                            ]
-                                        ),
+                                        Row(children: <Widget>[
+                                          Expanded(
+                                              child: Divider(
+                                            thickness: 1.0,
+                                          )),
+                                          Icon(Icons.import_export, color: Colors.green),
+                                          Expanded(
+                                              child: Divider(
+                                            thickness: 1.0,
+                                          )),
+                                        ]),
                                         ListTile(
                                           title: Text(
                                             state.soilPlantList[index].plant.name,
@@ -146,9 +139,9 @@ class _SOilPlantConState extends State<SOilPlantCon> {
                                                   if (snapshot.hasData) {
                                                     return Image.memory(base64Decode(snapshot.data!), fit: BoxFit.fill);
                                                   }
-                                                  return Container(width: 100, height: 200, decoration: BoxDecoration(color: Color(0xffc7c7c7)));
-                                                }
-                                            ),
+                                                  return Container(
+                                                      width: 100, height: 200, decoration: BoxDecoration(color: Color(0xffc7c7c7)));
+                                                }),
                                           ),
                                         ),
                                         SizedBox(height: 10),
@@ -156,8 +149,7 @@ class _SOilPlantConState extends State<SOilPlantCon> {
                                     ),
                                   ),
                                 );
-                              }
-                          ),
+                              }),
                         )
                       ],
                     ),
@@ -171,8 +163,7 @@ class _SOilPlantConState extends State<SOilPlantCon> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.green,
           onPressed: () {
-            Navigator.of(context)
-                .pushReplacementNamed('/home/admin/soilplant/add');
+            Navigator.of(context).pushReplacementNamed('/home/admin/soilplant/add');
           },
           child: const Icon(Icons.add, color: Colors.white, size: 35),
         ),

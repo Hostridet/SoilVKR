@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:soil/interface/components/InfoLayout.dart';
@@ -10,6 +10,7 @@ import '../../../models/Ground.dart';
 import '../../../models/Plant.dart';
 import '../../../models/Soil.dart';
 import '../../../repository/SoilRepository.dart';
+
 class AddConPlant extends StatefulWidget {
   const AddConPlant({Key? key}) : super(key: key);
 
@@ -21,44 +22,44 @@ class _AddConPlantState extends State<AddConPlant> {
   Soil? currentSoil;
   Plant? currentPlant;
   Future<bool> _onWillPop() async {
-    Navigator.of(context)
-        .pushReplacementNamed('/home/admin/soilplant');
+    Navigator.of(context).pushReplacementNamed('/home/admin/soilplant');
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           title: Row(
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed('/home/admin/soilplant');
+                  Navigator.of(context).pushReplacementNamed('/home/admin/soilplant');
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text("Почвы и растения"),
                 ],
               ),
             ],
           ),
-          gradient: const LinearGradient(
-              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: RepositoryProvider(
             create: (context) => SoilRepository(),
             child: BlocProvider<SoilBloc>(
-              create: (context) => SoilBloc(
-                  RepositoryProvider.of<SoilRepository>(context)
-              )..add(SoilAddConPlantEvent()),
+              create: (context) => SoilBloc(RepositoryProvider.of<SoilRepository>(context))..add(SoilAddConPlantEvent()),
               child: BlocBuilder<SoilBloc, SoilState>(
                 builder: (context, state) {
                   if (state is SoilErrorState) {
@@ -74,15 +75,15 @@ class _AddConPlantState extends State<AddConPlant> {
                         children: [
                           SizedBox(height: 10),
                           DropdownSearch<Soil>(
-                            mode: Mode.BOTTOM_SHEET,
-                            searchFieldProps: const TextFieldProps(
-                              cursorColor: Colors.green,
+                            popupProps: const PopupProps.bottomSheet(
+                              showSearchBox: true,
                             ),
-                            dropdownSearchDecoration: InputDecoration(
-                                labelText: "Почва"
+                            dropdownDecoratorProps: const DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Почва",
+                              ),
                             ),
                             items: state.soilList,
-                            showSearchBox: true,
                             onChanged: (Soil? soil) {
                               setState(() {
                                 currentSoil = soil!;
@@ -91,15 +92,15 @@ class _AddConPlantState extends State<AddConPlant> {
                           ),
                           SizedBox(height: 20),
                           DropdownSearch<Plant>(
-                            mode: Mode.BOTTOM_SHEET,
-                            searchFieldProps: const TextFieldProps(
-                              cursorColor: Colors.green,
+                            popupProps: const PopupProps.bottomSheet(
+                              showSearchBox: true,
                             ),
-                            dropdownSearchDecoration: InputDecoration(
-                                labelText: "Растение"
+                            dropdownDecoratorProps: const DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Растение",
+                              ),
                             ),
                             items: state.plantList,
-                            showSearchBox: true,
                             onChanged: (Plant? plant) {
                               setState(() {
                                 currentPlant = plant!;
@@ -123,11 +124,9 @@ class _AddConPlantState extends State<AddConPlant> {
                                     InfoLayout.buildErrorLayout(context, "Связь уже существует");
                                     return;
                                   }
-                                  Navigator.of(context)
-                                      .pushReplacementNamed('/home/admin/soilplant');
+                                  Navigator.of(context).pushReplacementNamed('/home/admin/soilplant');
                                 },
-                                child: Text("Добавить")
-                            ),
+                                child: Text("Добавить")),
                           ),
                         ],
                       ),

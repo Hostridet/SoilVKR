@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:location_picker_flutter_map/location_picker_flutter_map.dart';
@@ -17,43 +17,42 @@ class AddPointPage extends StatefulWidget {
 
 class _AddPointPageState extends State<AddPointPage> {
   Future<bool> _onWillPop() async {
-    Navigator.of(context)
-        .pushReplacementNamed(widget.route);
+    Navigator.of(context).pushReplacementNamed(widget.route);
     return false;
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           title: Row(
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(widget.route);
+                  Navigator.of(context).pushReplacementNamed(widget.route);
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(
+                    width: 10,
+                  ),
                   Text("Добаить территорию"),
                 ],
               ),
             ],
           ),
-          gradient: const LinearGradient(
-              colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: RepositoryProvider(
           create: (context) => MapRepository(),
           child: BlocProvider<MapBloc>(
-            create: (context) =>
-                MapBloc(
-                    RepositoryProvider.of<MapRepository>(context)
-                ),
+            create: (context) => MapBloc(RepositoryProvider.of<MapRepository>(context)),
             child: BlocBuilder<MapBloc, MapState>(
               builder: (context, state) {
                 return FlutterLocationPicker(
@@ -79,8 +78,7 @@ class _AddPointPageState extends State<AddPointPage> {
                       BlocProvider.of<MapBloc>(context)
                           .add(MapAddEvent(pickedData.latLong.latitude, pickedData.latLong.longitude, pickedData.address));
                       await Future.delayed(const Duration(seconds: 1));
-                      Navigator.of(context)
-                          .pushReplacementNamed('/home/points');
+                      Navigator.of(context).pushReplacementNamed('/home/points');
                     });
               },
             ),

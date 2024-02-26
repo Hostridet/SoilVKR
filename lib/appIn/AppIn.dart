@@ -15,16 +15,19 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ThemeBloc>(
-      create: (context) =>
-      ThemeBloc()
-        ..add(ThemeCheckEvent()),
+      create: (context) => ThemeBloc()..add(ThemeCheckEvent()),
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           if (state is ThemeDarkState) {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               title: 'Flutter Demo',
-              theme: ThemeData.dark(),
+              theme: ThemeData(
+                brightness: Brightness.dark,
+                appBarTheme: const AppBarTheme(
+                  color: Color(0xff228B22),
+                ),
+              ),
               initialRoute: "/",
               onGenerateRoute: RouteGenerator().generateRoute,
             );
@@ -35,6 +38,9 @@ class _MyAppState extends State<MyApp> {
               title: 'Flutter Demo',
               theme: ThemeData(
                 primarySwatch: Colors.blue,
+                appBarTheme: const AppBarTheme(
+                  color: Color(0xff228B22),
+                ),
               ),
               initialRoute: "/",
               onGenerateRoute: RouteGenerator().generateRoute,

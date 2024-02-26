@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
 
@@ -24,56 +24,57 @@ class CurrentAnimalPage extends StatefulWidget {
 class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
   Future<bool> _onWillPop() async {
     if (widget.args.point != null) {
-      Navigator.of(context)
-          .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
-    }
-    else {
-      Navigator.of(context)
-          .pushReplacementNamed(widget.args.route);
+      Navigator.of(context).pushReplacementNamed(widget.args.route,
+          arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+    } else {
+      Navigator.of(context).pushReplacementNamed(widget.args.route);
     }
     return false;
   }
+
   TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        appBar: NewGradientAppBar(
+        appBar: AppBar(
           actions: [
             IconButton(
               onPressed: () async {
                 showAlertDialog(context);
               },
-              icon: Icon(Icons.delete_rounded, color: Colors.red, size: 30,),
+              icon: Icon(
+                Icons.delete_rounded,
+                color: Colors.red,
+                size: 30,
+              ),
             ),
           ],
-          title:  Row(
+          title: Row(
             children: [
               IconButton(
                 onPressed: () {
                   if (widget.args.point != null) {
-                    Navigator.of(context)
-                        .pushReplacementNamed(widget.args.route, arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
-                  }
-                  else {
-                    Navigator.of(context)
-                        .pushReplacementNamed(widget.args.route);
+                    Navigator.of(context).pushReplacementNamed(widget.args.route,
+                        arguments: PointWithRoute(point: widget.args.point!.point, route: widget.args.point!.route));
+                  } else {
+                    Navigator.of(context).pushReplacementNamed(widget.args.route);
                   }
                 },
-                icon: Icon(Icons.arrow_back, size: 35,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  size: 35,
+                ),
               ),
               Text("Животные"),
             ],
           ),
-          gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
         ),
         body: RepositoryProvider(
           create: (context) => AnimalRepository(),
           child: BlocProvider<CurAnimalBloc>(
-            create: (context) => CurAnimalBloc(
-                RepositoryProvider.of<AnimalRepository>(context)
-            )..add(CurAnimalGetEvent(widget.args.id)),
+            create: (context) => CurAnimalBloc(RepositoryProvider.of<AnimalRepository>(context))..add(CurAnimalGetEvent(widget.args.id)),
             child: BlocBuilder<CurAnimalBloc, CurAnimalState>(
               builder: (context, state) {
                 if (state is CurAnimalErrorState) {
@@ -104,10 +105,8 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
                                   builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                                     if (snapshot.hasData) {
                                       return FittedBox(child: Image.memory(base64Decode(snapshot.data!)), fit: BoxFit.fill);
-                                    }
-                                    else {
+                                    } else {
                                       return FittedBox(child: Image.asset("assets/no-image.jpg"), fit: BoxFit.fill);
-
                                     }
                                   },
                                 ),
@@ -121,9 +120,7 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
                                     alignment: Alignment.bottomLeft,
                                     child: Text(
                                       state.animal.name,
-                                      style: TextStyle(color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22.0),
+                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 22.0),
                                     )),
                               ],
                             ),
@@ -136,8 +133,11 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
                             title: Text(state.animal.description),
                             subtitle: Text("Описание"),
                             onTap: () {
-                              makeTextDialog(context, 20, state.isAdmin, state.animal.description, (value) async {return AnimalRepository.updateDescription(widget.args.id, value);},
-                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                              makeTextDialog(context, 20, state.isAdmin, state.animal.description, (value) async {
+                                return AnimalRepository.updateDescription(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
@@ -156,109 +156,108 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.animal.kingdom != null
-                                    ? state.animal.kingdom!
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.animal.kingdom != null ? state.animal.kingdom! : "Отсутствует"),
                             subtitle: Text("Царство"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.animal.kingdom == null ? "" : state.animal.kingdom!, (value) async {return AnimalRepository.updateKingdom(widget.args.id, value);},
-                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.kingdom == null ? "" : state.animal.kingdom!,
+                                  (value) async {
+                                return AnimalRepository.updateKingdom(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.animal.philum != null
-                                    ? state.animal.philum!
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.animal.philum != null ? state.animal.philum! : "Отсутствует"),
                             subtitle: Text("Тип"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.animal.philum == null ? "" : state.animal.philum!, (value) async {return AnimalRepository.updatePhilum(widget.args.id, value);},
-                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.philum == null ? "" : state.animal.philum!,
+                                  (value) async {
+                                return AnimalRepository.updatePhilum(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.animal.classes != null
-                                    ? state.animal.classes!
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.animal.classes != null ? state.animal.classes! : "Отсутствует"),
                             subtitle: Text("Класс"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.animal.classes == null ? "" : state.animal.classes!, (value) async {return AnimalRepository.updateClass(widget.args.id, value);},
-                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.classes == null ? "" : state.animal.classes!,
+                                  (value) async {
+                                return AnimalRepository.updateClass(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.animal.order != null
-                                    ? state.animal.order!
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.animal.order != null ? state.animal.order! : "Отсутствует"),
                             subtitle: Text("Отряд"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.animal.order == null ? "" : state.animal.order!, (value) async {return AnimalRepository.updateOrder(widget.args.id, value);},
-                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.order == null ? "" : state.animal.order!,
+                                  (value) async {
+                                return AnimalRepository.updateOrder(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.animal.family != null
-                                    ? state.animal.family!
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.animal.family != null ? state.animal.family! : "Отсутствует"),
                             subtitle: Text("Семейство"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.animal.family == null ? "" : state.animal.family!, (value) async {return AnimalRepository.updateFamily(widget.args.id, value);},
-                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.family == null ? "" : state.animal.family!,
+                                  (value) async {
+                                return AnimalRepository.updateFamily(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.animal.genus != null
-                                    ? state.animal.genus!
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.animal.genus != null ? state.animal.genus! : "Отсутствует"),
                             subtitle: Text("Род"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.animal.genus == null ? "" : state.animal.genus!, (value) async {return AnimalRepository.updateGenus(widget.args.id, value);},
-                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.genus == null ? "" : state.animal.genus!,
+                                  (value) async {
+                                return AnimalRepository.updateGenus(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
                         Card(
                           elevation: 1,
                           child: ListTile(
-                            title: Text(
-                                state.animal.species != null
-                                    ? state.animal.species!
-                                    : "Отсутствует"
-                            ),
+                            title: Text(state.animal.species != null ? state.animal.species! : "Отсутствует"),
                             subtitle: Text("Вид"),
                             onTap: () {
-                              makeTextDialog(context, 1, state.isAdmin, state.animal.species == null ? "" : state.animal.species!, (value) async {return AnimalRepository.updateSpecies(widget.args.id, value);},
-                                      () { BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));});
+                              makeTextDialog(context, 1, state.isAdmin, state.animal.species == null ? "" : state.animal.species!,
+                                  (value) async {
+                                return AnimalRepository.updateSpecies(widget.args.id, value);
+                              }, () {
+                                BlocProvider.of<CurAnimalBloc>(context).add(CurAnimalGetEvent(widget.args.id));
+                              });
                             },
                           ),
                         ),
-
                       ],
                     ),
                   );
@@ -271,20 +270,20 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
       ),
     );
   }
+
   showAlertDialog(BuildContext context) {
     Widget cancelButton = TextButton(
       child: Text("Отмена"),
-      onPressed:  () {
+      onPressed: () {
         Navigator.of(context).pop();
       },
     );
     Widget continueButton = TextButton(
       child: Text("Удалить"),
-      onPressed:  () {
+      onPressed: () {
         AnimalRepository.deleteAnimal(widget.args.id);
         Navigator.of(context).pop();
-        Navigator.of(context)
-            .pushReplacementNamed(widget.args.route);
+        Navigator.of(context).pushReplacementNamed(widget.args.route);
       },
     );
 
@@ -309,6 +308,7 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
       },
     );
   }
+
   Future<void> makeTextDialog(BuildContext context, int maxLine, bool isAdmin, String text, Function request, Function update) async {
     if (isAdmin && widget.args.route == "/home/book") {
       _controller.text = text;
@@ -320,24 +320,20 @@ class _CurrentAnimalPageState extends State<CurrentAnimalPage> {
         int statusCode = await request(value);
         if (statusCode != 200) {
           InfoLayout.buildErrorLayout(context, "Не удалось обновить данные");
-        }
-        else {
+        } else {
           update();
         }
-      }
-      else {
+      } else {
         InfoLayout.buildErrorLayout(context, "Поле не должно быть пустым");
       }
     }
   }
+
   Future<void> makeDialog(BuildContext context, String? currentItem, bool isAdmin, Function request, Function update) async {
     if (isAdmin && widget.args.route == "/home/book") {
       String localItem;
-      currentItem == null ? localItem = 'Да': localItem = currentItem;
-      String? value = await showDialog(
-          context: context,
-          builder: (context) => AlertEditing.AlertEditingText(context, localItem)
-      );
+      currentItem == null ? localItem = 'Да' : localItem = currentItem;
+      String? value = await showDialog(context: context, builder: (context) => AlertEditing.AlertEditingText(context, localItem));
       if (value != null) {
         int statusCode = request(value == "Да" ? 1 : 0);
         await Future.delayed(const Duration(seconds: 1));
