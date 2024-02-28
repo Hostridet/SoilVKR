@@ -1,9 +1,21 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:soil/models/Climat.dart';
+import 'package:soil/models/Foundation.dart';
 import 'package:soil/models/Point.dart';
+import 'package:soil/models/PointClimat.dart';
+import 'package:soil/models/PointFoundation.dart';
+import 'package:soil/models/PointRelief.dart';
+import 'package:soil/models/PointWater.dart';
+import 'package:soil/models/Relief.dart';
+import 'package:soil/models/Water.dart';
+import 'package:soil/repository/ClimatRepository.dart';
+import 'package:soil/repository/FoundationRepository.dart';
 import 'package:soil/repository/GroundRepository.dart';
 import 'package:soil/repository/PlantRepository.dart';
 import 'package:soil/repository/PointRepository.dart';
+import 'package:soil/repository/ReliefRepository.dart';
+import 'package:soil/repository/WaterRepository.dart';
 
 import '../../models/Animal.dart';
 import '../../models/Ground.dart';
@@ -27,8 +39,7 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
         List<Soil> soilList = await _soilRepository.getSoils();
         bool isAdmin = await AdminRepository.isAdmin();
         emit(SoilLoadedState(soilList, isAdmin));
-      }
-      catch(e) {
+      } catch (e) {
         emit(SoilErrorState(e.toString()));
       }
     });
@@ -46,8 +57,7 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
       try {
         List<SoilGround> soilGroundList = await _soilRepository.getGroundCon();
         emit(SoilGroundConState(soilGroundList));
-      }
-      catch(e) {
+      } catch (e) {
         emit(SoilErrorState(e.toString()));
       }
     });
@@ -57,8 +67,7 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
       try {
         List<SoilPlant> soilPlantList = await _soilRepository.getPlantCon();
         emit(SoilPlantConState(soilPlantList));
-      }
-      catch(e) {
+      } catch (e) {
         emit(SoilErrorState(e.toString()));
       }
     });
@@ -68,8 +77,47 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
       try {
         List<SoilPoint> soilPointList = await _soilRepository.getPointCon();
         emit(SoilPointConState(soilPointList));
+      } catch (e) {
+        emit(SoilErrorState(e.toString()));
       }
-      catch(e) {
+    });
+
+    on<WaterGetPointConEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        List<PointWater> soilPointList = await _soilRepository.getWaterPointCon();
+        emit(WaterPointConState(soilPointList));
+      } catch (e) {
+        emit(SoilErrorState(e.toString()));
+      }
+    });
+
+    on<ReliefGetPointConEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        List<PointRelief> soilPointList = await _soilRepository.getReliefPointCon();
+        emit(ReliefPointConState(soilPointList));
+      } catch (e) {
+        emit(SoilErrorState(e.toString()));
+      }
+    });
+
+    on<ClimatGetPointConEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        List<PointClimat> soilPointList = await _soilRepository.getClimatPointCon();
+        emit(ClimatPointConState(soilPointList));
+      } catch (e) {
+        emit(SoilErrorState(e.toString()));
+      }
+    });
+
+    on<FoundationGetPointConEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        List<PointFoundation> soilPointList = await _soilRepository.getFoundationPointCon();
+        emit(FoundationPointConState(soilPointList));
+      } catch (e) {
         emit(SoilErrorState(e.toString()));
       }
     });
@@ -81,8 +129,7 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
         GroundRepository repository = GroundRepository();
         List<Ground> groundList = await repository.getGround();
         emit(SoilAddConGroundState(soilList, groundList));
-      }
-      catch(e) {
+      } catch (e) {
         emit(SoilErrorState(e.toString()));
       }
     });
@@ -94,8 +141,7 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
         PlantRepository repository = PlantRepository();
         List<Plant> plantList = await repository.getPlants();
         emit(SoilAddConPlantState(soilList, plantList));
-      }
-      catch(e) {
+      } catch (e) {
         emit(SoilErrorState(e.toString()));
       }
     });
@@ -106,8 +152,59 @@ class SoilBloc extends Bloc<SoilEvent, SoilState> {
         PointRepository pointRepository = PointRepository();
         List<Point> pointList = await pointRepository.getAllPoints();
         emit(SoilAddPointState(soilList, pointList));
+      } catch (e) {
+        emit(SoilErrorState(e.toString()));
       }
-      catch(e) {
+    });
+
+    on<WaterAddGetPointConEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        WaterRepository waterRepository = WaterRepository();
+        List<Water> soilList = await waterRepository.getWater();
+        PointRepository pointRepository = PointRepository();
+        List<Point> pointList = await pointRepository.getAllPoints();
+        emit(WaterPointAddConState(soilList, pointList));
+      } catch (e) {
+        emit(SoilErrorState(e.toString()));
+      }
+    });
+
+    on<ReliefAddGetPointConEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        ReliefRepository waterRepository = ReliefRepository();
+        List<Relief> soilList = await waterRepository.getRelief();
+        PointRepository pointRepository = PointRepository();
+        List<Point> pointList = await pointRepository.getAllPoints();
+        emit(ReliefPointAddConState(soilList, pointList));
+      } catch (e) {
+        emit(SoilErrorState(e.toString()));
+      }
+    });
+
+    on<FoundationAddGetPointConEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        FoundationRepository waterRepository = FoundationRepository();
+        List<Foundation> soilList = await waterRepository.getFoundation();
+        PointRepository pointRepository = PointRepository();
+        List<Point> pointList = await pointRepository.getAllPoints();
+        emit(FoundationPointAddConState(soilList, pointList));
+      } catch (e) {
+        emit(SoilErrorState(e.toString()));
+      }
+    });
+
+    on<ClimatAddGetPointConEvent>((event, emit) async {
+      emit(SoilLoadingState());
+      try {
+        ClimatRepository waterRepository = ClimatRepository();
+        List<Climat> soilList = await waterRepository.getCLimats();
+        PointRepository pointRepository = PointRepository();
+        List<Point> pointList = await pointRepository.getAllPoints();
+        emit(ClimatPointAddConState(soilList, pointList));
+      } catch (e) {
         emit(SoilErrorState(e.toString()));
       }
     });

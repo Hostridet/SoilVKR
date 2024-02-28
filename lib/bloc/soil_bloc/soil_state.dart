@@ -62,3 +62,55 @@ class SoilAddPointState extends SoilState {
 
   SoilAddPointState(this.soilList, this.pointList);
 }
+
+class WaterPointConState extends SoilState {
+  final List<PointWater> waterPointList;
+
+  WaterPointConState(this.waterPointList);
+}
+
+class WaterPointAddConState extends SoilState {
+  final List<Water> waterList;
+  final List<Point> pointList;
+
+  WaterPointAddConState(this.waterList, this.pointList);
+}
+
+class ClimatPointConState extends SoilState {
+  final List<PointClimat> climatPointList;
+
+  ClimatPointConState(this.climatPointList);
+}
+
+class ClimatPointAddConState extends SoilState {
+  final List<Climat> climatList;
+  final List<Point> pointList;
+
+  ClimatPointAddConState(this.climatList, this.pointList);
+}
+
+class ReliefPointConState extends SoilState {
+  final List<PointRelief> reliefPointList;
+
+  ReliefPointConState(this.reliefPointList);
+}
+
+class ReliefPointAddConState extends SoilState {
+  final List<Relief> reliefList;
+  final List<Point> pointList;
+
+  ReliefPointAddConState(this.reliefList, this.pointList);
+}
+
+class FoundationPointConState extends SoilState {
+  final List<PointFoundation> foundationPointList;
+
+  FoundationPointConState(this.foundationPointList);
+}
+
+class FoundationPointAddConState extends SoilState {
+  final List<Foundation> foundationList;
+  final List<Point> pointList;
+
+  FoundationPointAddConState(this.foundationList, this.pointList);
+}

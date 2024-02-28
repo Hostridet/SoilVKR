@@ -111,6 +111,50 @@ class _AdminPageState extends State<AdminPage> {
                     },
                   ),
                 ),
+                Card(
+                  elevation: 2,
+                  child: ListTile(
+                    trailing: Icon(Icons.chevron_right),
+                    title: Text("Связь территорий и климата"),
+                    subtitle: Text("Связь между территориями и климатом"),
+                    onTap: () {
+                      Navigator.of(context).pushReplacementNamed('/home/admin/locationclimat');
+                    },
+                  ),
+                ),
+                Card(
+                  elevation: 2,
+                  child: ListTile(
+                    trailing: Icon(Icons.chevron_right),
+                    title: Text("Связь территорий и оснований"),
+                    subtitle: Text("Связь между территориями и основаниями"),
+                    onTap: () {
+                      Navigator.of(context).pushReplacementNamed('/home/admin/locationfoundation');
+                    },
+                  ),
+                ),
+                Card(
+                  elevation: 2,
+                  child: ListTile(
+                    trailing: Icon(Icons.chevron_right),
+                    title: Text("Связь территорий и вод"),
+                    subtitle: Text("Связь между территориями и водами"),
+                    onTap: () {
+                      Navigator.of(context).pushReplacementNamed('/home/admin/locationwater');
+                    },
+                  ),
+                ),
+                Card(
+                  elevation: 2,
+                  child: ListTile(
+                    trailing: Icon(Icons.chevron_right),
+                    title: Text("Связь территорий и рельефом"),
+                    subtitle: Text("Связь между территориями и рельефом"),
+                    onTap: () {
+                      Navigator.of(context).pushReplacementNamed('/home/admin/locationrelief');
+                    },
+                  ),
+                ),
               ],
             ),
           ),

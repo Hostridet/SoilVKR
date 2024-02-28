@@ -1,22 +1,36 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soil/interface/components/AddItems/AddConAnimal.dart';
+import 'package:soil/interface/components/AddItems/AddConClimat.dart';
+import 'package:soil/interface/components/AddItems/AddConFoundation.dart';
 import 'package:soil/interface/components/AddItems/AddConGround.dart';
 import 'package:soil/interface/components/AddItems/AddConPlant.dart';
 import 'package:soil/interface/components/AddItems/AddConPoint.dart';
+import 'package:soil/interface/components/AddItems/AddConRelief.dart';
+import 'package:soil/interface/components/AddItems/AddConWater.dart';
+import 'package:soil/interface/components/CurrentItems/ClimatPoint.dart';
+import 'package:soil/interface/components/CurrentItems/FoundationPoint.dart';
+import 'package:soil/interface/components/CurrentItems/ReliefPoint.dart';
+import 'package:soil/interface/components/CurrentItems/WaterPoint.dart';
 import 'package:soil/interface/components/UserDialog.dart';
 import 'package:soil/interface/forms/AddPointPage.dart';
 import 'package:soil/interface/forms/AdminPages/AdminPage.dart';
 import 'package:soil/interface/forms/AdminPages/EditUserPage.dart';
 import 'package:soil/interface/forms/AdminPages/LocatinSoilCon.dart';
+import 'package:soil/interface/forms/AdminPages/LocationClimatCon.dart';
+import 'package:soil/interface/forms/AdminPages/LocationFoundationCon.dart';
+import 'package:soil/interface/forms/AdminPages/LocationReliefCon.dart';
+import 'package:soil/interface/forms/AdminPages/LocationWaterCon.dart';
 import 'package:soil/interface/forms/AdminPages/PlantAnimalCon.dart';
 import 'package:soil/interface/forms/AdminPages/SoilGroundCon.dart';
 import 'package:soil/interface/forms/AdminPages/SoilPlantCon.dart';
+import 'package:soil/interface/forms/CurrentClimat.dart';
+import 'package:soil/interface/forms/CurrentFoundation.dart';
 import 'package:soil/interface/forms/CurrentLocationPage.dart';
 import 'package:soil/interface/forms/CurrentPlant.dart';
 import 'package:soil/interface/forms/CurrentPoint.dart';
+import 'package:soil/interface/forms/CurrentRelief.dart';
+import 'package:soil/interface/forms/CurrentWater.dart';
 import 'package:soil/interface/forms/InfoBook.dart';
 import 'package:soil/interface/forms/MapPage.dart';
 import 'package:soil/interface/forms/RegisterPage.dart';
@@ -40,11 +54,8 @@ import '../interface/forms/SplashPage.dart';
 import '../../models/Point.dart';
 import '../models/ItemWithRoute.dart';
 import '../models/PointWithRoute.dart';
-class RouteGenerator
-{
 
-
-
+class RouteGenerator {
   Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
 
@@ -116,6 +127,26 @@ class RouteGenerator
         return CustomPageRoute(
           builder: (_) => GroundItem(args: point),
         );
+      case '/home/points/relief':
+        PointWithRoute point = args as PointWithRoute;
+        return CustomPageRoute(
+          builder: (_) => ReliefItem(args: point),
+        );
+      case '/home/points/water':
+        PointWithRoute point = args as PointWithRoute;
+        return CustomPageRoute(
+          builder: (_) => WaterItem(args: point),
+        );
+      case '/home/points/foundation':
+        PointWithRoute point = args as PointWithRoute;
+        return CustomPageRoute(
+          builder: (_) => FoundationItem(args: point),
+        );
+      case '/home/points/climat':
+        PointWithRoute point = args as PointWithRoute;
+        return CustomPageRoute(
+          builder: (_) => ClimatItem(args: point),
+        );
       case '/home/book':
         return CustomPageRoute(
           builder: (_) => InfoBook(),
@@ -139,6 +170,26 @@ class RouteGenerator
         ItemWithRoute id = args as ItemWithRoute;
         return CustomPageRoute(
           builder: (_) => CurrentSoilPage(args: id),
+        );
+      case '/home/book/foundation':
+        ItemWithRoute id = args as ItemWithRoute;
+        return CustomPageRoute(
+          builder: (_) => CurrentFoundationPage(args: id),
+        );
+      case '/home/book/water':
+        ItemWithRoute id = args as ItemWithRoute;
+        return CustomPageRoute(
+          builder: (_) => CurrentWaterPage(args: id),
+        );
+      case '/home/book/climat':
+        ItemWithRoute id = args as ItemWithRoute;
+        return CustomPageRoute(
+          builder: (_) => CurrentClimatPage(args: id),
+        );
+      case '/home/book/relief':
+        ItemWithRoute id = args as ItemWithRoute;
+        return CustomPageRoute(
+          builder: (_) => CurrentReliefPage(args: id),
         );
       case '/home/settings':
         return CustomPageRoute(
@@ -173,6 +224,22 @@ class RouteGenerator
         return CustomPageRoute(
           builder: (_) => LocationSoilCon(),
         );
+      case '/home/admin/locationwater':
+        return CustomPageRoute(
+          builder: (_) => LocationWaterCon(),
+        );
+      case '/home/admin/locationrelief':
+        return CustomPageRoute(
+          builder: (_) => LocationReliefCon(),
+        );
+      case '/home/admin/locationfoundation':
+        return CustomPageRoute(
+          builder: (_) => LocationFoundationCon(),
+        );
+      case '/home/admin/locationclimat':
+        return CustomPageRoute(
+          builder: (_) => LocationClimatCon(),
+        );
       case '/home/admin/soilground/add':
         return CustomPageRoute(
           builder: (_) => AddConGround(),
@@ -189,14 +256,27 @@ class RouteGenerator
         return CustomPageRoute(
           builder: (_) => AddConPoint(),
         );
+      case '/home/admin/locationwater/add':
+        return CustomPageRoute(
+          builder: (_) => AddConWater(),
+        );
+      case '/home/admin/locationclimat/add':
+        return CustomPageRoute(
+          builder: (_) => AddConClimat(),
+        );
+      case '/home/admin/locationrelief/add':
+        return CustomPageRoute(
+          builder: (_) => AddConRelief(),
+        );
+      case '/home/admin/locationfoundation/add':
+        return CustomPageRoute(
+          builder: (_) => AddConFoundation(),
+        );
       case '/home/admin/users/edit':
         int id = args as int;
         return CustomPageRoute(
           builder: (_) => EditUserPage(id: id),
         );
-
-
-
 
       // case '/home/reserving':
       //   final args = settings.arguments as CurrentReservationArguments;

@@ -34,3 +34,27 @@ class PointGetGroundEvent extends PointEvent {
 
   PointGetGroundEvent(this.id);
 }
+
+class PointGetWaterEvent extends PointEvent {
+  final int id;
+
+  PointGetWaterEvent(this.id);
+}
+
+class PointGetClimatEvent extends PointEvent {
+  final int id;
+
+  PointGetClimatEvent(this.id);
+}
+
+class PointGetReliefEvent extends PointEvent {
+  final int id;
+
+  PointGetReliefEvent(this.id);
+}
+
+class PointGetFoundationEvent extends PointEvent {
+  final int id;
+
+  PointGetFoundationEvent(this.id);
+}

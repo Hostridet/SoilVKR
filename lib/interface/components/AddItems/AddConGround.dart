@@ -31,6 +31,7 @@ class _AddConGroundState extends State<AddConGround> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               IconButton(

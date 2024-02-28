@@ -2,9 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:soil/interface/components/AnimalComponent.dart';
+import 'package:soil/interface/components/ClimatComponent.dart';
+import 'package:soil/interface/components/FoundationComponent.dart';
 import 'package:soil/interface/components/GroundComponent.dart';
 import 'package:soil/interface/components/PlantComponent.dart';
+import 'package:soil/interface/components/ReliefComponent.dart';
 import 'package:soil/interface/components/SoilComponent.dart';
+import 'package:soil/interface/components/WaterComponent.dart';
 
 import '../components/Drawer.dart';
 
@@ -26,13 +30,13 @@ class _InfoBookState extends State<InfoBook> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: DefaultTabController(
-        length: 4,
+        length: 8,
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             drawer: DrawerMenu(),
             appBar: AppBar(
               title: const Text('База знаний'),
-              bottom: TabBar(
+              bottom: const TabBar(
                 isScrollable: true,
                 tabs: [
                   Tab(
@@ -62,12 +66,16 @@ class _InfoBookState extends State<InfoBook> {
                 ],
               ),
             ),
-            body: TabBarView(
+            body: const TabBarView(
               children: [
                 PlantComponent(),
                 AnimalComponent(),
                 SoilComponent(),
                 GroundComponent(),
+                ReliefComponent(),
+                ClimatComponent(),
+                WaterComponent(),
+                FoundationComponent(),
               ],
             )),
       ),

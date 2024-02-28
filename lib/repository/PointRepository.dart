@@ -1,3 +1,8 @@
+import 'package:soil/models/Climat.dart';
+import 'package:soil/models/Foundation.dart';
+import 'package:soil/models/Relief.dart';
+import 'package:soil/models/Water.dart';
+
 import '../config.dart';
 import '../models/Animal.dart';
 import '../models/Ground.dart';
@@ -20,6 +25,7 @@ class PointRepository {
     }
     return pointList;
   }
+
   Future<Point> getPoint(int id) async {
     final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/one?territorie_id=$id"));
     final data = await json.decode(utf8.decode(response.bodyBytes));
@@ -69,6 +75,54 @@ class PointRepository {
       final data = await json.decode(utf8.decode(response.bodyBytes));
       for (dynamic item in data) {
         groundList.add(Ground.fromJson(item));
+      }
+    }
+    return groundList;
+  }
+
+  Future<List<Water>> getWaterByPoint(int id) async {
+    List<Water> groundList = [];
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/byterritoriewaters?user_territorie_id=$id"));
+    if (response.statusCode == 200) {
+      final data = await json.decode(utf8.decode(response.bodyBytes));
+      for (dynamic item in data) {
+        groundList.add(Water.fromJson(item));
+      }
+    }
+    return groundList;
+  }
+
+  Future<List<Relief>> getReliefByPoint(int id) async {
+    List<Relief> groundList = [];
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/byterritoriereliefs?user_territorie_id=$id"));
+    if (response.statusCode == 200) {
+      final data = await json.decode(utf8.decode(response.bodyBytes));
+      for (dynamic item in data) {
+        groundList.add(Relief.fromJson(item));
+      }
+    }
+    return groundList;
+  }
+
+  Future<List<Climat>> getClimatByPoint(int id) async {
+    List<Climat> groundList = [];
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/byterritorieclimats?user_territorie_id=$id"));
+    if (response.statusCode == 200) {
+      final data = await json.decode(utf8.decode(response.bodyBytes));
+      for (dynamic item in data) {
+        groundList.add(Climat.fromJson(item));
+      }
+    }
+    return groundList;
+  }
+
+  Future<List<Foundation>> getFoundationByPoint(int id) async {
+    List<Foundation> groundList = [];
+    final response = await http.get(Uri.parse("http://${Config.baseUrl}/territories/byterritoriefoundations?user_territorie_id=$id"));
+    if (response.statusCode == 200) {
+      final data = await json.decode(utf8.decode(response.bodyBytes));
+      for (dynamic item in data) {
+        groundList.add(Foundation.fromJson(item));
       }
     }
     return groundList;

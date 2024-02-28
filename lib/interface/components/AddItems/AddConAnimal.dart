@@ -31,6 +31,7 @@ class _AddConAnimalState extends State<AddConAnimal> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               IconButton(

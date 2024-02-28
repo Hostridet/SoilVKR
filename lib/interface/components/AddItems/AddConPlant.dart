@@ -32,6 +32,7 @@ class _AddConPlantState extends State<AddConPlant> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               IconButton(

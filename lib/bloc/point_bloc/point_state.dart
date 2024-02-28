@@ -49,3 +49,27 @@ class PointLoadedGroundState extends PointState {
 
   PointLoadedGroundState(this.groundList);
 }
+
+class PointLoadedWaterState extends PointState {
+  final List<Water> waterList;
+
+  PointLoadedWaterState(this.waterList);
+}
+
+class PointLoadedReliefState extends PointState {
+  final List<Relief> reliefList;
+
+  PointLoadedReliefState(this.reliefList);
+}
+
+class PointLoadedFoundationState extends PointState {
+  final List<Foundation> foundationList;
+
+  PointLoadedFoundationState(this.foundationList);
+}
+
+class PointLoadedClimatState extends PointState {
+  final List<Climat> foundationList;
+
+  PointLoadedClimatState(this.foundationList);
+}

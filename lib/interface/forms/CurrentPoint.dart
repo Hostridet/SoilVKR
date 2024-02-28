@@ -149,6 +149,54 @@ class _CurrentPointPageState extends State<CurrentPointPage> {
                               },
                             ),
                           ),
+                          Card(
+                            elevation: 2,
+                            child: ListTile(
+                              leading: Icon(Icons.diversity_2, color: Colors.greenAccent, size: 35),
+                              title: Text("Климат"),
+                              subtitle: Text("Список климатов"),
+                              onTap: () {
+                                Navigator.of(context).pushReplacementNamed('/home/points/climat',
+                                    arguments: PointWithRoute(point: state.point, route: widget.args.route));
+                              },
+                            ),
+                          ),
+                          Card(
+                            elevation: 2,
+                            child: ListTile(
+                              leading: Icon(Icons.water_drop, color: Colors.blue, size: 35),
+                              title: Text("Воды"),
+                              subtitle: Text("Список вод"),
+                              onTap: () {
+                                Navigator.of(context).pushReplacementNamed('/home/points/water',
+                                    arguments: PointWithRoute(point: state.point, route: widget.args.route));
+                              },
+                            ),
+                          ),
+                          Card(
+                            elevation: 2,
+                            child: ListTile(
+                              leading: Icon(Icons.foundation, color: Colors.grey, size: 35),
+                              title: Text("Фудаменты"),
+                              subtitle: Text("Список фундаментов"),
+                              onTap: () {
+                                Navigator.of(context).pushReplacementNamed('/home/points/foundation',
+                                    arguments: PointWithRoute(point: state.point, route: widget.args.route));
+                              },
+                            ),
+                          ),
+                          Card(
+                            elevation: 2,
+                            child: ListTile(
+                              leading: Icon(Icons.flood, color: Colors.amber, size: 35),
+                              title: Text("Рельеф"),
+                              subtitle: Text("Список рельефов"),
+                              onTap: () {
+                                Navigator.of(context).pushReplacementNamed('/home/points/relief',
+                                    arguments: PointWithRoute(point: state.point, route: widget.args.route));
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ),
